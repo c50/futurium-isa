@@ -35,4 +35,19 @@
     <rule ref="Drupal.NamingConventions.ValidVariableName">
         <exclude-pattern>src/Phing</exclude-pattern>
     </rule>
+
+    <!-- CSS Style definitions requires a semicolon but not in @media rule. -->
+    <rule ref="Squiz.CSS.SemicolonSpacing.NotAtEnd">
+        <exclude-pattern>lib/*/*.css</exclude-pattern>
+    </rule>
+
+    <!-- Allow extension of the context condition. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>lib/features/*/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Exported field instances have too long comments. -->
+    <rule ref="Drupal.Files.LineLength.TooLong">
+        <exclude-pattern>lib/features/*/*.features.field_instance.inc</exclude-pattern>
+    </rule>
 </ruleset>
