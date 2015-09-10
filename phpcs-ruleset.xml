@@ -16,10 +16,20 @@
     <exclude-pattern>*.xml</exclude-pattern>
     <exclude-pattern>*.yml</exclude-pattern>
     <exclude-pattern>composer.lock</exclude-pattern>
+    <exclude-pattern>*.png</exclude-pattern>
+    <exclude-pattern>*.gif</exclude-pattern>
+    <exclude-pattern>*.ico</exclude-pattern>
 
     <!-- Exclude third party code. -->
     <exclude-pattern>resources/cloudformation</exclude-pattern>
     <exclude-pattern>resources/codedeploy</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
+
+    <!-- Exclude build properties files. -->
+    <exclude-pattern>build.properties*</exclude-pattern>
+
+    <!-- Exclude .make files. -->
+    <exclude-pattern>resources/*.make</exclude-pattern>
 
     <!-- Views handlers not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
