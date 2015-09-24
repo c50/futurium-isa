@@ -2,6 +2,27 @@
 
 <project name="My Subsite" default="help">
 
+    <!-- Pre install subsite. -->
+    <target name="preinstall" description="Pre Install for local instances of a subsite.">
+        <!--
+             Devel's Mail Logger:
+             Avoid sending email on Drupal site install by setting devel module
+             smtp_library variable. This avoids error on system with no mail server
+             configured, and thus with empty value for php.ini sendmail_path.
+             Mails will go to watchdog instead being sent.
+        -->
+        <drush
+            command="vset"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>smtp_library </param>
+            <param>"sites/all/modules/contrib/devel/devel.module"</param>
+        </drush>
+
+    </target>
+
     <!-- Install the subsite. -->
     <target name="install" description="Install the subsite.">
         <!--
@@ -122,6 +143,6 @@
     <target
         name="install-dev"
         description="Install a local development version of the subsite."
-        depends="install, enable-development-modules" />
+        depends="preinstall, install, enable-development-modules" />
 
 </project>
