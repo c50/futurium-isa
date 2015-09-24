@@ -22,7 +22,7 @@
             <option name="account-name" value="${drupal.admin.username}" />
             <option name="account-pass" value="${drupal.admin.password}" />
             <option name="account-mail" value="${drupal.admin.email}" />
-            <param>${platform.profile.name}</param>
+
         </drush>
         <!--
             Subsites are not allowed to use their own installation profile for
