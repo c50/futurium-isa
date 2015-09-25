@@ -1,4 +1,4 @@
-# NextEuropa Subsite Starterkit
+# Futurium Project
 
 ```
 T                                    \`.    T
@@ -8,16 +8,14 @@ T                                    \`.    T
                                       '-'      !
 ```
 
-This is a starting point for creating new websites for the [NextEuropa
-platform](https://blogs.ec.europa.eu/eu-digital/content/next-europa-it-platform)
-of the European Commission.
+This is a starting point for creating new instances of the futurium project
+from the European Commission.
 
 
 ## Features
 
-- Support for NextEuropa 2.1.0 and later.
-- Easily test your code on the latest development branch of the NextEuropa
-  platform to validate if your site will work on the next release.
+- Support for Easy drupal installation: Drupal 7.x.
+- Easily test your code.
 - Integrated support for Behat and PHP CodeSniffer.
 - Built-in support for Continuous Integration using ContinuousPHP.
 - Build your website in an automated way to get your entire team up and running
@@ -110,20 +108,12 @@ This README is divided in different parts, please read the relevant section:
 
 ### 1. Download the project
 
-First we obviously need to get hold of the project source code. For most
-projects the "dev" version will be hosted on Github, but individual projects
-might be hosted elsewhere. Your project manager will be able to inform you of
-the exact location.
-
-> Note that you will not be working directly on the Subsite Starterkit code base
-> (aka `ec-europa/subsite-starterkit`), but on a project specific fork.
-
-Let's assume our project is called `ec-europa/myproject` and is hosted on our
-Github. We will be working on the "dev" version.
+Our project is called `ec-europa/futurium` and is hosted on our
+Github:
 
 ```
-$ git clone git@github.com:ec-europa/myproject-dev.git
-$ cd myproject-dev
+$ git clone git@github.com:ec-europa/futurium.git
+$ cd futurium
 ```
 
 ### 2. Install dependencies
@@ -196,8 +186,7 @@ $ ./bin/phing build-dev
 
 This will:
 
-* Download the latest validated version of the platform of the branch you
-  specified.
+* Download the latest validated version of Drupal 7.x.
 * Build the project into the `platform/` subfolder.
 * Symlink your custom modules and themes into the platform. This allows you to
   work inside the Drupal site, and still commit your files easily.
@@ -274,9 +263,9 @@ the rules.
 
 ## Starting a new project
 
-Your new project will be based on the Subsite Starterkit but will live in its
-own repository on GitHub. We are in fact using two repositories: 'dev' and
-'reference':
+Your new project will be based on the `ec-europa/futurium` but will live in its
+own repository on GitHub. We are in fact using two branches: 'develop' and
+'master':
 
 - _'dev'_ repository: This is the repository where the development is done. On
   request we can give access to other developers (within the EC or external
@@ -284,13 +273,10 @@ own repository on GitHub. We are in fact using two repositories: 'dev' and
   repository has 'master' and 'develop' branches as well as feature branches
   where the actual development is taking place. The 'master' branch will contain
   the latest code that is deployed on production.
-- _'reference'_ repository: This is the 'official' repository which is used as a
+- _'master'_ branch: This is the 'official' branch release which is used as a
   source for building the sites that are deployed on production. This is guarded
   by the internal QA team who will validate all pull requests and only allow the
-  code to be merged in if it meets our quality guidelines. The official
-  reference repositories are hosted on the internal git repository of the
-  European Commission at https://webgate.ec.europa.eu/CITnet/stash/projects and
-  these are mirrored on GitHub for convenience.
+  code to be merged in if it meets our quality guidelines.
 
 ### 1. Create a new repository on GitHub
 
@@ -310,19 +296,19 @@ own repository on GitHub. We are in fact using two repositories: 'dev' and
 5. Don't add a README or any other files, just leave it empty.
 6. Click "Create repository".
 7. On the next page you will see the URL of your repository, which will look
-   similar to this: `git@github.com:ec-europa/myproject-dev.git`. We will need
+   similar to this: `git@github.com:ec-europa/futurium.git`. We will need
    this in the next step.
 
-### 2. Fork the starterkit
+### 2. Fork the Futurium project
 
-Make a fork of the Subsite Starterkit by downloading it and then pushing it to
+Make a fork of the Futurium project by downloading it and then pushing it to
 your own project's repository. Let's assume we are going to push to a
 repository called 'myproject-dev'.
 
 ```
-# Download the Subsite Starterkit.
-$ git clone https://github.com/ec-europa/subsite-starterkit.git
-$ cd subsite-starterkit
+# Download the Futurium project.
+$ git clone https://github.com/ec-europa/futurium.git
+$ cd futurium
 
 # Remove the 'origin' remote, and replace it with the one from our project repo.
 $ git remote rm origin
@@ -399,13 +385,13 @@ $ git checkout -b convert-to-sssk
 
 ### 2. Get the code
 
-We'll add the Subsite Starterkit repository as a remote called 'starterkit', and
+We'll add the Futurium repository as a remote called 'futurium', and
 merge its code.
 
 ```
-$ git remote add starterkit https://github.com/ec-europa/subsite-starterkit.git
-$ git fetch starterkit
-$ git merge starterkit/master
+$ git remote add futurium https://github.com/ec-europa/futurium.git
+$ git fetch futurium
+$ git merge futurium/master
 ```
 
 Note that you might have to solve merge conflicts, especially if you are already
