@@ -62,6 +62,16 @@ platform.package.tarball = ${phing.project.tmp.dir}/deploy-package.tar.gz
 # the NextEuropa platform is open source.
 platform.package.token =
 
+# Git file from the futurium features repo
+# Used to check if repo already downloaded
+futurium.features.gitfile = ${project.basedir}/lib/.git
+
+# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
+futurium.features.branch = master
+
+# The URL of the futurium features repository.
+futurium.features.repository = https://webgate.ec.europa.eu/CITnet/stash/projects/MULTISITE/repos/futurium-reference
+
 
 # Paths
 # -----

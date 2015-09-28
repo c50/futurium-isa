@@ -201,6 +201,30 @@
 
     </target>
 
+    <!-- Download the Futurium feature package. -->
+    <target name="download-futurium-features" description="Download the Futurium Features code">
+        <echo msg="Downloading the Futurium features code" />
+        <!-- Only clone if repository does not exist already -->
+        <if>
+            <not><available file="${futurium.features.gitfile}" /></not>
+            <then>
+                <!-- Set revision to HEAD if not already defined -->
+                <property name="repo.revision" value="HEAD" override="false"/>
+
+                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${futurium.features.destination}</echo>
+                <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
+                     does not seem to work. Use exec instead. -->
+                <exec command="git clone ${futurium.features.repository} ${subsite.resources.lib.dir}" />
+                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+            </then>
+            <else>
+                <echo msg="Pulling changes from the Futurium features repository" />
+                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+                <exec command="git pull" dir="${subsite.resources.lib.dir}"/>
+            </else>
+        </if>
+    </target>
+
     <!-- Copy subsite resources into the build folder. -->
     <target name="copy-subsite-resources">
         <echo msg="TODO: COPY SUBSITE RESOURCES." />
