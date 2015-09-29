@@ -220,7 +220,7 @@ function d4eu_preprocess_html(&$variables) {
   $head_title['org'] = t('European Commission');
   $variables['head_title_array'] = $head_title;
   $variables['head_title'] = implode(' | ', $head_title);
-  
+
   drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
 }
 

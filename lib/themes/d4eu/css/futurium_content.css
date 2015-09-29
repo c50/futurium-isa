@@ -604,9 +604,9 @@
 
 .node-type-event-d4eu .field-name-field-date-time .date-display-single .date-display-start,
 .node-type-event-d4eu .field-name-field-date-time .date-display-single .date-display-end {
-    display: inline-block;
-    font-size: 110%;
-    margin: 3px 10px 5px 10px;
+  display: inline-block;
+  font-size: 110%;
+  margin: 3px 10px 5px 10px;
 }
 
 /*/event*/
@@ -1193,7 +1193,7 @@ iframe {
   color: #555;
 }
 
-.flavor-tree .flavor-name:before {
+.flavor-tree .flavor-name: before {
   content: " ";
   background: #ececec no-repeat 50% 50%;
   border-radius: 50px;
@@ -1346,7 +1346,7 @@ iframe {
 }
 
 .flavour-tags.flavour-digital4eu .flavour-tags-title {
-  color: #00444c;
+  color: 100444c;
   border-color: #ffcd8a;
 }
 
@@ -1361,7 +1361,7 @@ iframe {
 }
 
 .flavour-tags.flavour-digital4eu a {
-  color: #00444c;
+  color: 100444c;
 }
 
 .flavour-tags.flavour-egov a {
@@ -1444,13 +1444,13 @@ iframe {
 }
 
 .flavour-boxes ul li a.flavour-link-digital4eu {
-  background: #00444c;
-  background: -moz-linear-gradient(top, #00444c 20%, #00353b 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, #00444c), color-stop(100%, #00353b));
-  background: -webkit-linear-gradient(top, #00444c 20%, #00353b 100%);
-  background: -o-linear-gradient(top, #00444c 20%, #00353b 100%);
-  background: -ms-linear-gradient(top, #00444c 20%, #00353b 100%);
-  background: linear-gradient(to bottom, #00444c 20%, #00353b 100%);
+  background: 100444c;
+  background: -moz-linear-gradient(top, 100444c 20%, 100353b 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, 100444c), color-stop(100%, 100353b));
+  background: -webkit-linear-gradient(top, 100444c 20%, 100353b 100%);
+  background: -o-linear-gradient(top, 100444c 20%, 100353b 100%);
+  background: -ms-linear-gradient(top, 100444c 20%, 100353b 100%);
+  background: linear-gradient(to bottom, 100444c 20%, 100353b 100%);
   color: #fff;
 }
 
