@@ -430,16 +430,16 @@
   color: #333;
 }
 
-.homepageContainer .boxes-social_links + .views-socials_home_d4eu-block_twitter {
+.homepageContainer #block-supertags-social-links + #block-supertags-twitter-feed {
   border-radius: 0 0 10px 10px;
   margin-top: -23px;
 }
 
-.homepageContainer .boxes-social_links .panel-body {
+.homepageContainer #block-supertags-social-links .panel-body {
   padding-bottom: 0;
 }
 
-.homepageContainer .boxes-social_links .boxes-box-controls ul {
+.homepageContainer #block-supertags-social-links .boxes-box-controls ul {
   margin: 0;
 }
 
@@ -476,21 +476,21 @@
   width: auto;
 }
 
-.homepageContainer .views-socials_home_d4eu-block_twitter .panel-body {
+.homepageContainer #block-supertags-twitter-feed .panel-body {
   padding: 0px;
   margin: 0px;
 }
 
-.homepageContainer .views-socials_home_d4eu-block_twitter .panel-heading {
+.homepageContainer #block-supertags-twitter-feed .panel-heading {
   display: none;
 }
 
-.homepageContainer .views-socials_home_d4eu-block_twitter p {
+.homepageContainer #block-supertags-twitter-feed p {
   padding: 0;
   margin: 0 -1px -3px;
 }
 
-.homepageContainer .views-socials_home_d4eu-block_twitter iframe {
+.homepageContainer #block-supertags-twitter-feed iframe {
   width: 100% !important;
   max-height: 50vh;
   min-height: 250px;
@@ -587,6 +587,7 @@
   border-radius: 5px;
 }
 
+.node-type-event-d4eu .field-name-field-date-time .date-display-single,
 .node-type-event-d4eu .field-name-field-date-time .date-display-start {
   font-size: 110%;
   display: block;
@@ -599,6 +600,13 @@
   display: block;
   margin: 0px 0 5px;
   color: #333;
+}
+
+.node-type-event-d4eu .field-name-field-date-time .date-display-single .date-display-start,
+.node-type-event-d4eu .field-name-field-date-time .date-display-single .date-display-end {
+    display: inline-block;
+    font-size: 110%;
+    margin: 3px 10px 5px 10px;
 }
 
 /*/event*/
@@ -680,7 +688,6 @@
 .node-type-document .field-name-field-document {
   padding: 1.5em 0 2em;
   margin-bottom: 1em;
-  border-bottom: solid 1px #dcdcdc;
 }
 
 .node-type-document .field-name-body + .field-name-field-document {
@@ -1296,6 +1303,14 @@ iframe {
   border-radius: 5px;
   margin-top: 0px;
 }
+
+
+/* fix for view-flavors-listings-teaser */
+#block-system-main .view-flavors-listings-teaser .view-content .views-row {
+  padding-top: 0;
+}
+/* /fix for view-flavors-listings-teaser */
+
 
 /* flavour specific */
 .flavour-tags.flavour-digital4eu .flavour-tags-title:before,

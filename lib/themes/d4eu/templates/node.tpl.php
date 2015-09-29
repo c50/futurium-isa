@@ -103,6 +103,8 @@
         'poll_view_voting',
         'poll_view_results',
         'field_videosd4eu',
+        'field_document',
+        'field_date_time',
       );
     ?>
 

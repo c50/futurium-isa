@@ -55,14 +55,14 @@ function d4eu_preprocess_block(&$variables) {
 
       // Constructs the name of the user for display in top toolbar.
       if ($variables['user']->uid) {
-        $name = format_username($variables['user']);
-        $options = array();
+        $name                             = format_username($variables['user']);
+        $options                          = array();
         $options['attributes']['class'][] = 'user-link';
-        $variables['user_welcome'] = t('Welcome <strong class="user-link">!name</strong>',
-            array(
-              '!name' => l($name, 'user/' . $variables['user']->uid, $options),
-            )
-            );
+        $variables['user_welcome']        = t('Welcome <strong class="user-link">!name</strong>',
+          array(
+            '!name' => l($name, 'user/' . $variables['user']->uid, $options),
+          )
+        );
       }
       $menu = menu_navigation_links('user-menu');
 
@@ -109,6 +109,75 @@ function d4eu_preprocess_block(&$variables) {
       }
     }
   }
+
+  // List of all block than don't need a panel.
+  $block_no_panel = array(
+    'search'           => 'form',
+    'print'            => 'print-links',
+    'workbench'        => 'block',
+    'social_bookmark'  => 'social-bookmark',
+    'views'            => 'view_ec_content_slider-block',
+    'om_maximenu'      => array('om-maximenu-1', 'om-maximenu-2'),
+    'menu'             => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
+  );
+
+  // List of all blocks that don't need their title to be displayed.
+  $block_no_title = array(
+    'fat_footer'       => 'fat-footer',
+    'om_maximenu'      => array('om-maximenu-1', 'om-maximenu-2'),
+    'menu'             => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
+  );
+
+  $variables['with_panel'] = TRUE;
+
+  $block = $variables['elements']['#block'];
+
+  foreach ($block_no_panel as $key => $value) {
+    if ($block->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($block->delta == $delta) {
+            $variables['with_panel'] = FALSE;
+            break;
+          }
+        }
+      }
+      else {
+        if ($block->delta == $value) {
+          $variables['with_panel'] = FALSE;
+        }
+      }
+    }
+  }
+
+  $variables['with_title'] = TRUE;
+  foreach ($block_no_title as $key => $value) {
+    if ($block->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($block->delta == $delta) {
+            $variables['with_title'] = FALSE;
+            break;
+          }
+        }
+      }
+      else {
+        if ($block->delta == $value) {
+          $variables['with_title'] = FALSE;
+        }
+      }
+    }
+  }
+
+  $block_no_body_class = array();
+  $variables['body_class'] = TRUE;
+  foreach ($block_no_body_class as $key => $value) {
+    if ($block->module == $key && $block->delta == $value) {
+      $variables['body_class'] = FALSE;
+    }
+  }
 }
 
 /**
@@ -151,6 +220,8 @@ function d4eu_preprocess_html(&$variables) {
   $head_title['org'] = t('European Commission');
   $variables['head_title_array'] = $head_title;
   $variables['head_title'] = implode(' | ', $head_title);
+  
+  drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
 }
 
 /**

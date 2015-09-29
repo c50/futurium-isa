@@ -269,7 +269,7 @@ div.more-link > a:hover {
 
 .node .field-name-body {
   border-bottom: 0;
-  margin-bottom: 7px;
+  margin-bottom: 22px;
 }
 
 .node .field-name-body:last-child {
@@ -807,6 +807,12 @@ section h5 + h6 {
   height: auto;
   display: block;
 }
+.mainContentSection .contentContainer .region-content .panel-body.content .field-name-body img.file-icon {
+  border:0;
+  display:inline-block;
+  vertical-align:middle;
+  margin:0 5px;
+}
 
 .decayLinkContent {
   margin-left: 5%;
@@ -1214,7 +1220,7 @@ a:hover.CTAButton,
 }
 
 /* social links */
-.front #block-boxes-social-links {
+.front #block-supertags-social-links {
   border: solid 2px #fff;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.3);
@@ -1406,8 +1412,12 @@ a:hover.CTAButton,
   vertical-align: top;
 }
 
+.mainContentSection .node-full .content .field-name-field_document,
+.mainContentSection .node-full .content .field-name-field-date-time {
+  margin-top: 15px;
+}
 .node-info {
-  margin: 30px 15px 0 0;
+  margin: 15px 15px 0 0;
 }
 
 .node-info .node-info-submitted {
