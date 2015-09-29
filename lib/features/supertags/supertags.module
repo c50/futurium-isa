@@ -10,7 +10,7 @@ include_once 'supertags.features.inc';
  * Implements hook_permission().
  */
 function supertags_permission() {
-  return array(
+  $perms = array(
     'administer supertags' => array(
       'title' => t('Administer supertags'),
       'description' => t('See inactive flavor pages.'),
@@ -20,6 +20,15 @@ function supertags_permission() {
       'description' => t('Grants rights to see and edit fields belonging to supertags (Default flavor, Flavors).'),
     ),
   );
+  $vocab = taxonomy_vocabulary_machine_name_load('flavors');
+  $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
+  foreach ($tree as $key => $value) {
+    $perms['manage ' . $value->name . ' flavor'] = array(
+      'title' => 'Manage ' . $value->name . ' flavour',
+      'description' => 'Manage settings for ' . $value->name . ' flavour.',
+    );
+  }
+  return $perms;
 }
 
 /**
@@ -48,6 +57,16 @@ function supertags_menu() {
   $content_types = _supertags_content_types_with_field();
   $weights = _supertags_content_type_weight_mapping();
 
+  $items['dashboard'] = array(
+    'title' => 'Dashboard',
+    'page callback' => 'supertags_dashboard_main_page',
+    'access callback' => '_supertags_flavor_pages_access',
+    'access arguments' => array(NULL, 'dashboard-main'),
+    'weight' => 1000,
+    'menu_name' => 'user-menu',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
   $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
   foreach ($tree as $key => $value) {
     $flavor_path = _supertags_term_path($value);
@@ -61,8 +80,8 @@ function supertags_menu() {
     // Create flavor landing page.
     $items[$flavor_path] = array(
       'title' => $value->name,
-      'access callback' => array('_supertags_published_or_admin'),
-      'access arguments' => array($value->tid),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value),
       'page callback' => 'supertags_flavor_page',
       'page arguments' => array(0),
       'type' => MENU_NORMAL_ITEM,
@@ -71,13 +90,73 @@ function supertags_menu() {
     // Create a special users page.
     $items[$flavor_path . '/people'] = array(
       'title' => 'People',
-      'access callback' => array('user_is_logged_in'),
-      'access arguments' => array($value->tid, 'user'),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'people'),
       'page callback' => 'supertags_flavor_user_page',
       'page arguments' => array(0),
       'menu_name' => $flavor_path . '-menu',
       'weight' => 100,
       'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items[$flavor_path . '/dashboard'] = array(
+      'title' => 'Manage ' . $value->name,
+      'page callback' => 'supertags_dashboard_content_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 1000,
+      'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items[$flavor_path . '/dashboard/content'] = array(
+      'title' => 'Content',
+      'page callback' => 'supertags_dashboard_content_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 1,
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+    );
+
+    $items[$flavor_path . '/dashboard/comments'] = array(
+      'title' => 'Comments',
+      'page callback' => 'supertags_dashboard_comments_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 2,
+      'type' => MENU_LOCAL_TASK,
+    );
+
+    $items[$flavor_path . '/dashboard/people'] = array(
+      'title' => 'Users',
+      'page callback' => 'supertags_dashboard_users_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 3,
+      'type' => MENU_LOCAL_TASK,
+    );
+
+    $items[$flavor_path . '/dashboard/blocks'] = array(
+      'title' => 'Blocks',
+      'page callback' => 'supertags_dashboard_blocks_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 4,
+      'type' => MENU_LOCAL_TASK,
+    );
+
+    $items[$flavor_path . '/dashboard/settings'] = array(
+      'title' => 'Settings',
+      'page callback' => 'supertags_dashboard_settings_page',
+      'page arguments' => array($value),
+      'access callback' => '_supertags_flavor_pages_access',
+      'access arguments' => array($value, 'dashboard'),
+      'weight' => 5,
+      'type' => MENU_LOCAL_TASK,
     );
 
     $items[$flavor_path . '/add'] = array(
@@ -113,8 +192,8 @@ function supertags_menu() {
 
       $items[$flavor_path . '/' . $path] = array(
         'title' => ucfirst($path),
-        'access callback' => array('_supertags_published_or_admin'),
-        'access arguments' => array($value->tid),
+        'access callback' => '_supertags_flavor_pages_access',
+        'access arguments' => array($value),
         'page callback' => 'supertags_flavor_page',
         'page arguments' => array(0, 1, 2),
         'menu_name' => $flavor_path . '-menu',
@@ -138,6 +217,267 @@ function supertags_menu() {
 }
 
 /**
+ * Implements hook_admin_paths().
+ */
+function supertags_admin_paths() {
+  $paths = array();
+  $vocab = taxonomy_vocabulary_machine_name_load('flavors');
+  $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
+  foreach ($tree as $key => $value) {
+    $path = _supertags_term_path($value);
+    $paths[$path . '/dashboard'] = TRUE;
+    $paths[$path . '/dashboard/*'] = TRUE;
+  }
+  return $paths;
+}
+
+/**
+ * Page callback for dashboard main page.
+ */
+function supertags_dashboard_main_page() {
+  $count = 0;
+  $perms['super_admin'] = user_access('administer supertags');
+
+  $vocab = taxonomy_vocabulary_machine_name_load('flavors');
+  $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
+  foreach ($tree as $key => $value) {
+    $perms['manage ' . $value->name . ' flavor'] = user_access('manage ' . $value->name . ' flavor');
+  }
+
+  $markup = '<div class="flavour-boxes"><ul>';
+  foreach ($tree as $k => $flavor) {
+    if ($perms['super_admin'] || $perms['manage ' . $flavor->name . ' flavor']) {
+      $class = _supertags_term_class($flavor);
+      $path = _supertags_term_path($flavor);
+      $markup .= '<li class="flavour-box flavour-' . $class . '">';
+      $markup .= '<a href="/' . $path . '/dashboard" class="flavour-link-' . $class . '">';
+      $markup .= '<h2>' . $flavor->name . '</h2>';
+      $markup .= '<div>Manage ' . $flavor->name . '</div>';
+      $markup .= '</a>';
+      $markup .= '</li>';
+      $count++;
+      $goto_path = '/' . $path . '/dashboard';
+    }
+  }
+  $markup .= '</ul></div>';
+  if ($count == 1) {
+    drupal_goto($goto_path);
+  }
+  return $markup;
+}
+
+/**
+ * Page callback for dashboard user pages.
+ */
+function supertags_dashboard_users_page($flavor) {
+  drupal_set_title($flavor->name . " users");
+  $markup = "";
+  $markup .= views_embed_view('flavors_people', 'block_dashboard');
+  return $markup;
+}
+
+/**
+ * Page callback for flavor dashboard.
+ */
+function supertags_dashboard_settings_page($flavor) {
+  drupal_set_title($flavor->name . " settings");
+  $markup = "";
+  $context = _supertags_get_context();
+
+  $forms[] = drupal_get_form('supertags_social_form', $context['flavor']['term']);
+
+  foreach ($forms as $key => $form) {
+    $markup .= render($form);
+  }
+
+  return $markup;
+}
+
+/**
+ * Page callback for flavor dashboard.
+ */
+function supertags_dashboard_content_page($flavor) {
+  drupal_set_title($flavor->name . " content");
+
+  $flavor_path = _supertags_term_path($flavor);
+  $markup = l(t('+ Add content'), $flavor_path . '/add');
+
+  $markup .= views_embed_view('flavors_admin_content', 'block');
+  return $markup;
+}
+
+/**
+ * Page callback for flavor dashboard.
+ */
+function supertags_dashboard_comments_page($flavor) {
+  drupal_set_title($flavor->name . " comments");
+
+  $markup = views_embed_view('flavors_admin_comments', 'block');
+  return $markup;
+}
+
+/**
+ * Page callback for flavor dashboard.
+ */
+function supertags_dashboard_blocks_page($flavor) {
+  drupal_set_title($flavor->name . " blocks");
+
+  $flavor_path = _supertags_term_path($flavor);
+  $l_options = array(
+    'query' => array(
+      'flavour' => $flavor_path,
+    ),
+  );
+
+  $markup = l(t('+ Add block'), 'block/add/user-blocks', $l_options);
+  $markup .= '<br><br>';
+  $markup .= views_embed_view('flavors_admin_blocks', 'block');
+  return $markup;
+}
+
+/**
+ * Dashboard form for social links.
+ */
+function supertags_social_form($form, $form_state, $flavor = NULL) {
+  $flavor_path = _supertags_term_path($flavor);
+
+  $form['tid'] = array(
+    '#type' => 'hidden',
+    '#value' => $flavor->tid,
+  );
+
+  $defaults = unserialize(variable_get('social_links_' . $flavor->tid));
+
+  $form['tabs'] = array(
+    '#type'     => 'horizontal_tabs',
+    '#default_tab' => 'edit-settings',
+    '#attached' => array(
+      'library' => array(
+        array(
+          'field_group',
+          'horizontal-tabs',
+        ),
+      ),
+    ),
+  );
+
+  $form['settings'] = array(
+    '#title' => 'Settings',
+    '#type' => 'fieldset',
+    '#group' => 'tabs',
+    '#collapsible' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['settings']['intro'] = array(
+    '#title' => 'Description',
+    '#type' => 'textarea',
+    '#default_value' => $flavor->description,
+    '#description' => 'The text that appears in the homepage block.',
+  );
+
+  $form['settings']['save'] = array(
+    '#value' => 'Save',
+    '#type' => 'submit',
+  );
+
+  $form['settings']['end'] = array(
+    '#markup' => '<br><br>',
+  );
+
+  $form['social'] = array(
+    '#title' => 'Social media',
+    '#type' => 'fieldset',
+    '#group' => 'tabs',
+    '#collapsible' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['social']['facebook'] = array(
+    '#title' => 'Facebook',
+    '#type' => 'textfield',
+    '#default_value' => isset($defaults['facebook']) ? $defaults['facebook'] : '',
+    '#attributes' => array(
+      'placeholder' => 'URL of a Facebook page',
+    ),
+  );
+
+  $form['social']['pinterest'] = array(
+    '#title' => 'Pinterest',
+    '#type' => 'textfield',
+    '#default_value' => isset($defaults['pinterest']) ? $defaults['pinterest'] : '',
+    '#attributes' => array(
+      'placeholder' => 'URL of a Pinterest page',
+    ),
+  );
+
+  $form['social']['linkedin'] = array(
+    '#title' => 'LinkedIn',
+    '#type' => 'textfield',
+    '#default_value' => isset($defaults['linkedin']) ? $defaults['linkedin'] : '',
+    '#attributes' => array(
+      'placeholder' => 'URL of a LinkedIn page',
+    ),
+  );
+
+  $form['social']['youtube'] = array(
+    '#title' => 'YouTube',
+    '#type' => 'textfield',
+    '#default_value' => isset($defaults['youtube']) ? $defaults['youtube'] : '',
+    '#attributes' => array(
+      'placeholder' => 'URL of a Youtube page',
+    ),
+  );
+
+  $form['social']['twitter'] = array(
+    '#title' => 'Twitter',
+    '#type' => 'textfield',
+    '#default_value' => isset($defaults['twitter']) ? $defaults['twitter'] : '',
+    '#attributes' => array(
+      'placeholder' => 'URL of a Twitter page',
+    ),
+  );
+
+  $new_widget = 'https://twitter.com/settings/widgets/new';
+  $widget_list = 'https://twitter.com/settings/widgets';
+
+  $form['social']['twitter_widget'] = array(
+    '#title' => 'Twitter Widget',
+    '#type' => 'textarea',
+    '#default_value' => isset($defaults['twitter_widget']) ? $defaults['twitter_widget'] : '',
+    '#description' => 'Get a widget from <a target="_blank" href="' . $widget_list . '">your widgets</a> or <a target="_blank" href="' . $new_widget . '">create a new one</a> and paste the widget code here.',
+  );
+
+  $form['social']['submit'] = array(
+    '#value' => 'Save',
+    '#type' => 'submit',
+  );
+
+  $form['social']['end'] = array(
+    '#markup' => '<br><br>',
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for dashboard's social links form.
+ */
+function supertags_social_form_submit($form, $form_state) {
+  $input = $form_state['input'];
+  $tid = $input['tid'];
+
+  if (!empty($input['settings']['intro'])) {
+    $flavor = taxonomy_term_load($tid);
+    $flavor->description = $input['settings']['intro'];
+    taxonomy_term_save($flavor);
+  }
+  unset($form_state['values']['social']['submit']);
+  $value = serialize($form_state['values']['social']);
+  variable_set('social_links_' . $tid, $value);
+}
+
+/**
  * Implements hook_menu_alter().
  */
 function supertags_menu_alter(&$items) {
@@ -150,8 +490,7 @@ function supertags_menu_alter(&$items) {
  * Implements hook_taxonomy_term_insert().
  */
 function supertags_taxonomy_term_presave($term) {
-  $flavors_vid  = taxonomy_vocabulary_machine_name_load('flavors')->vid;
-  if ($term->vid == $flavors_vid) {
+  if (_supertags_is_flavor($term)) {
     $term->path['pathauto'] = 0;
   }
 }
@@ -174,8 +513,7 @@ function supertags_taxonomy_term_update($term) {
  * Helper function for term_insert & term_update hooks.
  */
 function _supertags_cache_update($term) {
-  $flavors_vid  = taxonomy_vocabulary_machine_name_load('flavors')->vid;
-  if ($term->vid == $flavors_vid) {
+  if (_supertags_is_flavor($term)) {
     $flavor_path = _supertags_term_path($term);
 
     $contexts = db_select("context", "c")
@@ -201,7 +539,7 @@ function _supertags_cache_update($term) {
 function supertags_taxonomy_term_load($terms) {
   $flavors_vid  = taxonomy_vocabulary_machine_name_load('flavors')->vid;
   foreach ($terms as $k => $term) {
-    if ($term->vid == $flavors_vid) {
+    if (_supertags_is_flavor($term)) {
       $cached_tree = cache_get("term_" . $term->tid . "_tree");
 
       if (empty($cached_tree)) {
@@ -220,7 +558,7 @@ function supertags_taxonomy_term_load($terms) {
  * Implements hook_taxonomy_term_load().
  */
 function supertags_taxonomy_term_delete($term) {
-  if ($term->vocabulary_machine_name == 'flavors') {
+  if (_supertags_is_flavor($term)) {
     $flavor_term_path = _supertags_term_path($term);
 
     $menu = menu_load($flavor_term_path . '-menu');
@@ -243,6 +581,12 @@ function supertags_block_info() {
   );
   $blocks['tag_cloud_tags'] = array(
     'info' => t('Tag Cloud Tags'),
+  );
+  $blocks['social_links'] = array(
+    'info' => t('Contextualized social links'),
+  );
+  $blocks['twitter_feed'] = array(
+    'info' => t('Contextualized twitter feed'),
   );
   return $blocks;
 }
@@ -267,6 +611,72 @@ function supertags_block_view($delta = '') {
     case 'tag_cloud_tags':
       $block['subject'] = _supertags_block_title($delta);
       $block['content'] = _supertags_non_supertags_block_content();
+      break;
+
+    case 'social_links':
+      $flavor_context = _supertags_flavor_context();
+      if (isset($flavor_context['term'])) {
+        $flavor = $flavor_context['term'];
+        $defaults = unserialize(variable_get('social_links_' . $flavor->tid));
+        if (is_array($defaults)) {
+          $twitter_feed = empty($defaults['twitter_widget']) ? '' : $defaults['twitter_widget'];
+          unset($defaults['twitter_widget']);
+          $social_links = array_filter($defaults);
+        }
+      }
+
+      $block['subject'] = '';
+      if (empty($social_links)) {
+        $block['content'] = '';
+      }
+      else {
+        $block['content'] = '<div class="socialLinks">';
+        $block['content'] .= '<h3>Follow us:</h3>';
+        $block['content'] .= '<ul>';
+        foreach ($social_links as $key => $url) {
+          switch ($key) {
+
+            case 'facebook':
+              $id = 'fb';
+              $title = $flavor->name . ' on Facebook';
+              break;
+
+            case 'pinterest':
+              $id = 'pi';
+              $title = $flavor->name . ' on Pinterest';
+              break;
+
+            case 'linkedin':
+              $id = 'li';
+              $title = $flavor->name . ' on LinkedIn';
+              break;
+
+            case 'youtube':
+              $id = 'yt';
+              $title = $flavor->name . ' on Youtube';
+              break;
+
+            case 'twitter':
+              $id = 'tw';
+              $title = $flavor->name . ' on Twitter';
+              break;
+
+          }
+          $block['content'] .= '<li><a rel="nofollow" id="' . $id . '" title="' . $title . '" href="' . $url . '"><span class="element-invisible">' . $title . '</span></a></li>';
+        }
+        $block['content'] .= '</ul>';
+        $block['content'] .= '</div>';
+      }
+      break;
+
+    case 'twitter_feed':
+      $flavor_context = _supertags_flavor_context();
+      if (isset($flavor_context['term'])) {
+        $defaults = unserialize(variable_get('social_links_' . $flavor_context['term']->tid));
+        $twitter_widget = empty($defaults['twitter_widget']) ? '' : $defaults['twitter_widget'];
+      }
+      $block['subject'] = '';
+      $block['content'] = $twitter_widget;
       break;
 
   }
@@ -451,9 +861,15 @@ function supertags_field_formatter_view($entity_type, $entity, $field, $instance
  */
 function supertags_preprocess_html(&$variables) {
   $context = _supertags_get_context();
-
   $flavor = _supertags_flavor_context();
   $content = _supertags_content_type_context();
+
+  $item = menu_get_item();
+
+  if (strpos($item['path'], 'dashboard')) {
+    $variables['classes_array'][] = 'page-dashboard';
+  }
+
   if (isset($context['landing_page'])) {
     $landing_page = $context['landing_page'];
 
@@ -510,9 +926,12 @@ function supertags_preprocess_page(&$variables) {
         }
         $item = menu_get_item();
         if ($item['path'] == 'node/%') {
-          $title = drupal_get_title();
-          if (isset($content)) {
-            $breadcrumb[] = l($content['mapped_title'], _supertags_contextual_link());
+          $obj = menu_get_object();
+          if ($obj->type != 'page') {
+            $title = drupal_get_title();
+            if (isset($content)) {
+              $breadcrumb[] = l($content['mapped_title'], _supertags_contextual_link());
+            }
           }
         }
         if ($item['path'] == 'user/%') {
@@ -534,8 +953,14 @@ function supertags_preprocess_page(&$variables) {
  */
 function supertags_init() {
   $flavor = _supertags_flavor_context();
+  $content_type = _supertags_content_type_context();
   if (isset($flavor['term']) && arg(0) != 'search') {
-    $path = _supertags_contextual_link(NULL, $flavor['term']);
+    if ($content_type['machine_name'] == 'page') {
+      $path = $_GET['q'];
+    }
+    else {
+      $path = _supertags_contextual_link(NULL, $flavor['term']);
+    }
     menu_tree_set_path($flavor['path'] . '-menu', $path);
   }
 }
@@ -788,7 +1213,7 @@ function supertags_flavor_page() {
     else {
       $arg = arg(1);
       if (!empty($arg)) {
-        drupal_not_found();
+        return drupal_not_found();
       }
     }
   }
@@ -805,7 +1230,7 @@ function supertags_flavor_user_page() {
 
   if ($flavor_term = _supertags_flavor_context()) {
     $flavor = $flavor_term['name'];
-    $markup .= views_embed_view('flavors_people', 'block_1');
+    $markup .= views_embed_view('flavors_people', 'block_people');
   }
 
   return $markup;
@@ -952,8 +1377,7 @@ function _supertags_non_supertags_block_content() {
 
       foreach ($flavors as $k => $term_array) {
         $flavor_term = taxonomy_term_load($term_array['tid']);
-
-        if (_supertags_published_or_admin($flavor_term->tid)) {
+        if (_supertags_flavor_pages_access($flavor_term)) {
 
           $class = _supertags_term_class($flavor_term);
           $flavor_terms = _supertags_on_flavor_tree($flavor_term->tid);
@@ -1205,9 +1629,9 @@ function _supertags_plural($string) {
 function _supertags_get_context() {
   static $supertags_context;
 
+  $item = menu_get_item();
   if (empty($supertags_context)) {
 
-    $item = menu_get_item();
     $vocab = taxonomy_vocabulary_machine_name_load('flavors');
 
     switch ($item['path']) {
@@ -1321,7 +1745,14 @@ function _supertags_get_context() {
       );
     }
   }
-  $supertags_context['landing_page'] = (arg(0) != 'user' && arg(1) == NULL && !empty($supertags_context['flavor'])) ? TRUE : FALSE;
+  $homes = array('home');
+  $vocab = taxonomy_vocabulary_machine_name_load('flavors');
+  $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
+  foreach ($tree as $key => $value) {
+    $homes[] = _supertags_term_path($value);
+  }
+  $supertags_context['landing_page'] = in_array($item['path'], $homes);
+
   return $supertags_context;
 }
 
@@ -1542,22 +1973,46 @@ function _supertags_content_type_weight_mapping() {
 /**
  * Access callback for hook_menu items.
  *
- * @param int $tid
- *    Flavor term id.
+ * @param int $term
+ *    Flavor term.
+ * @param string $page
+ *    The page we're checking the user has access to.
  *
  * @return bool
  *    If user is to be given access or not.
  */
-function _supertags_published_or_admin($tid) {
-  $term = taxonomy_term_load($tid);
-  $active = field_get_items('taxonomy_term', $term, 'field_flavor_active');
+function _supertags_flavor_pages_access($term, $page = NULL) {
+  if ($page == 'dashboard-main') {
+    $perms['super_admin'] = user_access('administer supertags');
 
-  if ($active[0]['value'] === "1" || user_access('administer supertags')) {
-    return TRUE;
+    $vocab = taxonomy_vocabulary_machine_name_load('flavors');
+    $tree = taxonomy_get_tree($vocab->vid, 0, NULL, TRUE);
+    foreach ($tree as $key => $value) {
+      $perms['manage ' . $value->name . ' flavor'] = user_access('manage ' . $value->name . ' flavor');
+    }
+    return array_filter($perms);
   }
-  else {
-    return FALSE;
+  elseif (_supertags_is_flavor($term)) {
+
+    if (!_supertags_is_active($term)) {
+      return (user_access('administer supertags') || user_access('manage ' . $term->name . ' flavor'));
+    }
+    else {
+      switch ($page) {
+
+        case 'people':
+          return user_is_logged_in();
+
+        case 'dashboard':
+          return (user_access('administer supertags') || user_access('manage ' . $term->name . ' flavor'));
+
+        default:
+          return TRUE;
+
+      }
+    }
   }
+  return FALSE;
 }
 
 /**
@@ -1653,51 +2108,89 @@ function supertags_preprocess_block(&$vars) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
- * @todo: add validation handler: Default flavor must be in selected flavors.
+ * Hides taxonomy fields on add/edit and sets their values on node creation.
  */
-function supertags_form_alter(&$form, $form_state, $form_id) {
+function supertags_form_node_form_alter(&$form, &$form_state) {
   $fields = _supertags_fields();
   $context = _supertags_get_context();
   $item = menu_get_item();
 
-  if ($form_id == 'search_block_form') {
-    $idx = array_search('apachesolr_search_form_search_submit', $form['#submit']);
-    unset($form['#submit'][$idx]);
-    $form['#submit'][] = 'supertags_apachesolr_search_form_search_submit';
+  if (!user_access('edit supertags fields')) {
+    $form['field_digital4eu_supertags']['#attributes']['style'][] = 'display:none;';
+    $form['field_digital4eu_untags']['#attributes']['style'][]    = 'display:none;';
+    $form[$fields['flavor_primary']]['#attributes']['style'][]    = 'display:none;';
+    $form[$fields['flavor']]['#attributes']['style'][]            = 'display:none;';
   }
 
-  if (isset($form['#node_edit_form'])) {
-    // Hide fields.
-    if (!user_access('edit supertags fields')) {
-      $form['field_digital4eu_supertags']['#attributes']['style'][] = 'display:none;';
-      $form['field_digital4eu_untags']['#attributes']['style'][]    = 'display:none;';
-      $form[$fields['flavor_primary']]['#attributes']['style'][]    = 'display:none;';
-      $form[$fields['flavor']]['#attributes']['style'][]            = 'display:none;';
+  // Fill default field values for new nodes.
+  if ($item['path'] != 'node/%/edit') {
+    if (isset($context['flavor']['term'])) {
+      $flavor = $context['flavor']['term'];
+      $form[$fields['flavor_primary']][LANGUAGE_NONE]['#default_value'] = $flavor->tid;
+      $form[$fields['flavor']][LANGUAGE_NONE]['#default_value'] = array($flavor->tid);
     }
-    // Fill default field values for new nodes.
-    if ($item['path'] != 'node/%/edit') {
-      if (isset($context['flavor']['term'])) {
-        $flavor = $context['flavor']['term'];
-        $form[$fields['flavor_primary']][LANGUAGE_NONE]['#default_value'] = $flavor->tid;
-        $form[$fields['flavor']][LANGUAGE_NONE]['#default_value'] = array($flavor->tid);
-      }
-      elseif (isset($_GET['flavor'])) {
-        $flavor = _supertags_get_term_by_path($_GET['flavor']);
-        $form[$fields['flavor_primary']][LANGUAGE_NONE]['#default_value'] = $flavor->tid;
-        $form[$fields['flavor']][LANGUAGE_NONE]['#default_value'] = array($flavor->tid);
-      }
+    elseif (isset($_GET['flavor'])) {
+      $flavor = _supertags_get_term_by_path($_GET['flavor']);
+      $form[$fields['flavor_primary']][LANGUAGE_NONE]['#default_value'] = $flavor->tid;
+      $form[$fields['flavor']][LANGUAGE_NONE]['#default_value'] = array($flavor->tid);
     }
   }
+}
 
-  if ($form_id == 'taxonomy_form_term' && $form['#vocabulary']->machine_name == 'flavors') {
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hides pathauto options and relations for Flavours taxonomy.
+ */
+function supertags_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  if ($form['#vocabulary']->machine_name == 'flavors') {
     $form['path']['#access'] = FALSE;
     $form['description']['#format'] = 'plain_text';
 
     $form['relations']['#prefix'] = '<div style="display:none">';
     $form['relations']['#suffix'] = '</div>';
   }
+}
+
+/**
+ * Submit function replacement to search form.
+ *
+ * Replaces the apachesolr_search_form_search_submit submit handler in search
+ * forms to allow contextual search in flavors.
+ */
+function supertags_apachesolr_search_form_search_submit($form, &$form_state) {
+  $fv = $form_state['values'];
+  // Replace keys with their rawurlencoded value.
+  if (isset($fv['search_block_form'])) {
+    $raw_keys = str_replace("/", "%2f", $fv['search_block_form']);
+    $form_state['redirect'] = str_replace($fv['search_block_form'], $raw_keys, $form_state['redirect']);
+    $context = _supertags_get_context();
+    if (isset($context['flavor']['term']->tid)) {
+      $path = $context['flavor']['path'];
+      $redir_path = $form_state['redirect'];
+      $form_state['redirect'] = array(
+        $redir_path,
+        array(
+          'query' => array(
+            'flavour' => $path,
+          ),
+        ),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Changes default submit handler for search forms.
+ */
+function supertags_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  $idx = array_search('apachesolr_search_form_search_submit', $form['#submit']);
+  unset($form['#submit'][$idx]);
+  $form['#submit'][] = 'supertags_apachesolr_search_form_search_submit';
 }
 
 /**
@@ -1710,6 +2203,12 @@ function supertags_preprocess_link(array &$variables) {
   global $theme;
   if ($theme == 'd4eu') {
     $path = $variables['path'];
+
+    // Fix active class when urls have &.
+    $q = str_replace('&amp;', '&', $_GET['q']);
+    if ($path === $q) {
+      $variables['options']['attributes']['class'][] = 'active';
+    }
 
     if (strpos($path, 'user/login') !== FALSE) {
       $context = _supertags_flavor_context();
@@ -1783,29 +2282,24 @@ function supertags_apachesolr_query_prepare(DrupalSolrQueryInterface $query) {
 }
 
 /**
- * Submit function replacement to search form.
+ * Helper function.
  *
- * Replaces the apachesolr_search_form_search_submit submit handler in search
- * forms to allow contextual search in flavors.
+ * Returns true if a term belongs to "Flavors" taxonomy.
  */
-function supertags_apachesolr_search_form_search_submit($form, &$form_state) {
-  $fv = $form_state['values'];
-  // Replace keys with their rawurlencoded value.
-  if (isset($fv['search_block_form'])) {
-    $raw_keys = str_replace("/", "%2f", $fv['search_block_form']);
-    $form_state['redirect'] = str_replace($fv['search_block_form'], $raw_keys, $form_state['redirect']);
-    $context = _supertags_get_context();
-    if (isset($context['flavor']['term']->tid)) {
-      $path = $context['flavor']['path'];
-      $redir_path = $form_state['redirect'];
-      $form_state['redirect'] = array(
-        $redir_path,
-        array(
-          'query' => array(
-            'flavour' => $path,
-          ),
-        ),
-      );
-    }
+function _supertags_is_flavor($term) {
+  return $term->vocabulary_machine_name == "flavors";
+}
+
+/**
+ * Helper function.
+ *
+ * Returns true if a Flavor is active.
+ */
+function _supertags_is_active($term) {
+  if (_supertags_is_flavor($term)) {
+    return $term->field_flavor_active[LANGUAGE_NONE][0]['value'] == "1";
+  }
+  else {
+    return FALSE;
   }
 }

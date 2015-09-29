@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_d4eu.features.field_base.inc
+ * futurium_data.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function futurium_d4eu_field_default_field_bases() {
+function futurium_data_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_authors_d4eu'
@@ -30,7 +30,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -49,7 +49,7 @@ function futurium_d4eu_field_default_field_bases() {
     'field_name' => 'field_date_time',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'date',
     'settings' => array(
       'cache_count' => 4,
@@ -69,221 +69,6 @@ function futurium_d4eu_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'datestamp',
-  );
-
-  // Exported field_base: 'field_digital4eu_supertags'
-  $field_bases['field_digital4eu_supertags'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_digital4eu_supertags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
-    'indexes' => array(
-      'tid' => array(
-        0 => 'tid',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'taxonomy',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => array(
-          'vocabulary' => 'tags',
-          'parent' => 0,
-        ),
-      ),
-      'entity_translation_sync' => FALSE,
-      'options_list_callback' => 'i18n_taxonomy_allowed_values',
-    ),
-    'translatable' => 0,
-    'type' => 'taxonomy_term_reference',
-  );
-
-  // Exported field_base: 'field_digital4eu_untags'
-  $field_bases['field_digital4eu_untags'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_digital4eu_untags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
-    'indexes' => array(
-      'tid' => array(
-        0 => 'tid',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'taxonomy',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => array(
-          'vocabulary' => 'tags',
-          'parent' => 0,
-        ),
-      ),
-      'entity_translation_sync' => FALSE,
-      'options_list_callback' => 'i18n_taxonomy_allowed_values',
-    ),
-    'translatable' => 0,
-    'type' => 'taxonomy_term_reference',
-  );
-
-  // Exported field_base: 'field_leading_picture_d4eu'
-  $field_bases['field_leading_picture_d4eu'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_leading_picture_d4eu',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
-    'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'image',
-    'settings' => array(
-      'default_image' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
-    ),
-    'translatable' => 0,
-    'type' => 'image',
-  );
-
-  // Exported field_base: 'field_link_d4eu'
-  $field_bases['field_link_d4eu'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_link_d4eu',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'link',
-    'settings' => array(
-      'attributes' => array(
-        'class' => '',
-        'rel' => '',
-        'target' => 'default',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 1,
-      'entity_translation_sync' => FALSE,
-      'title' => 'optional',
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
-    ),
-    'translatable' => 0,
-    'type' => 'link_field',
-  );
-
-  // Exported field_base: 'field_rate_comment'
-  $field_bases['field_rate_comment'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_rate_comment',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'fivestar',
-    'settings' => array(
-      'axis' => 'vote',
-      'entity_translation_sync' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'fivestar',
-  );
-
-  // Exported field_base: 'field_year_of_publication_d4eu'
-  $field_bases['field_year_of_publication_d4eu'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_year_of_publication_d4eu',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'date',
-    'settings' => array(
-      'cache_count' => 4,
-      'cache_enabled' => 0,
-      'entity_translation_sync' => FALSE,
-      'granularity' => array(
-        'day' => 0,
-        'hour' => 0,
-        'minute' => 0,
-        'month' => 0,
-        'second' => 0,
-        'year' => 'year',
-      ),
-      'timezone_db' => '',
-      'todate' => '',
-      'tz_handling' => 'none',
-    ),
-    'translatable' => 0,
-    'type' => 'datestamp',
-  );
-
-  // Exported field_base: 'field_videosd4eu'
-  $field_bases['field_videosd4eu'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_videosd4eu',
-    'foreign keys' => array(
-      'file_managed' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
-    'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'mediafield',
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'media',
   );
 
   // Exported field_base: 'field_ideas'
@@ -306,7 +91,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -315,23 +100,68 @@ function futurium_d4eu_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_rate_ideas'
-  $field_bases['field_rate_ideas'] = array(
+  // Exported field_base: 'field_leading_picture_d4eu'
+  $field_bases['field_leading_picture_d4eu'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_rate_ideas',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'fivestar',
+    'field_name' => 'field_leading_picture_d4eu',
+    'foreign keys' => array(
+      'fid' => array(
+        'columns' => array(
+          'fid' => 'fid',
+        ),
+        'table' => 'file_managed',
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array(
+        0 => 'fid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'image',
     'settings' => array(
-      'axis' => 'vote',
-      'entity_translation_sync' => FALSE,
+      'default_image' => 0,
+      'entity_translation_sync' => array(
+        0 => 'fid',
+      ),
+      'uri_scheme' => 'public',
     ),
     'translatable' => 0,
-    'type' => 'fivestar',
+    'type' => 'image',
+  );
+
+  // Exported field_base: 'field_link_d4eu'
+  $field_bases['field_link_d4eu'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_link_d4eu',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'link',
+    'settings' => array(
+      'attributes' => array(
+        'class' => '',
+        'rel' => '',
+        'target' => 'default',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'entity_translation_sync' => FALSE,
+      'title' => 'optional',
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+    ),
+    'translatable' => 0,
+    'type' => 'link_field',
   );
 
   // Exported field_base: 'field_related_documents'
@@ -354,7 +184,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -398,7 +228,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -442,7 +272,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -486,7 +316,7 @@ function futurium_d4eu_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -508,6 +338,66 @@ function futurium_d4eu_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'field_videosd4eu'
+  $field_bases['field_videosd4eu'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_videosd4eu',
+    'foreign keys' => array(
+      'file_managed' => array(
+        'columns' => array(
+          'fid' => 'fid',
+        ),
+        'table' => 'file_managed',
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array(
+        0 => 'fid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'mediafield',
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'media',
+  );
+
+  // Exported field_base: 'field_year_of_publication_d4eu'
+  $field_bases['field_year_of_publication_d4eu'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_year_of_publication_d4eu',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'date',
+    'settings' => array(
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'entity_translation_sync' => FALSE,
+      'granularity' => array(
+        'day' => 0,
+        'hour' => 0,
+        'minute' => 0,
+        'month' => 0,
+        'second' => 0,
+        'year' => 'year',
+      ),
+      'timezone_db' => '',
+      'todate' => '',
+      'tz_handling' => 'none',
+    ),
+    'translatable' => 0,
+    'type' => 'datestamp',
   );
 
   return $field_bases;
