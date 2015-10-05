@@ -26,7 +26,7 @@ function futurium_isa_extras_field_extra_fields() {
   $extrafield_name = 'author_picture';
   $extra['node']['ideas']['display'][$extrafield_name] = array(
     'label' => t('Author Picture'),
-    'description' => t('Content author\'s picture'),
+    'description' => t("Content author's picture"),
     'weight' => 98,
   );
 
