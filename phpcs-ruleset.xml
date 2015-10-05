@@ -24,6 +24,7 @@
     <exclude-pattern>resources/cloudformation</exclude-pattern>
     <exclude-pattern>resources/codedeploy</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>lib/themes/bootstrap/*</exclude-pattern>
 
     <!-- Exclude build properties files. -->
     <exclude-pattern>build.properties*</exclude-pattern>

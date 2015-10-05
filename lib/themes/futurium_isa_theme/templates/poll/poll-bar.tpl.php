@@ -2,8 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display the bar for a single choice in a
- * poll.
+ * Default implementation to display the bar for a single choice in a poll.
  *
  * Variables available:
  * - $title: The title of the poll.

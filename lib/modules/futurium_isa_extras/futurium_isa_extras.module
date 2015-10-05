@@ -5,12 +5,15 @@
  * Hic sunt dracones.
  */
 
+/**
+ * Futurium extra fields.
+ */
 function futurium_isa_extras_field_extra_fields() {
 
   $flag = flag_get_flag('attending');
   $extrafield_name = 'attendance_count';
 
-  // Add attending flag dummy field
+  // Add attending flag dummy field.
   foreach ($flag->types as $key => $type) {
     $extra['node'][$type]['display'][$extrafield_name] = array(
       'label' => t('Attendance'),
@@ -19,7 +22,7 @@ function futurium_isa_extras_field_extra_fields() {
     );
   }
 
-  // Add author_picture dummy field
+  // Add author_picture dummy field.
   $extrafield_name = 'author_picture';
   $extra['node']['ideas']['display'][$extrafield_name] = array(
     'label' => t('Author Picture'),
@@ -37,7 +40,7 @@ function futurium_isa_extras_field_extra_fields() {
   $flag = flag_get_flag('like');
   $extrafield_name = 'likes_count';
 
-  // Add likes flag dummy field
+  // Add likes flag dummy field.
   foreach ($flag->types as $key => $type) {
     $extra['node'][$type]['display'][$extrafield_name] = array(
       'label' => t('Likes'),
@@ -49,51 +52,54 @@ function futurium_isa_extras_field_extra_fields() {
   return $extra;
 }
 
+/**
+ * Futurium entity view.
+ */
 function futurium_isa_extras_entity_view($entity, $type, $view_mode, $langcode) {
 
   if (isset($entity->type)) {
     $extra_fields = field_info_extra_fields($type, $entity->type, 'display');
 
     $field_name = 'likes_count';
-    if(!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
+    if (!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
       $flag = flag_get_flag('like');
       $ids = entity_extract_ids($type, $entity);
 
       $count = $flag->get_count($ids[0]);
 
       $entity->content[$field_name] = array(
-        '#markup' => '<div class="likes-count"><span class="value">' . $count . '</span></div>'
+        '#markup' => '<div class="likes-count"><span class="value">' . $count . '</span></div>',
       );
     }
 
     $field_name = 'attendance_count';
-    if(!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
+    if (!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
       $flag = flag_get_flag('attending');
       $ids = entity_extract_ids($type, $entity);
 
       $count = $flag->get_count($ids[0]);
 
       $entity->content[$field_name] = array(
-        '#markup' => '<div class="attending-count"><span class="value">' . $count . '</span></div>'
+        '#markup' => '<div class="attending-count"><span class="value">' . $count . '</span></div>',
       );
     }
 
     $field_name = 'author_picture';
-    if(!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
+    if (!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
       $user = user_load($entity->uid);
       $img = theme('image_style', array('style_name' => 'media_thumbnail_small', 'path' => $user->picture->uri));
 
       $entity->content[$field_name] = array(
-        '#markup' => '<div class="user-picture">' . $img . '</div>'
+        '#markup' => '<div class="user-picture">' . $img . '</div>',
       );
     }
 
     $field_name = 'post_date';
-    if(!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
+    if (!empty($extra_fields[$field_name]['display'][$view_mode]['visible'])) {
       $date = format_date($entity->created, 'custom', 'j M');
 
       $entity->content[$field_name] = array(
-        '#markup' => '<div class="post-date">' . $date . '</div>'
+        '#markup' => '<div class="post-date">' . $date . '</div>',
       );
     }
 
@@ -101,8 +107,8 @@ function futurium_isa_extras_entity_view($entity, $type, $view_mode, $langcode) 
 }
 
 /**
-* Implements hook_entity_info_alter().
-*/
+ * Implements hook_entity_info_alter().
+ */
 function futurium_isa_extras_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['square'] = array(
     'label' => t('Square'),
