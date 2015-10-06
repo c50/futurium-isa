@@ -129,28 +129,31 @@
     <target name="devel-generate">
         <!-- Generate Users. -->
         <drush
-                command="drush genu 12"
+                command="genu"
                 assume="yes"
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
+                <param>12</param>
         </drush>
 
         <!-- Generate Content. -->
         <drush
-                command="drush genc 25 --types='events, ideas, poll, videos'"
+                command="genc"
                 assume="yes"
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
+                <param>25 --types='events, ideas, poll, videos'</param>
         </drush>
         <!-- Generate Taxonomies. -->
         <drush
-                command="drush gent tags 32"
+                command="gent"
                 assume="yes"
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
+                <param>tags 32</param>
         </drush>
     </target>
 
