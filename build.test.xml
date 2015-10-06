@@ -136,16 +136,6 @@
                 verbose="${drush.verbose}">
                 <param>12</param>
         </drush>
-
-        <!-- Generate Content. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-                <param>25 --types='events, ideas, poll, videos'</param>
-        </drush>
         <!-- Generate Taxonomies. -->
         <drush
                 command="gent"
@@ -154,6 +144,15 @@
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
                 <param>tags 32</param>
+        </drush>
+        <!-- Generate Content. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>25 --types='events, ideas, poll, videos'</param>
         </drush>
     </target>
 
