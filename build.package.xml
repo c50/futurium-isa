@@ -211,11 +211,20 @@
                 <!-- Set revision to HEAD if not already defined -->
                 <property name="repo.revision" value="HEAD" override="false"/>
 
-                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${futurium.features.destination}</echo>
+                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${subsite.resources.lib.dir}</echo>
                 <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
                      does not seem to work. Use exec instead. -->
-                <exec command="git clone ${futurium.features.repository} ${subsite.resources.lib.dir}" />
-                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+
+                <gitclone
+                        repository="${futurium.features.repository}"
+                        targetPath="${subsite.resources.lib.dir}" />
+                <gitpull
+                        repository="${subsite.resources.lib.dir}"
+                        source="origin" refspec="foobranch"
+                        strategy="recursive" keep="true"
+                        force="true" quiet="true" norebase="true" />
+
+
             </then>
             <else>
                 <echo msg="Pulling changes from the Futurium features repository" />
@@ -233,7 +242,7 @@
     <target
         name="build-dev"
         description="Build a local development version of the subsite."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
 
     <target
         name="build-dist"
