@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme implementation to display a block.
@@ -37,22 +36,25 @@
  * - $is_admin: Flags true when the current user is an administrator.
  * - $block_html_id: A valid HTML ID and guaranteed unique.
  *
+ * @see bootstrap_preprocess_block()
  * @see template_preprocess()
  * @see template_preprocess_block()
+ * @see bootstrap_process_block()
  * @see template_process()
  *
  * @ingroup themeable
  */
 ?>
-<div class="container">
-  <?php print render($title_prefix); ?>
-  <?php if ($block->subject): ?>
-	<h2<?php print $title_attributes; ?>><?php //print $block->subject ?></h2>
-  <?php endif;?>
-  <?php print render($title_suffix); ?>
 
 
-    <?php print $content ?>
- 
-</div>
+  <div class="container">   
+    <?php print render($title_prefix); ?>
+    <?php if ($title): ?>
+      <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+    <?php endif;?>
+    <?php print render($title_suffix); ?>
+    <div class="row">
+      <?php print $content ?>
+    </div>
+  </div>
 

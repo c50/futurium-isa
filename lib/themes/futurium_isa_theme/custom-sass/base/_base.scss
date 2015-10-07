@@ -9,6 +9,7 @@ html {
   box-sizing: border-box;
 }
 
+
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
  * Since `*` has a specificity of 0, it does not override the `html` value
@@ -32,5 +33,69 @@ a {
   }
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: $dark-grey;
+  a{
+   color: $brand-color;
+   &:hover{
+   	  text-decoration: none;
+   	  color: shade($brand-color, 10%)
+   }
+  }
+}
 
+.view-ideas h2{
+  text-align: center;
+  color: $brand-color;
+}
+
+.block-views{
+  padding:20px 0 20px 0;
+}
+
+h2.block-title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
+
+.view-ideas .row{
+  overflow: hidden;
+}
+
+.view-ideas .row .col .node{
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 350px;
+}
+
+.view-events{
+  .col-lg-4:first-child{
+    min-height: 200px;
+    margin: auto 0;
+    h2{
+
+    }
+  }
+} 
+
+.region{
+  padding:10px 0 10px 0;
+}
+
+.region-recent-ideas {
+  background: #F8F8F8;
+}
+
+
+.field-type-taxonomy-term-reference {
+  text-align: center;
+  color: $mid-grey;
+}
+
+.user-picture {
+  text-align: center;
+  padding: 10px 0 10px 0;
+}
 
