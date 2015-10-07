@@ -73,8 +73,8 @@
  * @ingroup themeable
  */
 ?>
-<header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
-  <div class="container">
+<header id="navbar" class="header" role="banner">
+  <div class="container <?php print $navbar_classes; ?>">
     <div class="navbar-header">
       <?php if ($logo): ?>
       <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
@@ -113,7 +113,7 @@
   </div>
 </header>
 
-<div class="main-container container">
+
 
   <header role="banner" id="page-header">
     <?php if (!empty($site_slogan)): ?>
@@ -123,7 +123,7 @@
     <?php print render($page['header']); ?>
   </header> <!-- /#page-header -->
 
-  <div class="row">
+
 
     <?php if (!empty($page['sidebar_first'])): ?>
       <aside class="col-sm-3" role="complementary">
@@ -131,7 +131,7 @@
       </aside>  <!-- /#sidebar-first -->
     <?php endif; ?>
 
-    <section<?php print $content_column_class; ?>>
+
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -152,8 +152,23 @@
       <?php if (!empty($action_links)): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
+
       <?php print render($page['content']); ?>
-    </section>
+
+      <?php if (!empty($page['recent_ideas'])): ?>
+          <?php print render($page['recent_ideas']); ?>
+      <?php endif; ?>
+
+      <?php if (!empty($page['upcoming_events'])): ?>
+          <?php print render($page['upcoming_events']); ?>
+      <?php endif; ?>
+
+
+
+
+
+
+
 
     <?php if (!empty($page['sidebar_second'])): ?>
       <aside class="col-sm-3" role="complementary">
@@ -161,8 +176,6 @@
       </aside>  <!-- /#sidebar-second -->
     <?php endif; ?>
 
-  </div>
-</div>
 <footer class="footer container">
   <?php print render($page['footer']); ?>
 </footer>
