@@ -44,91 +44,22 @@
  * @ingroup themeable
  */
 ?>
-<?php
-
-// List of all block than don't need a panel.
-$block_no_panel = array(
-  'search' => 'form',
-  'print' => 'print-links',
-  'workbench' => 'block',
-  'social_bookmark' => 'social-bookmark',
-  'views' => 'view_ec_content_slider-block',
-  'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
-  'menu' => 'menu-service-tools',
-  'cce_basic_config' => 'footer_ipg',
-);
-
-// List of all blocks that don't need their title to be displayed.
-$block_no_title = array(
-  'fat_footer' => 'fat-footer',
-  'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
-  'menu' => 'menu-service-tools',
-  'cce_basic_config' => 'footer_ipg',
-);
-
-$block_no_body_class = array();
-
-$panel = TRUE;
-foreach ($block_no_panel as $key => $value):
-  if ($block->module == $key):
-    if (is_array($value)):
-      foreach ($value as $delta):
-        if ($block->delta == $delta):
-          $panel = FALSE;
-          break;
-        endif;
-      endforeach;
-    else:
-      if ($block->delta == $value):
-        $panel = FALSE;
-        break;
-      endif;
-    endif;
-  endif;
-endforeach;
-
-$title = TRUE;
-foreach ($block_no_title as $key => $value):
-  if ($block->module == $key):
-    if (is_array($value)):
-      foreach ($value as $delta):
-        if ($block->delta == $delta):
-          $title = FALSE;
-          break;
-        endif;
-      endforeach;
-    else:
-      if ($block->delta == $value):
-        $title = FALSE;
-        break;
-      endif;
-    endif;
-  endif;
-endforeach;
-
-$body_class = TRUE;
-foreach ($block_no_body_class as $key => $value):
-  if ($block->module == $key && $block->delta == $value):
-    $body_class = FALSE;
-  endif;
-endforeach;
-?>
 
 <?php if ($exposed_block): ?>
 <div class="exposed_form_outer_container">
   <div class="exposed_form_inner_container">
 <?php endif;?>
-    <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php if ($panel): print 'panel panel-default clearfix'; endif; ?>">
+    <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php if ($with_panel): print 'panel panel-default clearfix'; endif; ?>">
 
       <?php print render($title_prefix); ?>
-      <?php if ($title && $block->subject): ?>
-        <div class="<?php if ($panel): print 'panel-heading'; endif; ?>">
+      <?php if ($with_title && $block->subject): ?>
+        <div class="<?php if ($with_panel): print 'panel-heading'; endif; ?>">
           <?php print $block->subject ?>
         </div>
       <?php endif;?>
       <?php print render($title_suffix); ?>
 
-      <div class="<?php if ($panel && $body_class): print 'panel-body'; endif; ?> content"<?php print $content_attributes; ?>>
+      <div class="<?php if ($with_panel && $body_class): print 'panel-body'; endif; ?> content"<?php print $content_attributes; ?>>
         <?php print $content; ?>
       </div>
     </div>

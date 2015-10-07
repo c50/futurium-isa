@@ -46,17 +46,17 @@ function supertags_context_default_contexts() {
           'region' => 'home_sidebar',
           'weight' => '-10',
         ),
-        'boxes-social_links' => array(
-          'module' => 'boxes',
+        'supertags-social_links' => array(
+          'module' => 'supertags',
           'delta' => 'social_links',
           'region' => 'home_sidebar',
-          'weight' => '-9',
+          'weight' => '-6',
         ),
-        'views-socials_home_d4eu-block_twitter' => array(
-          'module' => 'views',
-          'delta' => 'socials_home_d4eu-block_twitter',
+        'supertags-twitter_feed' => array(
+          'module' => 'supertags',
+          'delta' => 'twitter_feed',
           'region' => 'home_sidebar',
-          'weight' => '-7',
+          'weight' => '-5',
         ),
       ),
     ),

@@ -148,7 +148,14 @@ function supertags_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'content_top' => 'Content Top',
+        'content_top' => 'Landing page (Top)',
+        'ideas_top' => 'Ideas List (Top)',
+        'evidence_top' => 'Evidence List (Top)',
+        'videos_top' => 'Videos List (Top)',
+        'blogs_top' => 'Blogs List (Top)',
+        'polls_top' => 'Polls List (Top)',
+        'events_top' => 'Events List (Top)',
+        'people_top' => 'People List (Top)',
       ),
     ),
     'type' => 'list_text',
@@ -173,6 +180,7 @@ function supertags_field_default_field_bases() {
       'allowed_values' => array(
         'block-bean-regular' => 'Regular',
         'block-bean-highlight' => 'Highlight',
+        'block-bean-wide' => 'Wide',
       ),
       'allowed_values_function' => '',
       'entity_translation_sync' => FALSE,

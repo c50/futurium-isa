@@ -377,7 +377,8 @@ function supertags_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_flavor_tree-field_children_tags'
+  // Exported field_instance:
+  // 'field_collection_item-field_flavor_tree-field_children_tags'
   $field_instances['field_collection_item-field_flavor_tree-field_children_tags'] = array(
     'bundle' => 'field_flavor_tree',
     'default_value' => NULL,
@@ -413,7 +414,8 @@ function supertags_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_flavor_tree-field_parent_tag'
+  // Exported field_instance:
+  // 'field_collection_item-field_flavor_tree-field_parent_tag'
   $field_instances['field_collection_item-field_flavor_tree-field_parent_tag'] = array(
     'bundle' => 'field_flavor_tree',
     'default_value' => NULL,
@@ -449,7 +451,8 @@ function supertags_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_links-field_call_to_action'
+  // Exported field_instance:
+  // 'field_collection_item-field_links-field_call_to_action'
   $field_instances['field_collection_item-field_links-field_call_to_action'] = array(
     'bundle' => 'field_links',
     'default_value' => NULL,
@@ -499,7 +502,8 @@ function supertags_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_links-field_link_type'
+  // Exported field_instance:
+  // 'field_collection_item-field_links-field_link_type'
   $field_instances['field_collection_item-field_links-field_link_type'] = array(
     'bundle' => 'field_links',
     'default_value' => array(

@@ -24,6 +24,7 @@
     <exclude-pattern>resources/cloudformation</exclude-pattern>
     <exclude-pattern>resources/codedeploy</exclude-pattern>
     <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>lib/themes/bootstrap/*</exclude-pattern>
 
     <!-- Exclude build properties files. -->
     <exclude-pattern>build.properties*</exclude-pattern>
@@ -60,4 +61,10 @@
     <rule ref="Drupal.Files.LineLength.TooLong">
         <exclude-pattern>lib/features/*/*.features.field_instance.inc</exclude-pattern>
     </rule>
+
+    <!-- File appears to be minified and cannot be processed. -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <exclude-pattern>lib/themes/*/*.css</exclude-pattern>
+    </rule>
+
 </ruleset>

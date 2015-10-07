@@ -1,12 +1,12 @@
 name = Supertags
 description = Supertags and flavor related functionalities.
-version = 7.x-1.0
+version = 7.x-1.1
 core = 7.x
 package = Futurium
 project = supertags
 multisite_version = 2.0
 php = 5.3.29
-dependencies[] = bean_admin_ui
+dependencies[] = bean
 dependencies[] = field_collection
 dependencies[] = field_group
 features[bean_type][] = user_blocks
