@@ -6,6 +6,9 @@
 
 include_once 'futurium_isa.features.inc';
 
+/**
+ * Post feature enable.
+ */
 function futurium_isa_post_features_enable_feature($component) {
   /*
   module_disable(array('apachesolr', 'solr_config'));
@@ -18,20 +21,20 @@ function futurium_isa_post_features_enable_feature($component) {
   devel_generate_terms(10, array($vid), 10);
 
   $fs = array(
-    'node_types' => array(
-      'ideas',
-      'events',
-    ),
-    'kill_content' => TRUE,
-    'num_nodes' => 50,
-    'time_range' => 1314000,
-    'max_comments' => 5,
-    'title_length' => 4,
-    'add_alias' => FALSE,
-    'add_statistics' => FALSE,
-    'add_language' => FALSE,
+  'node_types' => array(
+  'ideas',
+  'events',
+  ),
+  'kill_content' => TRUE,
+  'num_nodes' => 50,
+  'time_range' => 1314000,
+  'max_comments' => 5,
+  'title_length' => 4,
+  'add_alias' => FALSE,
+  'add_statistics' => FALSE,
+  'add_language' => FALSE,
   );
 
   devel_generate_content($fs);
-  */
+   */
 }

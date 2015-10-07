@@ -305,84 +305,84 @@ function futurium_isa_default_page_manager_pages() {
   $display->uuid = '01a493e8-e607-4c1e-8b23-a4048da6de0a';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-08d79ba7-bb34-4eba-bc07-0ff7283b263b';
-    $pane->panel = 'middle';
-    $pane->type = 'block';
-    $pane->subtype = 'bean-events-home-intro';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'col col-lg-4',
-    );
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '08d79ba7-bb34-4eba-bc07-0ff7283b263b';
-    $display->content['new-08d79ba7-bb34-4eba-bc07-0ff7283b263b'] = $pane;
-    $display->panels['middle'][0] = 'new-08d79ba7-bb34-4eba-bc07-0ff7283b263b';
-    $pane = new stdClass();
-    $pane->pid = 'new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
-    $pane->panel = 'middle';
-    $pane->type = 'block';
-    $pane->subtype = 'bean-futures-home-intro';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'col col-lg-4',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
-    $display->content['new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2'] = $pane;
-    $display->panels['middle'][1] = 'new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
-    $pane = new stdClass();
-    $pane->pid = 'new-711ddf68-f5d2-4882-8699-2743acd9cbac';
-    $pane->panel = 'middle';
-    $pane->type = 'block';
-    $pane->subtype = 'bean-ideas';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'col col-lg-4',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '711ddf68-f5d2-4882-8699-2743acd9cbac';
-    $display->content['new-711ddf68-f5d2-4882-8699-2743acd9cbac'] = $pane;
-    $display->panels['middle'][2] = 'new-711ddf68-f5d2-4882-8699-2743acd9cbac';
+  $pane = new stdClass();
+  $pane->pid = 'new-08d79ba7-bb34-4eba-bc07-0ff7283b263b';
+  $pane->panel = 'middle';
+  $pane->type = 'block';
+  $pane->subtype = 'bean-events-home-intro';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'override_title' => 0,
+    'override_title_text' => '',
+    'override_title_heading' => 'h2',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array(
+    'css_id' => '',
+    'css_class' => 'col col-lg-4',
+  );
+  $pane->extras = array();
+  $pane->position = 0;
+  $pane->locks = array();
+  $pane->uuid = '08d79ba7-bb34-4eba-bc07-0ff7283b263b';
+  $display->content['new-08d79ba7-bb34-4eba-bc07-0ff7283b263b'] = $pane;
+  $display->panels['middle'][0] = 'new-08d79ba7-bb34-4eba-bc07-0ff7283b263b';
+  $pane = new stdClass();
+  $pane->pid = 'new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
+  $pane->panel = 'middle';
+  $pane->type = 'block';
+  $pane->subtype = 'bean-futures-home-intro';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'override_title' => 0,
+    'override_title_text' => '',
+    'override_title_heading' => 'h2',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array(
+    'css_id' => '',
+    'css_class' => 'col col-lg-4',
+  );
+  $pane->extras = array();
+  $pane->position = 1;
+  $pane->locks = array();
+  $pane->uuid = '44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
+  $display->content['new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2'] = $pane;
+  $display->panels['middle'][1] = 'new-44b6bd11-f75b-48b6-b2fa-c4ae3ab4b0d2';
+  $pane = new stdClass();
+  $pane->pid = 'new-711ddf68-f5d2-4882-8699-2743acd9cbac';
+  $pane->panel = 'middle';
+  $pane->type = 'block';
+  $pane->subtype = 'bean-ideas';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'override_title' => 0,
+    'override_title_text' => '',
+    'override_title_heading' => 'h2',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array(
+    'css_id' => '',
+    'css_class' => 'col col-lg-4',
+  );
+  $pane->extras = array();
+  $pane->position = 2;
+  $pane->locks = array();
+  $pane->uuid = '711ddf68-f5d2-4882-8699-2743acd9cbac';
+  $display->content['new-711ddf68-f5d2-4882-8699-2743acd9cbac'] = $pane;
+  $display->panels['middle'][2] = 'new-711ddf68-f5d2-4882-8699-2743acd9cbac';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

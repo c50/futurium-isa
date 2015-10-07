@@ -80,9 +80,8 @@
  * @ingroup themeable
  */
 $display_submitted = FALSE;
-dsm(get_defined_vars());
 ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> <?php if($vote !== -1) print "row"; ?> clearfix"<?php print $attributes; ?>>
+<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> <?php if($vote !== -1) {print "row";} ?> clearfix"<?php print $attributes; ?>>
 
   <?php print $user_picture; ?>
 

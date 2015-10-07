@@ -1,8 +1,9 @@
 <?php
 /**
- * @file views-bootstrap-grid-plugin-style.tpl.php
+ * @file
  * Default simple view template to display Bootstrap Grids.
  *
+ *  Views-bootstrap-grid-plugin-style.tpl.php.
  *
  * - $columns contains rows grouped by columns.
  * - $rows contains a nested array of rows. Each row contains an array of
@@ -44,4 +45,3 @@
 
   <?php endif ?>
 </div>
-
