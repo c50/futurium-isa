@@ -60,22 +60,9 @@
 
     <!-- Post install. -->
     <target name="postinstall" description="Post install settings.">
-        <!--
-             Devel's Mail Logger:
-             Avoid sending email on Drupal site install by setting devel module
-             smtp_library variable. This avoids error on system with no mail server
-             configured, and thus with empty value for php.ini sendmail_path.
-             Mails will go to watchdog instead being sent.
-        -->
-        <drush
-                command="vset"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>smtp_library </param>
-            <param>"sites/all/modules/contrib/devel/devel.module"</param>
-        </drush>
+
+        <!-- Devel Generate -->
+        <phingcall target="devel-generate" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -136,6 +123,37 @@
             config="${behat.yml.path}"
             strict="${behat.options.strict}"
             verbose="${behat.options.verbosity}" />
+    </target>
+
+    <!-- Devel Generate. -->
+    <target name="devel-generate">
+        <!-- Generate Users. -->
+        <drush
+                command="genu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+                <param>12</param>
+        </drush>
+        <!-- Generate Taxonomies. -->
+        <drush
+                command="gent"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+                <param>tags 32</param>
+        </drush>
+        <!-- Generate Content. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>25 --types='events, ideas, poll, videos'</param>
+        </drush>
     </target>
 
     <!-- Install a development version of the subsite. -->

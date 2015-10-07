@@ -204,4 +204,4 @@ drush.verbose = FALSE
 phpcs.verbose = 0
 
 # Development / testing modules to enable.
-drupal.development.modules = devel field_ui maillog simpletest views_ui
+drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
