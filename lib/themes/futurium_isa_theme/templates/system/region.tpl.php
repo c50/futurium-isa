@@ -29,9 +29,15 @@
  */
 ?>
 <?php if ($content): ?>
-  <div class="row <?php print $classes; ?>">
-    <div class="container">
-      <?php print $content; ?>
+  <div class="<?php print $classes ?> container-fullwidth">
+    <div class="row">
+      <div class="container">
+        <div class="row">
+          <div class="<?php print $classes; ?>">
+            <?php print $content; ?>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 <?php endif; ?>
