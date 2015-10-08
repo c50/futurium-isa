@@ -30,12 +30,10 @@
 ?>
 <?php if ($content): ?>
   <div class="<?php print $classes ?> container-fullwidth">
-    <div class="row">
-      <div class="container">
-        <div class="row">
-          <div class="<?php print $classes; ?>">
-            <?php print $content; ?>
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="<?php print $classes; ?>">
+          <?php print $content; ?>
         </div>
       </div>
     </div>

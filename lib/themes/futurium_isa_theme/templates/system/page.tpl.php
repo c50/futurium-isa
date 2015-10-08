@@ -132,7 +132,7 @@
       <?php endif; ?>
 
       <section<?php print $content_column_class; ?>>
-        <?php if( !empty($page['highlighted']) || !empty($breadcrumb) || !empty($title) || !empty($title) || !empty($page['help']) || !empty($action_links) || !empty($tabs['#primary']) || !empty($tabs['#secondary']) ): ?>
+        <?php if( !empty($page['highlighted']) || !empty($breadcrumb) || !empty($page['help']) || !empty($action_links) || !empty($tabs['#primary']) || !empty($tabs['#secondary']) ): ?>
           <div class="row">
             <div class="container">
               <div class="row">
@@ -141,12 +141,6 @@
                     <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
                   <?php endif; ?>
                   <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
-                  <a id="main-content"></a>
-                  <?php print render($title_prefix); ?>
-                  <?php if (!empty($title)): ?>
-                    <h1 class="page-header"><?php print $title; ?></h1>
-                  <?php endif; ?>
-                  <?php print render($title_suffix); ?>
                   <?php print $messages; ?>
                   <?php if (!empty($tabs)): ?>
                     <?php print render($tabs); ?>
@@ -162,12 +156,27 @@
             </div>
           </div>
         <?php endif; ?>
+        <?php print render($page['content_top']); ?>
+        <?php print render($page['content_before_middle']); ?>
+        <?php print render($page['content_before']); ?>
+        <a id="main-content"></a>
+        <?php print render($title_prefix); ?>
+        <?php if (!empty($title)): ?>
+          <div class="row">
+            <div class="container">
+              <div class="row">
+                <div class="region other-stuff">
+                  <h1 class="page-header"><?php print $title; ?></h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endif; ?>
+        <?php print render($title_suffix); ?>
         <?php print render($page['content']); ?>
-        <?php print render($page['content1']); ?>
-        <?php print render($page['content2']); ?>
-        <?php print render($page['content3']); ?>
-        <?php print render($page['content4']); ?>
-        <?php print render($page['content5']); ?>
+        <?php print render($page['content_after']); ?>
+        <?php print render($page['content_after_middle']); ?>
+        <?php print render($page['content_bottom']); ?>
       </section>
 
       <?php if (!empty($page['sidebar_second'])): ?>

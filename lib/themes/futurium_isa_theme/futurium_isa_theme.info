@@ -12,19 +12,26 @@ regions[navigation]     = 'Navigation'
 regions[header]         = 'Top Bar'
 regions[highlighted]    = 'Highlighted'
 regions[help]           = 'Help'
-regions[content]        = 'Content'
-regions[content1] = 'Content1'
-regions[content2] = 'Content2'
-regions[content3] = 'Content3'
-regions[content4] = 'Content4'
-regions[content5] = 'Content5'
-regions[recent_ideas]   = 'recent_ideas'
-regions[upcoming_events]   = 'upcoming_events'
+regions[content_top]          = 'Top'
+regions[content_before_middle]= 'Top Middle'
+regions[content_before]       = 'Content Before'
+regions[content]              = 'Content'
+regions[content_after]        = 'Content After'
+regions[content_after_middle] = 'Bottom Middle'
+regions[content_bottom]       = 'Bottom'
 regions[sidebar_first]  = 'Primary'
 regions[sidebar_second] = 'Secondary'
 regions[footer]         = 'Footer'
 regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
+
+        <?php print render($page['content_top']); ?>
+        <?php print render($page['content_before_middle']); ?>
+        <?php print render($page['content_before']); ?>
+        <?php print render($page['content']); ?>
+        <?php print render($page['content_after']); ?>
+        <?php print render($page['content_after_middle']); ?>
+        <?php print render($page['content_bottom']); ?>
 
 
 ;;;;;;;;;;;;;;;;;;;;;
