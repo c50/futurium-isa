@@ -29,7 +29,7 @@
  */
 ?>
 <?php if ($content): ?>
-  <div class="<?php print $classes ?> container-fullwidth">
+  <div class="<?php print $wrapper_classes ?>">
     <div class="container">
       <div class="row">
         <div class="<?php print $classes; ?>">
