@@ -60,9 +60,10 @@
 
     <!-- Post install. -->
     <target name="postinstall" description="Post install settings.">
-
         <!-- Devel Generate -->
         <phingcall target="devel-generate" />
+        <!-- Set drupal_http_request variables. -->
+        <phingcall target="drupal-proxy-variable" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -153,6 +154,53 @@
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
             <param>25 --types='events, ideas, poll, videos'</param>
+        </drush>
+    </target>
+
+    <!-- Set drupal_http_request variables. -->
+    <target name="drupal-proxy-variable">
+        <!-- Server variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.server}</param>
+        </drush>
+
+        <!-- Port variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_port</param>
+            <param>${futurium.http_proxy.port}</param>
+        </drush>
+
+        <!-- User variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_user</param>
+            <param>${futurium.http_proxy.user}</param>
+        </drush>
+
+        <!-- Password variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.pass}</param>
         </drush>
     </target>
 
