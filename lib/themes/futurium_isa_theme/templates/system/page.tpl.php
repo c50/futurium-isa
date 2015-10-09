@@ -154,6 +154,7 @@
         </div>
       </div>
     <?php endif; ?>
+    <?php print render($page['content_slider']); ?>
     <?php print render($page['content_top']); ?>
     <?php print render($page['content_before_middle']); ?>
     <?php print render($page['content_before']); ?>

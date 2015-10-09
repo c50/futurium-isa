@@ -3,12 +3,15 @@
 // -----------------------------------------------------------------------------
 
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 
 
 /// Regular font family
 /// @type List
-$text-font-stack: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+
+$text-font-stack: 'droid serif', serif;
+$header-font-stack: 'Oswald', sans-serif;
+
 
 /// Code (monospace) font family
 /// @type List
