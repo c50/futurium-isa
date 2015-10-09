@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
   color: $dark-grey;
   font-family: $header-font-stack;
   text-transform: uppercase;
-  margin:0 0 20px 0;
+  margin:0 0 30px 0;
   a{
    color: $brand-color;
    &:hover{
@@ -57,10 +57,6 @@ img{
   display: block;
   max-width: 100%;
   height: auto;
-}
-
-.front .region-content-top{
-  padding: 0 0 20px 0;
 }
 
 .view h3{
@@ -156,11 +152,13 @@ h2.block-title {
 }
 
 .region{
-  padding:20px 0 20px 0;
+  padding: 30px 0 30px 0;
+  float: left;
+  width: 100%;
 }
 
 .content-slider-wrapper .region {
-  padding-top:0;
+  padding:0;
 }
 
 .content-before-wrapper{
@@ -171,7 +169,7 @@ h2.block-title {
   }
 }
 
-.content-before-middle-wrapper{
+.content-before-middle-wrapper, .content-after-middle-wrapper{
   background: #F8F8F8;
 }
 
@@ -187,5 +185,36 @@ h2.block-title {
 .user-picture {
   text-align: center;
   padding: 10px 0 10px 0;
+}
+
+.container-fullwidth.footer{
+  background: #080808;
+}
+
+ul.social-icons{
+  list-style: none;
+  span{
+    display: none;
+  }
+  li{
+    display: inline; 	
+  	a{
+  	  width: 64px;
+  	  height: 64px;
+  	  display: inline-block;
+  	  background: no-repeat;
+  	  margin:0 10px 0 10px;
+  	} 
+  }
+
+  .twitter a{
+  	background-image: url(../assets/img/ico-twitter.png);
+  }
+  .facebook a{
+    background-image: url(../assets/img/ico-facebook.png);
+  }
+  .contact a{
+    background-image: url(../assets/img/ico-contact.png);
+  }
 }
 
