@@ -72,6 +72,13 @@ futurium.features.branch = master
 # The URL of the futurium features repository.
 futurium.features.repository = https://webgate.ec.europa.eu/CITnet/stash/projects/MULTISITE/repos/futurium-reference
 
+# Set http_proxy variables to handle drupal_http_request.
+futurium.http_proxy.server = psbru.cec.eu.int
+futurium.http_proxy.port = 8012
+
+# User specific http_proxy variables to handle drupal_http_request.
+futurium.http_proxy.user =
+futurium.http_proxy.pass =
 
 # Paths
 # -----
