@@ -165,12 +165,15 @@ Example `build.properties.local` file:
         # Verbosity of drush commands. Set to TRUE to be verbose.
         drush.verbose = FALSE
 
-        # Verbosity of PHP Codesniffer. Set to 0 for standard output, 1 for progress
-        # report, 2 for debugging info.
+        # Verbosity of PHP Codesniffer. Set to 0 for standard output
+        # 1 for progress report
+        # 2 for debugging info
         phpcs.verbose = 2
 
-        # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
-        # shows exception backtraces, 3 shows debugging information.
+        # Set verbosity for Behat tests. 0 is completely silent
+        # 1 is normal output
+        # 2 shows exception backtraces
+        # 3 shows debugging information
         behat.options.verbosity = 3
 
         # User specific http_proxy variables to handle drupal_http_request.
@@ -263,8 +266,12 @@ file. Please refer to the documentation of PHP CodeSniffer on how to configure
 the rules.
 
 ### 9. Remarks
-> <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in build.properties.dist file for server and build.properties.local for user credentials
+> <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
+build.properties.dist file for server and build.properties.local for user
+credentials
 
-> <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and complains about php allowed memory issues while building the project, consider adding a environment variable in your shell profile:
+> <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
+complains about php allowed memory issues while building the project, consider
+adding a environment variable in your shell profile:
 
     export PHP_OPTIONS='-d memory_limit="1024M"'
