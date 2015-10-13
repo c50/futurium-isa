@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Code for the Deploy feature.
+ */
+
+include_once 'deploy.features.inc';
+
+
+function hook_post_features_enable_feature() {
+  if(module_exists('futurium_isa_extras')) {
+    futurium_isa_extras_enable();
+  }
+}
+
