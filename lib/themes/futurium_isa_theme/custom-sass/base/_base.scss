@@ -18,7 +18,7 @@ html {
  */
 *, *::before, *::after {
   box-sizing: inherit;
-} 
+}
 
 /**
  * Basic styles for links
@@ -75,7 +75,7 @@ img{
 }
 
 
-.row-eq-height .view-content, .row-eq-height .view-content > div[class*='col-']{  
+.row-eq-height .view-content, .row-eq-height .view-content > div[class*='col-']{
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -144,7 +144,7 @@ h2.block-title {
 
     }
   }
-} 
+}
 
 .author-picture img{
   margin-left: auto;
@@ -174,7 +174,7 @@ h2.block-title {
 }
 
 .content-top-wrapper{
-  
+
 }
 
 .field-type-taxonomy-term-reference {
@@ -197,14 +197,14 @@ ul.social-icons{
     display: none;
   }
   li{
-    display: inline; 	
+    display: inline;
   	a{
   	  width: 64px;
   	  height: 64px;
   	  display: inline-block;
   	  background: no-repeat;
   	  margin:0 10px 0 10px;
-  	} 
+  	}
   }
 
   .twitter a{

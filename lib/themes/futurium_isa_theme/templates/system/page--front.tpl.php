@@ -132,10 +132,10 @@ $the_fat_lady_sings = FALSE;
   <?php endif; ?>
 
   <section<?php print $content_column_class; ?>>
-    <?php if( !empty($page['highlighted']) || !empty($breadcrumb) || !empty($page['help']) || !empty($action_links) || !empty($tabs['#primary']) || !empty($tabs['#secondary']) ): ?>
+    <?php if( !empty($page['highlighted']) || !empty($breadcrumb) || !empty($messages) || !empty($page['help']) || !empty($action_links) || !empty($tabs['#primary']) || !empty($tabs['#secondary']) ): ?>
       <div class="row">
         <div class="container">
-          <div class="ro">
+          <div class="row">
             <div class="region other-stuff">
               <?php if (!empty($page['highlighted'])): ?>
                 <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
@@ -165,7 +165,7 @@ $the_fat_lady_sings = FALSE;
     <?php if (!empty($title) && $the_fat_lady_sings): ?>
       <div class="row">
         <div class="container">
-          <div class="ro">
+          <div class="row">
             <div class="region other-stuff">
               <h1 class="page-header"><?php print $title; ?></h1>
             </div>

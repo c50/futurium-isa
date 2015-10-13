@@ -12,7 +12,7 @@ regions[navigation]     = 'Navigation'
 regions[header]         = 'Top Bar'
 regions[highlighted]    = 'Highlighted'
 regions[help]           = 'Help'
-regions[content_slider]          = 'Slider'
+regions[content_slider]       = 'Slider'
 regions[content_top]          = 'Top'
 regions[content_before_middle]= 'Top Middle'
 regions[content_before]       = 'Content Before'
@@ -26,20 +26,13 @@ regions[footer]         = 'Footer'
 regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
 
-        <?php print render($page['content_top']); ?>
-        <?php print render($page['content_before_middle']); ?>
-        <?php print render($page['content_before']); ?>
-        <?php print render($page['content']); ?>
-        <?php print render($page['content_after']); ?>
-        <?php print render($page['content_after_middle']); ?>
-        <?php print render($page['content_bottom']); ?>
-
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/main.css
+stylesheets[all][] = css/custom.css
 
 
 ; For information on choosing the desired method, please read the Drupal

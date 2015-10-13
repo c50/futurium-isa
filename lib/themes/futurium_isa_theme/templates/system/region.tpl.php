@@ -31,11 +31,15 @@
 <?php if ($content): ?>
   <div class="<?php print $wrapper_classes ?>">
     <div class="container">
-      <div class="row">
+      <?php if(drupal_is_front_page()): ?>
+        <div class="row">
+      <?php endif; ?>
         <div class="<?php print $classes; ?>">
           <?php print $content; ?>
         </div>
-      </div>
+      <?php if(drupal_is_front_page()): ?>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 <?php endif; ?>
