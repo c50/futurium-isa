@@ -7,7 +7,7 @@
 /**
  * Implements hook_field_default_field_instances().
  */
-function deploy_field_default_field_instances() {
+function futurium_deploy_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-events-body'

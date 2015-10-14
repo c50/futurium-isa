@@ -7,7 +7,7 @@
 /**
  * Implements hook_wysiwyg_default_profiles().
  */
-function deploy_wysiwyg_default_profiles() {
+function futurium_deploy_wysiwyg_default_profiles() {
   $profiles = array();
 
   // Exported profile: filtered_html

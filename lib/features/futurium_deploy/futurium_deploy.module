@@ -4,10 +4,10 @@
  * Code for the Deploy feature.
  */
 
-include_once 'deploy.features.inc';
+include_once 'futurium_deploy.features.inc';
 
 
-function hook_post_features_enable_feature() {
+function futurium_deploy_post_features_enable_feature() {
   if(module_exists('futurium_isa_extras')) {
     futurium_isa_extras_enable();
   }

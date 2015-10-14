@@ -7,7 +7,7 @@
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function deploy_menu_default_menu_custom() {
+function futurium_deploy_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: main-menu.

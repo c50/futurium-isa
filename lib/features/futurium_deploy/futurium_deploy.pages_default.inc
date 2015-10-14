@@ -7,7 +7,7 @@
 /**
  * Implements hook_default_page_manager_handlers().
  */
-function deploy_default_page_manager_handlers() {
+function futurium_deploy_default_page_manager_handlers() {
   $export = array();
 
   $handler = new stdClass();

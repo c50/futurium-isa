@@ -7,7 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function deploy_ctools_plugin_api($module = NULL, $api = NULL) {
+function futurium_deploy_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "boxes" && $api == "box") {
     return array("version" => "1");
   }
@@ -37,14 +37,14 @@ function deploy_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function deploy_views_api($module = NULL, $api = NULL) {
+function futurium_deploy_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_flag_default_flags().
  */
-function deploy_flag_default_flags() {
+function futurium_deploy_flag_default_flags() {
   $flags = array();
   // Exported flag: "Attending".
   $flags['attending'] = array(
@@ -119,7 +119,7 @@ function deploy_flag_default_flags() {
 /**
  * Implements hook_image_default_styles().
  */
-function deploy_image_default_styles() {
+function futurium_deploy_image_default_styles() {
   $styles = array();
 
   // Exported image style: user_picture_48x48.
@@ -207,7 +207,7 @@ function deploy_image_default_styles() {
 /**
  * Implements hook_node_info().
  */
-function deploy_node_info() {
+function futurium_deploy_node_info() {
   $items = array(
     'events' => array(
       'name' => t('Events'),

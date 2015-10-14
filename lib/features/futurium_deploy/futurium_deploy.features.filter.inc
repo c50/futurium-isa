@@ -7,7 +7,7 @@
 /**
  * Implements hook_filter_default_formats().
  */
-function deploy_filter_default_formats() {
+function futurium_deploy_filter_default_formats() {
   $formats = array();
 
   // Exported format: Filtered HTML.

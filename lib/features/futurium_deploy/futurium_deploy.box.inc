@@ -7,7 +7,7 @@
 /**
  * Implements hook_default_box().
  */
-function deploy_default_box() {
+function futurium_deploy_default_box() {
   $export = array();
 
   $box = new stdClass();

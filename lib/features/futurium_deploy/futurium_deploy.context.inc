@@ -7,7 +7,7 @@
 /**
  * Implements hook_context_default_contexts().
  */
-function deploy_context_default_contexts() {
+function futurium_deploy_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

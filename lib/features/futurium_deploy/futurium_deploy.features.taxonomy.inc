@@ -7,7 +7,7 @@
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function deploy_taxonomy_default_vocabularies() {
+function futurium_deploy_taxonomy_default_vocabularies() {
   return array(
     'tags' => array(
       'name' => 'Tags',
