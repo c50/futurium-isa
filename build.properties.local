@@ -1,0 +1,28 @@
+# Database settings.
+drupal.db.name = Futurium
+drupal.db.user = root
+drupal.db.password = pass
+
+# Admin user.
+drupal.admin.username = admin
+drupal.admin.password = admin
+
+# Development / testing modules to enable.
+drupal.development.modules = devel field_ui maillog simpletest views_ui
+
+# The base URL to use in Behat tests.
+behat.base_url = http://myproject.local/
+
+# The location of the Composer executable.
+composer.bin = /etc/bin/composer
+
+# Verbosity of drush commands. Set to TRUE to be verbose.
+drush.verbose = FALSE
+
+# Verbosity of PHP Codesniffer. Set to 0 for standard output, 1 for progress
+# report, 2 for debugging info.
+phpcs.verbose = 2
+
+# Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
+# shows exception backtraces, 3 shows debugging information.
+behat.options.verbosity = 3
