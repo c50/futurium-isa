@@ -86,26 +86,6 @@ All Behat related files are located in the `tests/` folder.
 
 ## Getting started
 
-This README is divided in different parts, please read the relevant section:
-
-1. [Developer guide](#developer-guide): Explains day-to-day
-   development practices when working on a NextEuropa subsite.
-2. [Starting a new project](#starting-a-new-project): This
-   section explains how to set up a brand new project on the NextEuropa
-   platform. These instructions need only to be followed once by the lead
-   developer at the start of the project.
-3. [Converting an existing project](#converting-an-existing-project):
-   If you already have a project that runs on NextEuropa and you want to start
-   using Continuous Integration, check out this section.
-4. [Merging upstream changes](#merging-upstream-changes): How to
-   merge the latest changes that have been made to the Subsite Starterkit in
-   your own project.
-5. [Contributing](#contributing): How to contribute bugfixes and
-   new features to the Subsite Starterkit.
-
-
-## Developer guide
-
 ### 1. Download the project
 
 Our project is called `ec-europa/futurium` and is hosted on our
@@ -154,7 +134,7 @@ Example `build.properties.local` file:
         drupal.admin.password = admin
 
         # Development / testing modules to enable.
-        drupal.development.modules = devel field_ui maillog simpletest views_ui
+        drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
 
         # The base URL to use in Behat tests.
         behat.base_url = http://myproject.local/
