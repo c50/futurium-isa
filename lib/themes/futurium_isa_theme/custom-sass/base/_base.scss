@@ -33,33 +33,65 @@ a {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: $dark-grey;
-  font-family: $header-font-stack;
-  text-transform: uppercase;
-  margin:0 0 30px 0;
-  a{
-   color: $brand-color;
-   &:hover{
-   	  text-decoration: none;
-   	  color: shade($brand-color, 10%)
-   }
-  }
-}
-
-.boxes-box-controls{
-  li{
-  	list-style: none;
-  }
-}
-
+/**
+ * Makes the images responsive
+ */
 img{
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-.view h3{
+/**
+ * Basic styles for headers
+ * @include on-event does: &:hover, &:active, &:focus
+ */
+h1, h2, h3, h4, h5, h6 {
+  color: $dark-grey;
+  font-family: $header-font-stack;
+  text-transform: uppercase;
+  a{
+   color: $brand-color;
+   @include on-event{
+   	  text-decoration: none;
+   	  color: shade($brand-color, 10%);
+   }
+  }
+}
+
+/**
+ * Basic styles for boxes (remove the bullets)
+ * We use boxes instead of blocks
+ */
+.boxes-box-controls{
+  li{
+  	list-style: none;
+  }
+}
+
+.block-boxes-simple{
+  text-align: center;
+}
+
+/**
+ * Equal height solution
+ * Add a .row-eq-height on the view 
+ */
+ .row-eq-height .row, .row-eq-height .row > div[class*='col-']{  
+  @include flexbox();
+  @include respond-to(small) {
+  	display: block; // unset display flex;
+  }
+  @include respond-to(medium) {
+  	display: block; // unset display flex;
+  }
+}
+
+/**
+ * GENERAL VIEWS THEMING 
+ */
+
+ .front .view h3{
   text-align: center;
   margin: 0 0 20px 0;
 }
@@ -70,24 +102,17 @@ img{
   font-style: italic;
 }
 
-.block-boxes-simple{
+h2.block-title {
   text-align: center;
+  text-transform: uppercase;
 }
 
-
-.row-eq-height .view-content, .row-eq-height .view-content > div[class*='col-']{
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex:1 1 auto;
+/**
+ * view-ideas 
+ */
+.view-ideas.row-eq-height .row .col{
+  margin-top:20px;
 }
-
-.views-row.nowrap{
-  white-space: normal;
-}
-
 
 .view-ideas.row-eq-height .views-row-wrapper{
   padding:20px;
@@ -95,126 +120,50 @@ img{
   background: #fff;
 }
 
-.view-events .vertical-align{
-  vertical-align: middle;
-}
-
-
-
 .view-ideas h2{
   text-align: center;
   color: $brand-color;
 }
 
-
-h2.block-title {
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.navbar-nav{
-  float: right;
-}
-
-.navbar{
-  background: $dark-grey;
-  margin-bottom: 0;
-}
-
-.navbar .logo{
-  margin-left:20px;
-}
-
-
 .view-ideas .row{
   overflow: hidden;
 }
 
-.view-ideas .row .col .node{
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-height: 350px;
+/**
+ * view-events 
+ */
+.view-events .vertical-align{
+  vertical-align: middle;
 }
 
-.view-events{
-  .col-lg-4:first-child{
-    min-height: 200px;
-    margin: auto 0;
-    h2{
+/**
+ * GENERAL VIEWS THEMING 
+ */
 
-    }
-  }
-}
 
 .author-picture img{
   margin-left: auto;
   margin-right: auto;
 }
 
-.region{
-  padding: 30px 0 30px 0;
-  float: left;
-  width: 100%;
-}
-
-.content-slider-wrapper .region {
-  padding:0;
-}
-
-.content-before-wrapper{
-  background: $brand-color;
-  color: #fff;
-  h2{
-    color:#fff;;
-  }
-}
-
-.content-before-middle-wrapper, .content-after-middle-wrapper{
-  background: #F8F8F8;
-}
-
-.content-top-wrapper{
-
-}
-
-.field-type-taxonomy-term-reference {
-  text-align: center;
-  color: $mid-grey;
-}
 
 .user-picture {
   text-align: center;
   padding: 10px 0 10px 0;
 }
 
-.container-fullwidth.footer{
-  background: #080808;
+
+
+
+
+.field-type-taxonomy-term-reference {
+  text-align: center;
+  color: $mid-grey;
 }
 
-ul.social-icons{
-  list-style: none;
-  span{
-    display: none;
-  }
-  li{
-    display: inline;
-  	a{
-  	  width: 64px;
-  	  height: 64px;
-  	  display: inline-block;
-  	  background: no-repeat;
-  	  margin:0 10px 0 10px;
-  	}
-  }
-
-  .twitter a{
-  	background-image: url(../assets/img/ico-twitter.png);
-  }
-  .facebook a{
-    background-image: url(../assets/img/ico-facebook.png);
-  }
-  .contact a{
-    background-image: url(../assets/img/ico-contact.png);
-  }
+/**
+ * Temp fix 
+ */
+.views-row.nowrap{
+  white-space: normal;
 }
-
