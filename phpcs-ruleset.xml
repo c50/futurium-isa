@@ -67,4 +67,9 @@
         <exclude-pattern>lib/themes/*/*.css</exclude-pattern>
     </rule>
 
+    <!-- Line exceeds 80 characters in the README file. Allowing this for code line examples -->
+    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+        <exclude-pattern>README.md</exclude-pattern>
+    </rule>
+
 </ruleset>
