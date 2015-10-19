@@ -13,6 +13,7 @@ projects[panels][version] = "3.5"
 projects[rate][subdir] = "contrib"
 projects[field_collection][subdir] = "contrib"
 projects[block_class][subdir] = "contrib"
+projects[devel][subdir] = "contrib"
 
 ; =========
 ; Libraries
