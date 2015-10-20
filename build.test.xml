@@ -145,14 +145,32 @@
                 verbose="${drush.verbose}">
                 <param>tags 32</param>
         </drush>
-        <!-- Generate Content. -->
+        <!-- Generate Content evidence. -->
         <drush
                 command="genc"
                 assume="yes"
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
-            <param>25 --types='events, ideas, poll, videos'</param>
+            <param>15 10 --types='evidence'</param>
+        </drush>
+        <!-- Generate Content events. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='events'</param>
+        </drush>
+        <!-- Generate Content ideas. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='ideas'</param>
         </drush>
     </target>
 
