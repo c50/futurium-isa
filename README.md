@@ -247,8 +247,14 @@ the rules.
 
 ### 9. Remarks
 > <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
-build.properties.dist file for server and build.properties.local for user
-credentials.
+build.properties.dist file for server and in build.properties.local for user
+credentials. Those variables will then be set and will be used by
+drupal_http_request() needed for the geocoder project for example.
+
+    futurium.http_proxy.server =
+    futurium.http_proxy.port =
+    futurium.http_proxy.user =
+    futurium.http_proxy.pass =
 
 > <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
 complains about php allowed memory issues while building the project, consider
@@ -262,3 +268,9 @@ adding a environment variable in your shell profile:
  sendmail value to true.
 
     sendmail_path = /bin/true
+
+> <b>Behat testing</b> When behind a proxy, your behat scenarios will fail.
+You should call behat from the <b>behat_no_proxy.sh</b> script. It will unset
+temporary the environment proxy variables.
+
+    ./behat_no_proxy.sh behat <param>
