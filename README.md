@@ -248,10 +248,17 @@ the rules.
 ### 9. Remarks
 > <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
 build.properties.dist file for server and build.properties.local for user
-credentials
+credentials.
 
 > <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
 complains about php allowed memory issues while building the project, consider
 adding a environment variable in your shell profile:
 
     export PHP_OPTIONS='-d memory_limit="1024M"'
+
+> <b>sendmail</b> If you get an error from drupal while building the project,
+ because your system is not yet configured to send emails, or you install a
+ mailserver like postfix etc ... or you edit your <b>php.ini</b> file and edit the
+ sendmail value to true.
+
+    sendmail_path = /bin/true
