@@ -9,7 +9,6 @@ html {
   box-sizing: border-box;
 }
 
-
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
  * Since `*` has a specificity of 0, it does not override the `html` value
@@ -26,9 +25,7 @@ html {
 a {
   color: $brand-color;
   text-decoration: none;
-
   @include on-event {
-    color: $text-color;
     text-decoration: underline;
   }
 }
@@ -46,11 +43,16 @@ img{
  * Basic styles for headers
  * @include on-event does: &:hover, &:active, &:focus
  */
-h1, h2, h3, h4, h5, h6 {
+h1 {
+  color: $dark-grey;
+  font-family: $text-font-stack;
+}
+
+h2, h3, h4, h5, h6 {
   color: $dark-grey;
   font-family: $header-font-stack;
   text-transform: uppercase;
-  a{
+  a {
    color: $brand-color;
    @include on-event{
    	  text-decoration: none;
@@ -59,12 +61,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+h3.pane-title { 
+  @include rem(border-bottom, 1px dashed $mid-grey);
+  @include rem(padding, 0 0 20px 0); 
+}
+
 /**
  * Basic styles for boxes (remove the bullets)
  * We use boxes instead of blocks
  */
-.boxes-box-controls{
-  li{
+.boxes-box-controls {
+  li {
   	list-style: none;
   }
 }
@@ -72,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 .block-boxes-simple{
   text-align: center;
 }
+
 
 /**
  * Equal height solution
@@ -93,12 +101,12 @@ h1, h2, h3, h4, h5, h6 {
 
  .front .view h3{
   text-align: center;
-  margin: 0 0 20px 0;
+  @include rem(margin, 0 0 20px 0);
 }
 
 .views-field-field-tags{
   text-align: center;
-  margin:0 0 20px 0;
+  @include rem(margin, 0 0 20px 0);
   font-style: italic;
 }
 
@@ -111,12 +119,12 @@ h2.block-title {
  * view-ideas 
  */
 .view-ideas.row-eq-height .row .col{
-  margin-top:20px;
+  @include rem(margin-top, 20px);
 }
 
 .view-ideas.row-eq-height .views-row-wrapper{
-  padding:20px;
-  border: 1px solid #ccc;
+  @include rem(padding, 20px);
+  @include rem(border, 1px solid $mid-grey);
   background: #fff;
 }
 
@@ -136,9 +144,11 @@ h2.block-title {
   vertical-align: middle;
 }
 
-/**
- * GENERAL VIEWS THEMING 
- */
+.views-field-field-date-time{
+  font-weight: bold;
+  @include border-double;
+  text-align: center;
+}
 
 
 .author-picture img{
@@ -146,24 +156,77 @@ h2.block-title {
   margin-right: auto;
 }
 
-
 .user-picture {
   text-align: center;
-  padding: 10px 0 10px 0;
+  @include rem(padding, 10px 0 10px 0);
+}
+
+.field-type-taxonomy-term-reference{
+  .field-item{
+    display: inline-block;
+    @include rem(padding, 0 10px 0 0);
+  }
 }
 
 
+.media-element-container{
+	@include rem(margin, 0 0 20px 0);
+	background: #fff;
+ .field-name-field-caption{
+   color:$mid-grey;  
+   @include rem(font-size, 14px);
+   @include rem(padding, 5px 10px 5px 10px);
+   font-style: italic;
+ }
+}
 
 
+.panel-pane{
+  @include rem((
+    margin: 0 0 0 0,
+    padding: 0 0 40px 0
+  ));
+}
 
-.field-type-taxonomy-term-reference {
-  text-align: center;
+.pane-node-field-teaser {
+  font-style: italic;
   color: $mid-grey;
+  @include rem(border-bottom, 1px dashed $mid-grey);
+  @include rem(font-size, 20px);
+  @include rem(line-height, 30px);
 }
+
+
+
+h2.pane-title {
+ @include rem(margin, 0 0 20px 0);
+ @extend h3;
+}
+
+a.flag-action,
+a.unflag-action
+ {
+  @extend .btn;
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+}
+
+.field-type-entityreference{
+  .field-item{
+    @include rem(border-bottom, 1px dashed $mid-grey);
+    @include rem(padding, 10px 0 10px 0);
+  }
+}
+
 
 /**
  * Temp fix 
  */
-.views-row.nowrap{
+.views-row.nowrap {
   white-space: normal;
 }
+
+
+
+
+
+
