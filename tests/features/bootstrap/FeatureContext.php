@@ -122,6 +122,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *     | title         | Reducing pollution in 2016                                                                 |
    *     | summary       | The new plan for reducing poverty has been presented by the ABC board.                     |
    *     | body          | The board of directors of ABC has presented the official plan for reducing pollution       |
+   *     | tags          | actions                                                                                    |
    *
    * @Given the following article:
    */
@@ -141,6 +142,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *     | title         | Reducing pollution in 2016 Meeting                                                  |
    *     | summary       | The new plan for reducing pollution will be presented by the ABC board.             |
    *     | body          | The board of directors of ABC will present the official plan for reducing pollution |
+   *     | tags          | actions                                                                             |
    *
    * @Given the following event:
    */
@@ -152,4 +154,62 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
   }
 
+  /**
+   * Creates an evidence and then visits the detail page of the new evidence.
+   *
+   * @param Behat\Gherkin\Node\TableNode $table
+   *   A table with evidence data, in the following format:
+   *     | title         | Reducing pollution in 2016 Meeting                                                  |
+   *     | summary       | The new plan for reducing pollution will be presented by the ABC board.             |
+   *     | body          | The board of directors of ABC will present the official plan for reducing pollution |
+   *
+   * @Given the following evidence:
+   */
+  public function theFollowingEvidence(TableNode $table) {
+    $node = (object) $table->getRowsHash();
+    $node->type = 'evidence';
+    $saved = $this->nodeCreate($node);
+    // Set internal page to the new node.
+    $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
+  }
+
+  /**
+   * Creates an idea and then visits the detail page of the new idea.
+   *
+   * @param Behat\Gherkin\Node\TableNode $table
+   *   A table with idea data, in the following format:
+   *     | title         | Reducing pollution in 2016 Meeting                                                  |
+   *     | summary       | The new plan for reducing pollution will be presented by the ABC board.             |
+   *     | body          | The board of directors of ABC will present the official plan for reducing pollution |
+   *     | tags          | actions                                                                             |
+   *
+   * @Given the following idea:
+   */
+  public function theFollowingIdea(TableNode $table) {
+    $node = (object) $table->getRowsHash();
+    $node->type = 'idea';
+    $saved = $this->nodeCreate($node);
+    // Set internal page to the new node.
+    $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
+  }
+
+  /**
+   * Creates a poll and then visits the detail page of the new poll.
+   *
+   * @param Behat\Gherkin\Node\TableNode $table
+   *   A table with poll data, in the following format:
+   *     | title         | Reducing pollution in 2016 Meeting                                                  |
+   *     | summary       | The new plan for reducing pollution will be presented by the ABC board.             |
+   *     | body          | The board of directors of ABC will present the official plan for reducing pollution |
+   *     | tags          | actions                                                                             |
+   *
+   * @Given the following poll:
+   */
+  public function theFollowingPoll(TableNode $table) {
+    $node = (object) $table->getRowsHash();
+    $node->type = 'poll';
+    $saved = $this->nodeCreate($node);
+    // Set internal page to the new node.
+    $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
+  }
 }
