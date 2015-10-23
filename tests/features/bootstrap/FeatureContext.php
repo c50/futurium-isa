@@ -212,4 +212,5 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     // Set internal page to the new node.
     $this->getSession()->visit($this->locatePath('/node/' . $saved->nid));
   }
+
 }
