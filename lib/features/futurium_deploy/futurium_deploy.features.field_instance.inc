@@ -35,7 +35,7 @@ function futurium_deploy_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'body',
+    'field_name' => 'field_body',
     'label' => 'Body',
     'required' => FALSE,
     'settings' => array(
@@ -325,7 +325,7 @@ function futurium_deploy_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'body',
+    'field_name' => 'field_body',
     'label' => 'Body',
     'required' => FALSE,
     'settings' => array(
