@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * deploy.features.field_base.inc
+ * Deploy.features.field_base.inc.
  */
 
 /**
