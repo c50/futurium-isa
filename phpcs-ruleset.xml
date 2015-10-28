@@ -71,5 +71,20 @@
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
         <exclude-pattern>README.md</exclude-pattern>
     </rule>
+    
+    <!-- Line exceeds 80 characters in FeatureContext and this is not relevant. -->
+    <rule ref="Drupal.Files.LineLength.TooLong">
+        <exclude-pattern>tests/features/bootstrap/FeatureContext.php</exclude-pattern>
+    </rule>
+
+    <!-- Parameter comment must end with a full stop in FeatureContext and this is not relevant. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ParamCommentFullStop">
+        <exclude-pattern>tests/features/bootstrap/FeatureContext.php</exclude-pattern>
+    </rule>
+
+    <!-- No PHP code was found in feature files. -->
+    <rule ref="Internal.NoCodeFound">
+        <exclude-pattern>tests/features/**/*.feature</exclude-pattern>
+    </rule>
 
 </ruleset>
