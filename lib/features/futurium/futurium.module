@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Futurium feature.
- */
-
-include_once 'futurium.features.inc';
