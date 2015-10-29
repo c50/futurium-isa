@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * deploy.box.inc
+ * futurium_isa.box.inc
  */
 
 /**
  * Implements hook_default_box().
  */
-function futurium_deploy_default_box() {
+function futurium_isa_default_box() {
   $export = array();
 
   $box = new stdClass();

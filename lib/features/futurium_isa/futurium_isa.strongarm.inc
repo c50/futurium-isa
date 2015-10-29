@@ -7,7 +7,7 @@
 /**
  * Implements hook_strongarm().
  */
-function futurium_deploy_strongarm() {
+function futurium_isa_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

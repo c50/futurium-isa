@@ -7,7 +7,7 @@
 /**
  * Implements hook_default_panels_mini().
  */
-function futurium_deploy_default_panels_mini() {
+function futurium_isa_default_panels_mini() {
   $export = array();
 
   $mini = new stdClass();
