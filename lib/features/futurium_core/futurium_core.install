@@ -27,12 +27,6 @@ function futurium_core_disable() {
 function futurium_core_install() {
   $t = get_t();
   drupal_set_message($t('Futurium data feature is now installed on your site.'));
-
-  // Remove field_tags field from cce_basic_config.
-  $instance = field_info_instance('node', 'field_tags', 'article');
-  field_delete_instance($instance, TRUE);
-  field_delete_field('field_article_unpublish_on');
-  field_purge_batch(5);
 }
 
 /**

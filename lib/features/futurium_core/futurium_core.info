@@ -1,4 +1,4 @@
-name = Futurium Data
+name = Futurium Core
 description = Content types and Fields used in Futurium websites.
 core = 7.x
 package = Futurium

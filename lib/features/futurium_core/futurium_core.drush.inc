@@ -95,11 +95,22 @@ function drush_futurium_core_features_revert_futurium() {
  */
 function drush_futurium_core_post_install_futurium() {
 
+  // Add editor role to user_editor.
+  $user = user_load_by_name('user_editor');
+  $role = user_role_load_by_name("editor");
+  user_multiple_role_edit(array($user->uid), 'add_role', $role->rid);
+
+  // Remove contributor role from user_editor.
+  if (($key = array_search('contributor', $user->roles)) !== false) {
+    unset($user->roles[$key]);
+  }
+  user_save($user);
+
   drush_print(dt('Configuration has been applied.'));
 }
 
 /**
- * Revert EEAS Configuration.
+ * Revert Futurium Configuration.
  */
 function drush_futurium_core_revert_futurium_config() {
 
@@ -113,17 +124,6 @@ function drush_futurium_core_revert_futurium_config() {
   $service = multisite_config_service('system');
   $service->setVariable('comment_article', COMMENT_NODE_CLOSED);
   $service->setVariable('comment_document', COMMENT_NODE_CLOSED);
-
-  // Add editor role to user_editor.
-  $user = user_load_by_name('user_editor');
-  $role = user_role_load_by_name("editor");
-  user_multiple_role_edit(array($user->uid), 'add_role', $role->rid);
-
-  // Remove contributor role from user_editor.
-  if (($key = array_search('contributor', $user->roles)) !== false) {
-    unset($user->roles[$key]);
-  }
-  user_save($user);
 
   // Set default moderation state as published.
   $node_types = node_type_get_types();
