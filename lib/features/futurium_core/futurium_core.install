@@ -7,7 +7,7 @@
 /**
  * Implements hook_enable().
  */
-function futurium_data_enable() {
+function futurium_core_enable() {
   $t = get_t();
   drupal_set_message($t('Futurium data feature is now active on your site.'));
   module_enable(array('e_library_core'));
@@ -16,7 +16,7 @@ function futurium_data_enable() {
 /**
  * Implements hook_disable().
  */
-function futurium_data_disable() {
+function futurium_core_disable() {
   $t = get_t();
   drupal_set_message($t('Futurium data feature is now disabled on your site.'));
 }
@@ -24,15 +24,21 @@ function futurium_data_disable() {
 /**
  * Implements hook_install().
  */
-function futurium_data_install() {
+function futurium_core_install() {
   $t = get_t();
   drupal_set_message($t('Futurium data feature is now installed on your site.'));
+
+  // Remove field_tags field from cce_basic_config.
+  $instance = field_info_instance('node', 'field_tags', 'article');
+  field_delete_instance($instance, TRUE);
+  field_delete_field('field_article_unpublish_on');
+  field_purge_batch(5);
 }
 
 /**
  * Implements hook_uninstall().
  */
-function futurium_data_uninstall() {
+function futurium_core_uninstall() {
   $t = get_t();
   drupal_set_message($t('Futurium data feature is now uninstalled from your site.'));
 }

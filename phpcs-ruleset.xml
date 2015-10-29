@@ -71,7 +71,7 @@
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
         <exclude-pattern>README.md</exclude-pattern>
     </rule>
-    
+
     <!-- Line exceeds 80 characters in FeatureContext and this is not relevant. -->
     <rule ref="Drupal.Files.LineLength.TooLong">
         <exclude-pattern>tests/features/bootstrap/FeatureContext.php</exclude-pattern>

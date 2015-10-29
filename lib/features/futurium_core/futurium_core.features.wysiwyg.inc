@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.features.wysiwyg.inc
+ * futurium_core.features.wysiwyg.inc
  */
 
 /**
  * Implements hook_wysiwyg_default_profiles().
  */
-function futurium_data_wysiwyg_default_profiles() {
+function futurium_core_wysiwyg_default_profiles() {
   $profiles = array();
 
   // Exported profile: basic_html

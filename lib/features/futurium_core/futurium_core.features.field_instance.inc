@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.features.field_instance.inc
+ * futurium_core.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function futurium_data_field_default_field_instances() {
+function futurium_core_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'comment-comment_node_event_d4eu-comment_body'

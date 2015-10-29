@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.features.field_base.inc
+ * futurium_core.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function futurium_data_field_default_field_bases() {
+function futurium_core_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_authors_d4eu'

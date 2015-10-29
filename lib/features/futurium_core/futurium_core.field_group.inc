@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.field_group.inc
+ * futurium_core.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function futurium_data_field_group_info() {
+function futurium_core_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();

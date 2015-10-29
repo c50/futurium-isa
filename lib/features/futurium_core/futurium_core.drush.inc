@@ -12,7 +12,7 @@
  *
  * @see drush_parse_command()
  */
-function futurium_data_drush_command() {
+function futurium_core_drush_command() {
   $items = array();
 
   $items['features_revert_futurium'] = array(
@@ -39,7 +39,7 @@ function futurium_data_drush_command() {
 /**
  * Implements hook_drush_help().
  */
-function futurium_data_drush_help($section) {
+function futurium_core_drush_help($section) {
   switch ($section) {
     case 'drush:features_revert_futurium':
       return dt("Revert all enabled feature module on your site that has the 'futurium_' prefix.");
@@ -53,7 +53,7 @@ function futurium_data_drush_help($section) {
 /**
  * Revert all enabled features to their definitions in code.
  */
-function drush_futurium_data_features_revert_futurium() {
+function drush_futurium_core_features_revert_futurium() {
   module_load_include('inc', 'features', 'features.export');
   $force = drush_get_option('force');
 
@@ -93,7 +93,7 @@ function drush_futurium_data_features_revert_futurium() {
 /**
  * Futurium post installation configuration.
  */
-function drush_futurium_data_post_install_futurium() {
+function drush_futurium_core_post_install_futurium() {
 
   drush_print(dt('Configuration has been applied.'));
 }
@@ -101,7 +101,7 @@ function drush_futurium_data_post_install_futurium() {
 /**
  * Revert EEAS Configuration.
  */
-function drush_futurium_data_revert_futurium_config() {
+function drush_futurium_core_revert_futurium_config() {
 
   // Changing Media Gallery Content type to Photo Gallery
   $type = node_type_load('gallerymedia');

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.features.filter.inc
+ * futurium_core.features.filter.inc
  */
 
 /**
  * Implements hook_filter_default_formats().
  */
-function futurium_data_filter_default_formats() {
+function futurium_core_filter_default_formats() {
   $formats = array();
 
   // Exported format: Basic HTML.

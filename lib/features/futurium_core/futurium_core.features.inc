@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.features.inc
+ * futurium_core.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function futurium_data_ctools_plugin_api($module = NULL, $api = NULL) {
+function futurium_core_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
@@ -19,7 +19,7 @@ function futurium_data_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_node_info().
  */
-function futurium_data_node_info() {
+function futurium_core_node_info() {
   $items = array(
     'event_d4eu' => array(
       'name' => t('Events'),

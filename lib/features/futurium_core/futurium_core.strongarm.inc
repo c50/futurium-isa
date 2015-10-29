@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * futurium_data.strongarm.inc
+ * futurium_core.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function futurium_data_strongarm() {
+function futurium_core_strongarm() {
   $export = array();
 
   return $export;
