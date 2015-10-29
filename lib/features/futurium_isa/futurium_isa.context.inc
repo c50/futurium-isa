@@ -61,7 +61,6 @@ function futurium_isa_context_default_contexts() {
   t('pages');
   $export['events'] = $context;
 
-
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
@@ -149,7 +148,6 @@ function futurium_isa_context_default_contexts() {
   t('pages');
   $export['frontpage'] = $context;
 
-
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
@@ -200,7 +198,6 @@ function futurium_isa_context_default_contexts() {
   t('Main ideas page');
   t('pages');
   $export['ideas'] = $context;
-
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */

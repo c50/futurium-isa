@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * deploy.strongarm.inc
+ * Deploy.strongarm.inc.
  */
 
 /**

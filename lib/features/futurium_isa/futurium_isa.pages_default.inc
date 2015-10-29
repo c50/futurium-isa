@@ -392,7 +392,6 @@ function futurium_isa_default_page_manager_pages() {
 
   return $pages;
 
-
   $export = array();
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */

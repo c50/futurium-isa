@@ -1013,7 +1013,7 @@ function futurium_isa_field_default_field_instances() {
   );
 
   // Exported field_instance: 'node-ideas-field_related_events
-  //_events'
+  // _events'
   $field_instances['node-ideas-field_related_events'] = array(
     'bundle' => 'ideas',
     'default_value' => NULL,
