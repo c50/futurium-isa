@@ -64,6 +64,8 @@
         <phingcall target="drupal-proxy-variable" />
         <!-- Devel Generate -->
         <phingcall target="devel-generate" />
+        <!-- Futurium Post-Install config-->
+        <phingcall target="futurium-config" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -219,6 +221,45 @@
                 verbose="${drush.verbose}">
             <param>proxy_server</param>
             <param>${futurium.http_proxy.pass}</param>
+        </drush>
+    </target>
+
+    <!-- Run Futurium post install config. -->
+    <target name="futurium-config">
+        <!--  Futurium Post install cleanup multisite -->
+        <drush
+                command="pifu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!--  Revert Futurium features -->
+        <drush
+                command="frfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!-- Revert Futurium configuration -->
+        <drush
+                command="rcfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+        <!-- Clear Cache -->
+        <drush
+                command="cc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>all</param>
         </drush>
     </target>
 

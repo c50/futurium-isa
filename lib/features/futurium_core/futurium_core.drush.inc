@@ -106,7 +106,7 @@ function drush_futurium_core_post_install_futurium() {
   }
   user_save($user);
 
-  drush_print(dt('Configuration has been applied.'));
+  drush_print(dt('Futurium Post-Install operations performed.'));
 }
 
 /**
@@ -115,15 +115,10 @@ function drush_futurium_core_post_install_futurium() {
 function drush_futurium_core_revert_futurium_config() {
 
   // Changing Media Gallery Content type to Photo Gallery
-  $type = node_type_load('gallerymedia');
-  $type->name = "Photo Gallery";
+  $type = node_type_load('article');
+  $type->name = "Post";
   $type->modified = TRUE;
   node_type_save($type);
-
-  // Stage comment-CT-related variables.
-  $service = multisite_config_service('system');
-  $service->setVariable('comment_article', COMMENT_NODE_CLOSED);
-  $service->setVariable('comment_document', COMMENT_NODE_CLOSED);
 
   // Set default moderation state as published.
   $node_types = node_type_get_types();
@@ -131,5 +126,15 @@ function drush_futurium_core_revert_futurium_config() {
     variable_set('workbench_moderation_default_state_' . $node->type, workbench_moderation_state_published());
   }
 
-  drush_print(dt('EEAS Configuration has been applied.'));
+  // Stage comment-CT-related variables.
+  $service = multisite_config_service('system');
+  $service->setVariable('comment_article', COMMENT_NODE_CLOSED);
+  $service->setVariable('comment_document', COMMENT_NODE_CLOSED);
+
+  // Remove Latest Content block from homepage context.
+  $context = module_invoke('context', 'load', 'homepage');
+  unset($context->reactions['block']['blocks']['views-multisite_settings_core-block_1']);
+  module_invoke('context', 'save', $context);
+
+  drush_print(dt('Futurium Configuration has been applied.'));
 }
