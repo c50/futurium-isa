@@ -67,6 +67,11 @@
         <exclude-pattern>lib/themes/*/*.css</exclude-pattern>
     </rule>
 
+    <!-- Line exceeds 80 characters in the README file. Allowing this for code line examples -->
+    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+        <exclude-pattern>README.md</exclude-pattern>
+    </rule>
+
     <!-- Line exceeds 80 characters in FeatureContext and this is not relevant. -->
     <rule ref="Drupal.Files.LineLength.TooLong">
         <exclude-pattern>tests/features/bootstrap/FeatureContext.php</exclude-pattern>
@@ -82,9 +87,9 @@
         <exclude-pattern>tests/features/**/*.feature</exclude-pattern>
     </rule>
 
-    <!-- Line exceeds 80 characters in the README file. Allowing this for code line examples -->
-    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
-        <exclude-pattern>README.md</exclude-pattern>
+    <!-- Code after RETURN statement cannot be executed. -->
+    <rule ref="Squiz.PHP.NonExecutableCode.Unreachable">
+        <exclude-pattern>lib/features/**/*.pages_default.inc</exclude-pattern>
     </rule>
 
 </ruleset>

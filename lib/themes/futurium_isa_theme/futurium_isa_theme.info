@@ -12,7 +12,14 @@ regions[navigation]     = 'Navigation'
 regions[header]         = 'Top Bar'
 regions[highlighted]    = 'Highlighted'
 regions[help]           = 'Help'
-regions[content]        = 'Content'
+regions[content_slider]       = 'Slider'
+regions[content_top]          = 'Top'
+regions[content_before_middle]= 'Top Middle'
+regions[content_before]       = 'Content Before'
+regions[content]              = 'Content'
+regions[content_after]        = 'Content After'
+regions[content_after_middle] = 'Bottom Middle'
+regions[content_bottom]       = 'Bottom'
 regions[sidebar_first]  = 'Primary'
 regions[sidebar_second] = 'Secondary'
 regions[footer]         = 'Footer'
@@ -25,6 +32,7 @@ regions[page_bottom]    = 'Page bottom'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/main.css
+stylesheets[all][] = css/custom.css
 
 
 ; For information on choosing the desired method, please read the Drupal
