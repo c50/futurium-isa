@@ -136,5 +136,15 @@ function drush_futurium_core_revert_futurium_config() {
   unset($context->reactions['block']['blocks']['views-multisite_settings_core-block_1']);
   module_invoke('context', 'save', $context);
 
+  $links = menu_load_links('main-menu');
+  foreach($links as $item) {
+    if ($item['link_path'] == '<front>') {
+      $item['hidden'] = 1;
+      menu_link_save($item);
+      menu_cache_clear('main-menu');
+      break;
+    }
+  }
+
   drush_print(dt('Futurium Configuration has been applied.'));
 }
