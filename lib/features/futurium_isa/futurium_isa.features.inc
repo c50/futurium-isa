@@ -11,6 +11,9 @@ function futurium_isa_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "bean_admin_ui" && $api == "bean") {
     return array("version" => "5");
   }
+  if ($module == "boxes" && $api == "box") {
+    return array("version" => "1");
+  }
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
@@ -18,6 +21,24 @@ function futurium_isa_ctools_plugin_api($module = NULL, $api = NULL) {
     return array("version" => "1");
   }
   if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+  if ($module == "file_entity" && $api == "file_default_displays") {
+    return array("version" => "1");
+  }
+  if ($module == "file_entity" && $api == "file_type") {
+    return array("version" => "1");
+  }
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+  if ($module == "panels" && $api == "pipelines") {
+    return array("version" => "1");
+  }
+  if ($module == "panels_mini" && $api == "panels_default") {
     return array("version" => "1");
   }
   if ($module == "strongarm" && $api == "strongarm") {
@@ -109,4 +130,126 @@ function futurium_isa_flag_default_flags() {
   );
   return $flags;
 
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function futurium_isa_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: user_picture_48x48.
+  $styles['user_picture_48x48'] = array(
+    'label' => 'User Picture 48x48',
+    'effects' => array(
+      2 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 48,
+          'height' => 48,
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: large.
+  $styles['large'] = array(
+    'label' => 'Large (480x480)',
+    'effects' => array(
+      0 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 480,
+          'height' => 480,
+          'upscale' => 0,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: media_thumbnail.
+  $styles['media_thumbnail'] = array(
+    'label' => 'Media thumbnail (100x100)',
+    'effects' => array(
+      0 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 100,
+          'height' => 100,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: medium.
+  $styles['medium'] = array(
+    'label' => 'Medium (220x220)',
+    'effects' => array(
+      0 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 220,
+          'height' => 220,
+          'upscale' => 1,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: thumbnail.
+  $styles['thumbnail'] = array(
+    'label' => 'Thumbnail (100x100)',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 48,
+          'height' => 48,
+          'upscale' => 0,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function futurium_isa_node_info() {
+  $items = array(
+    'events' => array(
+      'name' => t('Events'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'evidence' => array(
+      'name' => t('Evidence'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'ideas' => array(
+      'name' => t('Ideas'),
+      'base' => 'node_content',
+      'description' => t('Ideas and experience.'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  drupal_alter('node_info', $items);
+  return $items;
 }
