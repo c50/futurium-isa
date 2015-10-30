@@ -86,26 +86,6 @@ All Behat related files are located in the `tests/` folder.
 
 ## Getting started
 
-This README is divided in different parts, please read the relevant section:
-
-1. [Developer guide](#developer-guide): Explains day-to-day
-   development practices when working on a NextEuropa subsite.
-2. [Starting a new project](#starting-a-new-project): This
-   section explains how to set up a brand new project on the NextEuropa
-   platform. These instructions need only to be followed once by the lead
-   developer at the start of the project.
-3. [Converting an existing project](#converting-an-existing-project):
-   If you already have a project that runs on NextEuropa and you want to start
-   using Continuous Integration, check out this section.
-4. [Merging upstream changes](#merging-upstream-changes): How to
-   merge the latest changes that have been made to the Subsite Starterkit in
-   your own project.
-5. [Contributing](#contributing): How to contribute bugfixes and
-   new features to the Subsite Starterkit.
-
-
-## Developer guide
-
 ### 1. Download the project
 
 Our project is called `ec-europa/futurium` and is hosted on our
@@ -154,7 +134,7 @@ Example `build.properties.local` file:
         drupal.admin.password = admin
 
         # Development / testing modules to enable.
-        drupal.development.modules = devel field_ui maillog simpletest views_ui
+        drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
 
         # The base URL to use in Behat tests.
         behat.base_url = http://myproject.local/
@@ -267,11 +247,30 @@ the rules.
 
 ### 9. Remarks
 > <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
-build.properties.dist file for server and build.properties.local for user
-credentials
+build.properties.dist file for server and in build.properties.local for user
+credentials. Those variables will then be set and will be used by
+drupal_http_request() needed for the geocoder project for example.
+
+    futurium.http_proxy.server =
+    futurium.http_proxy.port =
+    futurium.http_proxy.user =
+    futurium.http_proxy.pass =
 
 > <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
 complains about php allowed memory issues while building the project, consider
 adding a environment variable in your shell profile:
 
     export PHP_OPTIONS='-d memory_limit="1024M"'
+
+> <b>sendmail</b> If you get an error from drupal while building the project,
+ because your system is not yet configured to send emails, or you install a
+ mailserver like postfix etc ... or you edit your <b>php.ini</b> file and edit the
+ sendmail value to true.
+
+    sendmail_path = /bin/true
+
+> <b>Behat testing</b> When behind a proxy, your behat scenarios will fail.
+You should call behat from the <b>behat_no_proxy.sh</b> script. It will unset
+temporary the environment proxy variables.
+
+    ./behat_no_proxy.sh behat <param>
