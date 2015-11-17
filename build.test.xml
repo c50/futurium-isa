@@ -62,8 +62,6 @@
 
     <!-- Post install. -->
     <target name="postinstall" description="Post install settings.">
-        <!-- Set drupal_http_request variables. -->
-        <phingcall target="drupal-proxy-variable" />
         <!-- Devel Generate -->
         <phingcall target="devel-generate" />
         <!-- Futurium Post-Install config-->
