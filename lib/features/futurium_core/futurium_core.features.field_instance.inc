@@ -430,7 +430,7 @@ function futurium_core_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_body',
+    'field_name' => 'body',
     'label' => 'Body',
     'required' => FALSE,
     'settings' => array(

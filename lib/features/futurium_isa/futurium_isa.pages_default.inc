@@ -361,36 +361,6 @@ function futurium_isa_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
   $pane = new stdClass();
-  $pane->pid = 'new-958a5bcf-68ae-4881-9f55-0f726bdda8bc';
-  $pane->panel = 'row1l';
-  $pane->type = 'panels_mini';
-  $pane->subtype = 'node_author_and_social_links';
-  $pane->shown = FALSE;
-  $pane->access = array();
-  $pane->configuration = array(
-    'context' => array(
-      0 => 'argument_entity_id:node_1',
-    ),
-    'override_title' => 0,
-    'override_title_text' => '',
-    'override_title_heading' => 'h2',
-  );
-  $pane->cache = array();
-  $pane->style = array(
-    'settings' => array(
-      'style' => 'default',
-      'padding' => 0,
-    ),
-    'style' => 'bootstrap_panel_pane',
-  );
-  $pane->css = array();
-  $pane->extras = array();
-  $pane->position = 0;
-  $pane->locks = array();
-  $pane->uuid = '958a5bcf-68ae-4881-9f55-0f726bdda8bc';
-  $display->content['new-958a5bcf-68ae-4881-9f55-0f726bdda8bc'] = $pane;
-  $display->panels['row1l'][0] = 'new-958a5bcf-68ae-4881-9f55-0f726bdda8bc';
-  $pane = new stdClass();
   $pane->pid = 'new-61c43ffe-0f6c-4a89-9667-7bd67e690b11';
   $pane->panel = 'row1l';
   $pane->type = 'block';
