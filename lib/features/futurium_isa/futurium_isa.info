@@ -18,6 +18,7 @@ dependencies[] = field_group
 dependencies[] = flag
 dependencies[] = futurium_isa_extras
 dependencies[] = geofield
+dependencies[] = geofield_map
 dependencies[] = i18n
 dependencies[] = image
 dependencies[] = list

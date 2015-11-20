@@ -328,7 +328,7 @@ function futurium_isa_views_default_views() {
     'use_widget_handlers' => 1,
     'format_handlers' => array(),
   );
-  /* Field: Content: Date & Time */
+  /* Field: Content: Date & time */
   $handler->display->display_options['fields']['field_date_time']['id'] = 'field_date_time';
   $handler->display->display_options['fields']['field_date_time']['table'] = 'field_data_field_date_time';
   $handler->display->display_options['fields']['field_date_time']['field'] = 'field_date_time';
@@ -360,7 +360,7 @@ function futurium_isa_views_default_views() {
   $handler->display->display_options['fields']['view_node']['label'] = '';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = 'read more';
-  /* Sort criterion: Content: Date &amp; Time -  start date (field_date_time) */
+  /* Sort criterion: Content: Date &amp; time -  start date (field_date_time) */
   $handler->display->display_options['sorts']['field_date_time_value']['id'] = 'field_date_time_value';
   $handler->display->display_options['sorts']['field_date_time_value']['table'] = 'field_data_field_date_time';
   $handler->display->display_options['sorts']['field_date_time_value']['field'] = 'field_date_time_value';
@@ -378,19 +378,12 @@ function futurium_isa_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'event_d4eu' => 'event_d4eu',
   );
-  /* Filter criterion: Content: Date &amp; Time -  start date (field_date_time) */
+  /* Filter criterion: Content: Date &amp; time -  start date (field_date_time) */
   $handler->display->display_options['filters']['field_date_time_value']['id'] = 'field_date_time_value';
   $handler->display->display_options['filters']['field_date_time_value']['table'] = 'field_data_field_date_time';
   $handler->display->display_options['filters']['field_date_time_value']['field'] = 'field_date_time_value';
   $handler->display->display_options['filters']['field_date_time_value']['operator'] = '>=';
   $handler->display->display_options['filters']['field_date_time_value']['default_date'] = 'now';
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-  );
 
   /* Display: Upcoming */
   $handler = $view->new_display('block', 'Upcoming', 'upcoming');
@@ -417,7 +410,7 @@ function futurium_isa_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Date &amp; Time -  start date (field_date_time) */
+  /* Sort criterion: Content: Date &amp; time -  start date (field_date_time) */
   $handler->display->display_options['sorts']['field_date_time_value']['id'] = 'field_date_time_value';
   $handler->display->display_options['sorts']['field_date_time_value']['table'] = 'field_data_field_date_time';
   $handler->display->display_options['sorts']['field_date_time_value']['field'] = 'field_date_time_value';
@@ -436,39 +429,14 @@ function futurium_isa_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'events' => 'events',
+    'event_d4eu' => 'event_d4eu',
   );
-  /* Filter criterion: Content: Date &amp; Time -  start date (field_date_time) */
+  /* Filter criterion: Content: Date &amp; time -  start date (field_date_time) */
   $handler->display->display_options['filters']['field_date_time_value']['id'] = 'field_date_time_value';
   $handler->display->display_options['filters']['field_date_time_value']['table'] = 'field_data_field_date_time';
   $handler->display->display_options['filters']['field_date_time_value']['field'] = 'field_date_time_value';
   $handler->display->display_options['filters']['field_date_time_value']['operator'] = '<';
   $handler->display->display_options['filters']['field_date_time_value']['default_date'] = 'now';
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-  );
-  $translatables['events'] = array(
-    t('Master'),
-    t('Events'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('counter'),
-    t('Fieldset'),
-    t('[field_location-thoroughfare], [field_location-postal_code]'),
-    t('read more'),
-    t('Upcoming'),
-    t('Upcoming events'),
-    t('Previous'),
-    t('Previous Events'),
-  );
   $export['events'] = $view;
 
   $view = new view();

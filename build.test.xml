@@ -166,7 +166,7 @@
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
-            <param>15 10 --types='events'</param>
+            <param>15 10 --types='event_d4eu'</param>
         </drush>
         <!-- Generate Content ideas. -->
         <drush
