@@ -23,6 +23,8 @@
             <option name="account-pass" value="${drupal.admin.password}" />
             <option name="account-mail" value="${drupal.admin.email}" />
             <param>${platform.profile.name}</param>
+            <!-- Prevent e-mails from being sent during the installation. -->
+            <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
         <!--
             Subsites are not allowed to use their own installation profile for
@@ -42,7 +44,7 @@
     <!-- Enable development modules. -->
     <target name="enable-development-modules">
         <phingcall target="enable-modules">
-            <property name="drupal.modules" value="${drupal.development.modules}" />
+            <property name="drupal.modules" value="${development.modules.enable}" />
         </phingcall>
     </target>
 
@@ -60,8 +62,6 @@
 
     <!-- Post install. -->
     <target name="postinstall" description="Post install settings.">
-        <!-- Set drupal_http_request variables. -->
-        <phingcall target="drupal-proxy-variable" />
         <!-- Devel Generate -->
         <phingcall target="devel-generate" />
         <!-- Futurium Post-Install config-->
@@ -93,7 +93,8 @@
             report="${phpcs.report}"
             showProgress="${phpcs.progress}"
             showSniffCodes="${phpcs.sniffcodes}"
-            standard="${phpcs.standard}" />
+            standard="${phpcs.standard}"
+        />
     </target>
 
     <!-- Set up Behat. -->
@@ -125,7 +126,8 @@
             executable="${behat.bin}"
             config="${behat.yml.path}"
             strict="${behat.options.strict}"
-            verbose="${behat.options.verbosity}" />
+            verbose="${behat.options.verbosity}"
+        />
     </target>
 
     <!-- Devel Generate. -->
@@ -267,6 +269,7 @@
     <target
         name="install-dev"
         description="Install a local development version of the subsite."
-        depends="install, enable-development-modules, postinstall" />
+        depends="install, enable-development-modules, postinstall"
+    />
 
 </project>
