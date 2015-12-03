@@ -220,11 +220,9 @@
                         targetPath="${subsite.resources.lib.dir}" />
                 <gitpull
                         repository="${subsite.resources.lib.dir}"
-                        source="origin" refspec="foobranch"
+                        source="origin" refspec="${futurium.features.branch}"
                         strategy="recursive" keep="true"
                         force="true" quiet="true" norebase="true" />
-
-
             </then>
             <else>
                 <echo msg="Pulling changes from the Futurium features repository" />
