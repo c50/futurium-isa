@@ -86,26 +86,6 @@ All Behat related files are located in the `tests/` folder.
 
 ## Getting started
 
-This README is divided in different parts, please read the relevant section:
-
-1. [Developer guide](#developer-guide): Explains day-to-day
-   development practices when working on a NextEuropa subsite.
-2. [Starting a new project](#starting-a-new-project): This
-   section explains how to set up a brand new project on the NextEuropa
-   platform. These instructions need only to be followed once by the lead
-   developer at the start of the project.
-3. [Converting an existing project](#converting-an-existing-project):
-   If you already have a project that runs on NextEuropa and you want to start
-   using Continuous Integration, check out this section.
-4. [Merging upstream changes](#merging-upstream-changes): How to
-   merge the latest changes that have been made to the Subsite Starterkit in
-   your own project.
-5. [Contributing](#contributing): How to contribute bugfixes and
-   new features to the Subsite Starterkit.
-
-
-## Developer guide
-
 ### 1. Download the project
 
 Our project is called `ec-europa/futurium` and is hosted on our
@@ -144,36 +124,41 @@ development version by setting `platform.package.reference` to `develop`.
 
 Example `build.properties.local` file:
 
-```
-# Database settings.
-drupal.db.name = my_project
-drupal.db.user = root
-drupal.db.password = hunter2
+        # Database settings.
+        drupal.db.name = my_project
+        drupal.db.user = root
+        drupal.db.password = hunter2
 
-# Admin user.
-drupal.admin.username = admin
-drupal.admin.password = admin
+        # Admin user.
+        drupal.admin.username = admin
+        drupal.admin.password = admin
 
-# Development / testing modules to enable.
-drupal.development.modules = devel field_ui maillog simpletest views_ui
+        # Development / testing modules to enable.
+        drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
 
-# The base URL to use in Behat tests.
-behat.base_url = http://myproject.local/
+        # The base URL to use in Behat tests.
+        behat.base_url = http://myproject.local/
 
-# The location of the Composer executable.
-composer.bin = /etc/bin/composer
+        # The location of the Composer executable.
+        composer.bin = /etc/bin/composer
 
-# Verbosity of drush commands. Set to TRUE to be verbose.
-drush.verbose = FALSE
+        # Verbosity of drush commands. Set to TRUE to be verbose.
+        drush.verbose = FALSE
 
-# Verbosity of PHP Codesniffer. Set to 0 for standard output, 1 for progress
-# report, 2 for debugging info.
-phpcs.verbose = 2
+        # Verbosity of PHP Codesniffer. Set to 0 for standard output
+        # 1 for progress report
+        # 2 for debugging info
+        phpcs.verbose = 2
 
-# Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
-# shows exception backtraces, 3 shows debugging information.
-behat.options.verbosity = 3
-```
+        # Set verbosity for Behat tests. 0 is completely silent
+        # 1 is normal output
+        # 2 shows exception backtraces
+        # 3 shows debugging information
+        behat.options.verbosity = 3
+
+        # User specific http_proxy variables to handle drupal_http_request.
+        futurium.http_proxy.user =
+        futurium.http_proxy.pass =
 
 ### 4. Build your local development environment
 
@@ -260,213 +245,32 @@ standards) then you can put your additional rules in the `phpcs-ruleset.xml`
 file. Please refer to the documentation of PHP CodeSniffer on how to configure
 the rules.
 
+### 9. Remarks
+> <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
+build.properties.dist file for server and in build.properties.local for user
+credentials. Those variables will then be set and will be used by
+drupal_http_request() needed for the geocoder project for example.
 
-## Starting a new project
+    futurium.http_proxy.server =
+    futurium.http_proxy.port =
+    futurium.http_proxy.user =
+    futurium.http_proxy.pass =
 
-Your new project will be based on the `ec-europa/futurium` but will live in its
-own repository on GitHub. We are in fact using two branches: 'develop' and
-'master':
+> <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
+complains about php allowed memory issues while building the project, consider
+adding a environment variable in your shell profile:
 
-- _'dev'_ repository: This is the repository where the development is done. On
-  request we can give access to other developers (within the EC or external
-  contractors) to this repository so that code can be shared effectively. This
-  repository has 'master' and 'develop' branches as well as feature branches
-  where the actual development is taking place. The 'master' branch will contain
-  the latest code that is deployed on production.
-- _'master'_ branch: This is the 'official' branch release which is used as a
-  source for building the sites that are deployed on production. This is guarded
-  by the internal QA team who will validate all pull requests and only allow the
-  code to be merged in if it meets our quality guidelines.
+    export PHP_OPTIONS='-d memory_limit="1024M"'
 
-### 1. Create a new repository on GitHub
+> <b>sendmail</b> If you get an error from drupal while building the project,
+ because your system is not yet configured to send emails, or you install a
+ mailserver like postfix etc ... or you edit your <b>php.ini</b> file and edit the
+ sendmail value to true.
 
-1. Log in to GitHub.
-2. Go to https://github.com/ec-europa and click on "New repository" to create
-   your repository. If you do not have access to this then please ask your
-   project manager to create a team for you.
-3. Choose a repository name for your project, making sure it ends in '-dev'.
-   For example if you are creating a website for the European Department for
-   the Promotion of Interoperable Agricultural Research and Development a
-   good name for your repository would be `edpiard-dev`.
-4. Decide whether you repository will be private or public. We encourage
-   developers to make their code public, but you will need to consult your
-   client and ask if they agree with it. If the code is public, take care not
-   to commit any sensitive data such as e-mail addresses, API keys or
-   passwords.
-5. Don't add a README or any other files, just leave it empty.
-6. Click "Create repository".
-7. On the next page you will see the URL of your repository, which will look
-   similar to this: `git@github.com:ec-europa/futurium.git`. We will need
-   this in the next step.
+    sendmail_path = /bin/true
 
-### 2. Fork the Futurium project
+> <b>Behat testing</b> When behind a proxy, your behat scenarios will fail.
+You should call behat from the <b>behat_no_proxy.sh</b> script. It will unset
+temporary the environment proxy variables.
 
-Make a fork of the Futurium project by downloading it and then pushing it to
-your own project's repository. Let's assume we are going to push to a
-repository called 'myproject-dev'.
-
-```
-# Download the Futurium project.
-$ git clone https://github.com/ec-europa/futurium.git
-$ cd futurium
-
-# Remove the 'origin' remote, and replace it with the one from our project repo.
-$ git remote rm origin
-$ git remote add origin git@github.com:ec-europa/myproject-dev.git
-
-# Test the connection with the project repository.
-$ git fetch origin
-
-# Push our initial code base to the project repository.
-$ git push origin master
-```
-
-### 3. Create a build.properties file
-
-Create a new file called `build.properties` in the root folder and put
-properties in it that are unique to your project. You can copy any of the
-properties of the `build.properties.dist` file to override them and then commit
-the file. The settings will then take effect for all developers that work on the
-project.
-
-Some typical project specific settings are the site name, the install profile,
-the modules to enable after installation, paths to ignore during coding
-standards checks, the version of the platform to use etc.
-
-Example file:
-
-```
-# The site name.
-subsite.name = My Project
-
-# The install profile to use.
-drupal.profile.name = multisite_drupal_standard
-
-# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-# It is possible to use MySQL style wildcards here.
-# Until version 2.1.0 of the platform is released, it is advised to use the
-# 'develop' branch. After the 2.1.0 release you can best use 'master'.
-platform.package.reference = develop
-
-# Modules to enable after installation. Separate multiple modules with spaces.
-# This will typically be the 'mother feature' which will contain all your other
-# features and modules as dependencies.
-subsite.install.modules = myproject_core
-```
-
-### 4. Commit and push
-
-Now finally commit your configuration file and push it to your repository. Your
-project is now ready to use.
-
-```
-$ git add build.properties
-$ git commit -m "Add project specific build properties."
-$ git push
-```
-
-
-## Converting an existing project
-
-If you already have an existing project and want to convert it to the Subsite
-Starterkit methodology then please follow these guidelines.
-
-> Note that only NextEuropa 2.1.0 or higher is supported. If your project is on
-> version 1.7.x or 2.0.x you will need to update to 2.1.x first.
-
-### 1. Create a working branch
-
-To avoid any unintentional damage to the existing code base it is advised to
-work in a temporary working branch.
-
-```
-$ git checkout -b convert-to-sssk
-```
-
-### 2. Get the code
-
-We'll add the Futurium repository as a remote called 'futurium', and
-merge its code.
-
-```
-$ git remote add futurium https://github.com/ec-europa/futurium.git
-$ git fetch futurium
-$ git merge futurium/master
-```
-
-Note that you might have to solve merge conflicts, especially if you are already
-using Composer or Phing.
-
-### 3. Create a build.properties file
-
-Create a new file called `build.properties` in the root folder and put
-properties in it that are unique to your project. You can copy any of the
-properties of the `build.properties.dist` file to override them and then commit
-the file. The settings will then take effect for all developers that work on the
-project.
-
-Some typical project specific settings are the site name, the install profile,
-the modules to enable after installation, paths to ignore during coding
-standards checks, the version of the platform to use etc.
-
-Example file:
-
-```
-# The site name.
-subsite.name = My Project
-
-# The install profile to use.
-drupal.profile.name = multisite_drupal_standard
-
-# Modules to enable after installation. Separate multiple modules with spaces.
-subsite.install.modules = myproject_super_feature
-
-# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-# It is possible to use MySQL style wildcards here.
-# Until version 2.1.0 of the platform is released, it is advised to use the
-# 'develop' branch. After the 2.1.0 release you can best use 'master'.
-platform.package.reference = develop
-```
-
-### Update directory structure
-
-Next you'll need to adapt your directory structure to the one used by the
-starterkit. Note that most of these paths can be adapted to your liking by
-finding the relevant properties in `build.properties.dist`, copying them to
-`build.properties` and changing their values.
-
-* Custom modules, themes and PHP code go in the `lib/` folder.
-* The make file should be moved to `resources/site.make`.
-* Your Behat tests go in the `tests/` folder. The starterkit uses a template
-  file `tests/behat.yml.dist` to generate the Behat configuration so you might
-  want to look into this to port your project specific Behat settings.
-* If you have custom PHP CodeSniffer rules, put them in `phpcs-ruleset.xml`.
-
-Finally commit your changes and test the build:
-
-```
-$ composer install
-$ ./bin/phing build-dev
-$ ./bin/phing install-dev
-```
-
-
-## Merging upstream changes
-
-```
-$ git remote add upstream https://github.com/ec-europa/subsite-starterkit.git
-$ git fetch upstream
-$ git merge upstream/master
-```
-
-You might need to fix merge conflicts as usual.
-
-
-## Contributing
-
-If you want to contribute some useful bug fixes and feature requests to the
-Subsite Starterkit, please go through the normal channels and create a ticket
-in Jira with your proposal in the NextEuropa project. Your request will be
-handled in the regular sprints.
-
-> Do not create pull requests in the Github repository, these are not monitored.
+    ./behat_no_proxy.sh behat <param>

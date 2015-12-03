@@ -30,6 +30,9 @@ drupal.htaccess.append.text =
 # The site name to use. Use 'all' unless you want to build a multisite setup.
 drupal.site.name = all
 
+# The Drupal core version.
+drupal.core.version = 7.x
+
 
 # Platform configuration
 # ----------------------
@@ -47,10 +50,10 @@ platform.profile.name = multisite_drupal_standard
 platform.package.reference = develop
 
 # The provider that hosts the platform repository.
-platform.package.provider = bitbucket
+platform.package.provider = git-hub
 
 # The name of the platform repository.
-platform.package.repository = digit-fpfis-platform/nexteuropa
+platform.package.repository = ec-europa/platform-dev
 
 # The name of the folder where the platform will be downloaded.
 platform.package.destination = ${phing.project.tmp.dir}
@@ -72,6 +75,13 @@ futurium.features.branch = develop
 # The URL of the futurium features repository.
 futurium.features.repository = https://github.com/ec-europa/futurium-features.git
 
+# Set http_proxy variables to handle drupal_http_request.
+futurium.http_proxy.server = psbru.cec.eu.int
+futurium.http_proxy.port = 8012
+
+# User specific http_proxy variables to handle drupal_http_request.
+futurium.http_proxy.user =
+futurium.http_proxy.pass =
 
 # Paths
 # -----
@@ -90,7 +100,7 @@ subsite.build.dir = ${project.basedir}/${phing.project.build.dir}
 # Temporary folder.
 phing.project.tmp.dir = ${project.basedir}/tmp
 
-# Local resources
+# Local resources.
 subsite.resources.dir = ${project.basedir}/resources
 subsite.resources.lib.dir = ${project.basedir}/lib
 subsite.resources.features.dir = ${subsite.resources.lib.dir}/features
@@ -99,6 +109,9 @@ subsite.resources.source.dir = ${subsite.resources.lib.dir}/src
 subsite.resources.themes.dir = ${subsite.resources.lib.dir}/themes
 subsite.resources.composer.json = ${subsite.resources.dir}/composer.json
 subsite.resources.composer.lock = ${subsite.resources.dir}/composer.lock
+
+# Temporary resources. These are generated on the fly when building.
+subsite.temporary.development.make = ${phing.project.tmp.dir}/development.make
 
 # Files and directories inside the Drupal installation.
 platform.build.settings.dir = ${platform.build.sites.dir}/default
@@ -203,5 +216,11 @@ drush.verbose = FALSE
 # report, 2 for debugging info.
 phpcs.verbose = 0
 
+# Development / testing modules to download.
+development.modules.download = devel maillog
+
 # Development / testing modules to enable.
-drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
+development.modules.enable = devel devel_generate field_ui maillog simpletest views_ui
+
+# The location where development modules will be installed.
+development.modules.location = development

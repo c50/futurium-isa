@@ -11,7 +11,7 @@
         <if>
             <available file="${platform.build.settings.dir}" type="dir" />
             <then>
-                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
+                <chmod mode="0777" failonerror="true" verbose="false" quiet="true">
                     <fileset dir="${platform.build.settings.dir}" />
                 </chmod>
             </then>
@@ -26,7 +26,9 @@
                 <exec
                     command='rm -rf "${platform.build.dir}"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
             </then>
             <else>
                 <delete dir="${platform.build.dir}" includeemptydirs="true" failonerror="false" />
@@ -37,6 +39,39 @@
     <!-- Make the subsite. -->
     <target name="make-subsite" depends="unpack-platform">
         <echo msg="Make the subsite." />
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.make}" />
+        </phingcall>
+    </target>
+
+    <!-- Generate the makefile used to download development modules. -->
+    <target name="generate-development-makefile">
+        <echo msg="Generate the makefile for development modules." />
+        <if>
+            <available file="${subsite.temporary.development.make}" type="file" property="development.makefile.available" />
+            <then>
+                <echo message="Deleting existing makefile." />
+                <delete file="${subsite.temporary.development.make}" failonerror="false" />
+            </then>
+        </if>
+        <drushmakefile
+            makeFile="${subsite.temporary.development.make}"
+            coreVersion="${drupal.core.version}"
+            projects="${development.modules.download}"
+            defaultProjectDir="${development.modules.location}"
+        />
+    </target>
+
+    <!-- Download development modules. -->
+    <target name="download-development-modules" depends="generate-development-makefile">
+        <echo msg="Download development modules." />
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.temporary.development.make}" />
+        </phingcall>
+    </target>
+
+    <!-- Subtarget: execute a makefile with the no-core option. -->
+    <target name="drush-make-no-core">
         <drush
             command="make"
             assume="yes"
@@ -44,7 +79,7 @@
             pipe="yes"
             verbose="${drush.verbose}"
             root="${platform.build.dir}">
-            <param>${subsite.make}</param>
+            <param>${drush.make.target.file}</param>
             <param>${platform.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
@@ -155,27 +190,35 @@
                 <exec
                     command='rm -rf "${platform.package.destination}/extract"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                />
                 <echo msg='mkdir "${platform.package.destination}/extract"' />
                 <exec
                     command='mkdir "${platform.package.destination}/extract"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                />
                 <echo msg='tar xzf "${platform.package.tarball}" -C "${platform.package.destination}/extract"' />
                 <exec
                     command='tar xzf "${platform.package.tarball}" -C "${platform.package.destination}/extract"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
                 <echo msg='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"' />
                 <exec
                     command='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
                 <echo msg='rm -rf "${platform.package.destination}/extract"' />
                 <exec
                     command='rm -rf "${platform.package.destination}/extract"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
             </then>
             <else>
                 <!--
@@ -198,7 +241,6 @@
                 <delete dir="${platform.package.destination}/extract" includeemptydirs="true" failonerror="false" />
             </else>
         </if>
-
     </target>
 
     <!-- Download the Futurium feature package. -->
@@ -240,11 +282,11 @@
     <target
         name="build-dev"
         description="Build a local development version of the subsite."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer, download-development-modules" />
 
     <target
         name="build-dist"
         description="Build a version of the subsite intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, copy-subsite-resources" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, copy-subsite-resources" />
 
 </project>
