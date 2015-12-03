@@ -67,10 +67,10 @@ platform.package.token =
 futurium.features.gitfile = ${project.basedir}/lib/.git
 
 # The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-futurium.features.branch = feature/futurium-public
+futurium.features.branch = develop
 
 # The URL of the futurium features repository.
-futurium.features.repository = https://webgate.ec.europa.eu/CITnet/stash/scm/multisite/futurium-dev.git
+futurium.features.repository = https://github.com/ec-europa/futurium-features.git
 
 
 # Paths
