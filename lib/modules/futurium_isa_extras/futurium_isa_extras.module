@@ -48,15 +48,7 @@ function futurium_isa_extras_preprocess_node(&$vars) {
 }
 
 function futurium_isa_extras_menu() {
-  /*
-  $items['home'] = array(
-    'title' => 'Home',
-    'page callback' => 'futurium_isa_extras_blank_page',
-    'access callback' => array(TRUE),
-    'menu_name' => 'main-menu',
-    'weight' => 0,
-  );
-  */
+
   // Registration and login pages.
   $items['account'] = array(
     'title' => 'User account',
@@ -113,16 +105,8 @@ function futurium_isa_extras_menu() {
   return $items;
 }
 
-function futurium_isa_extras_menu_title() {
-  return '';
-}
-
 function futurium_isa_extras_menu_alter(&$items) {
   $items['search/site']['menu_name'] = 'navigation';
-}
-
-function futurium_isa_extras_blank_page(){
-  return "";
 }
 
 function _bootstrap_default_settings() {
@@ -344,4 +328,68 @@ function futurium_isa_extras_ctools_plugin_directory($module, $plugin) {
   if ($module == "panels" && in_array($plugin, array('layouts', 'styles'))) {
     return "plugins/$plugin";
   }
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function futurium_isa_extras_field_extra_fields() {
+  foreach (array('ideas', 'event_d4eu') as $node_type) {
+    // Flaggings
+    switch($node_type) {
+      case 'ideas':
+        $extrafield_name = 'like';
+        break;
+    }
+
+    $flag = flag_get_flag($extrafield_name);
+    if (isset($flag) && $flag) {
+      $extra['node'][$node_type]['display'][$extrafield_name] = array(
+        'label' => t("@flag_title counter", array('@flag_title' => $flag->title)),
+        'description' => t('@flag_name counter.', array('@flag_name' => $flag->name)),
+        'weight' => 50,
+      );
+    }
+
+    // Comment count
+    $extrafield_name = 'comment_count';
+    $extra['node'][$node_type]['display'][$extrafield_name] = array(
+      'label' => t("Comment count"),
+      'description' => t('Node comments count'),
+      'weight' => 51,
+    );
+
+  }
+  return $extra;
+ }
+
+/**
+ * Implements hook_node_view().
+ * Also HOOK_entity_view() can be used.
+ */
+function futurium_isa_extras_node_view($node, $view_mode, $langcode) {
+
+  $extrafields = field_extra_fields_get_display('node', $node->type, $view_mode);
+
+  // Likes
+  $extrafield_name = 'like';
+  if (isset($extrafields[$extrafield_name])
+      && isset($extrafields[$extrafield_name]['visible'])
+      && $extrafields[$extrafield_name]['visible']) {
+
+    $flag = flag_get_flag($extrafield_name);
+    $count = $flag->get_count($node->nid);
+    $plural = format_plural($count, t('Like'), t('Likes'));
+    $node->content[$extrafield_name] = array('#markup' => '<div class="field fake-field like-count">' . $count . ' ' . $plural . '</div>');
+  }
+
+  // Comment count
+  $extrafield_name = 'comment_count';
+  if (isset($extrafields[$extrafield_name])
+      && isset($extrafields[$extrafield_name]['visible'])
+      && $extrafields[$extrafield_name]['visible']) {
+    $count = $node->comment_count;
+    $node->content[$extrafield_name] = array('#markup' => '<div class="field fake-field comment-count">' . $count . ' ' . format_plural($count, t('Comment'), t('Comments')) . '</div>');
+  }
+
 }
