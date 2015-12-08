@@ -49,7 +49,7 @@ projects[drupal][patch][] = patches/drupal_web_test_case.patch
 
 ;Patch to make panels and workbench moderation play nicely with each other.
 ;;More info: https://www.drupal.org/node/1285090
-projects[workbench_moderation][patch][] = patches/workbench_moderation-playnicewithpanels-40.patch
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-playnicewithpanels-40.patch
 
 ;Patch to allow views_field_view to get a count from another view.
 ;;More info: https://www.drupal.org/node/1107034
