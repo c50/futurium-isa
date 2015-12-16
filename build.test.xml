@@ -168,17 +168,6 @@
                 verbose="${drush.verbose}">
             <param>15 10 --types='evidence'</param>
         </drush>
-        <!-- Generate Content document. -->
-        <!--
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='document'</param>
-        </drush>
-        -->
         <!-- Generate Content events. -->
         <drush
                 command="genc"
