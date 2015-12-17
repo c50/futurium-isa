@@ -44,7 +44,7 @@ projects[views_field_view][patch][] = https://www.drupal.org/files/issues/views_
 
 ;Patch wysiwyg feature revert
 ;;More info: https://www.drupal.org/node/2414575
-https://www.drupal.org/files/issues/features_export_doesn_t-2414575-5.patch
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/features_export_doesn_t-2414575-5.patch
 
 ; ======
 ; Themes
