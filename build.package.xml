@@ -205,9 +205,9 @@
                     passthru="true"
                     checkreturn="true"
                 />
-                <echo msg='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"' />
+                <echo msg='mv "${platform.package.destination}/extract" "${platform.build.dir}"' />
                 <exec
-                    command='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"'
+                    command='mv "${platform.package.destination}/extract" "${platform.build.dir}"'
                     dir="${project.basedir}"
                     passthru="true"
                     checkreturn="true"
@@ -236,7 +236,7 @@
                 <delete dir="${platform.package.destination}/extract" includeemptydirs="true" failonerror="false" quiet="true" />
                 <untar file="${platform.package.tarball}" todir="${platform.package.destination}/extract" />
                 <move includeemptydirs="true" todir="${platform.build.dir}">
-                  <fileset dir="${platform.package.destination}/extract/build"/>
+                  <fileset dir="${platform.package.destination}/extract"/>
                 </move>
                 <delete dir="${platform.package.destination}/extract" includeemptydirs="true" failonerror="false" />
             </else>
