@@ -166,7 +166,7 @@
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
-            <param>15 10 --types='document'</param>
+            <param>15 10 --types='evidence'</param>
         </drush>
         <!-- Generate Content events. -->
         <drush
