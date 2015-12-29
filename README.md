@@ -113,6 +113,15 @@ This will:
 $ ./bin/phing install-dev
 ```
 
+This will:
+
+* Install the website with `drush site-install`.
+* Enable the modules you specified in the `drupal.development.modules` property.
+
+After a few minutes this process should complete and the website should be up
+and running!
+
+
 ### 6. Set up your webserver
 
 The Drupal site will now be present in the `platform/` folder. Set up a
@@ -122,15 +131,6 @@ point its webroot to this folder.
 If you intend to run Behat tests then you should put the base URL you assign to
 your website in the `build.properies.local` file for the `behat.base_url`
 property. See the example above.
-
-
-This will:
-
-* Install the website with `drush site-install`.
-* Enable the modules you specified in the `drupal.development.modules` property.
-
-After a few minutes this process should complete and the website should be up
-and running!
 
 
 ## Repository structure
