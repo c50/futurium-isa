@@ -46,6 +46,10 @@ projects[views_field_view][patch][] = https://www.drupal.org/files/issues/views_
 ;;More info: https://www.drupal.org/node/2414575
 projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/features_export_doesn_t-2414575-5.patch
 
+;Patch to fix tokens being cut in half
+;;More info: https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8047
+https://patch-diff.githubusercontent.com/raw/ec-europa/platform-dev/pull/301.patch
+
 ; ======
 ; Themes
 ; ======
