@@ -186,6 +186,15 @@
                 verbose="${drush.verbose}">
             <param>15 10 --types='ideas'</param>
         </drush>
+        <!-- Generate Content futures. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='future'</param>
+        </drush>
     </target>
 
     <!-- Set drupal_http_request variables. -->
