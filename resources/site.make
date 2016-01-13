@@ -47,10 +47,6 @@ projects[views_field_view][patch][] = "https://www.drupal.org/files/issues/views
 ;;More info: https://www.drupal.org/node/2414575
 projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/features_export_doesn_t-2414575-5.patch"
 
-;Patch to fix tokens being cut in half
-;;More info: https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8047
-projects[multisite_drupal_toolbox][patch][] = "https://patch-diff.githubusercontent.com/raw/ec-europa/platform-dev/pull/301.patch"
-
 ;Patches to allow fivestar in panels
 ;;More info: https://www.drupal.org/node/2599576
 ;;More info: https://www.drupal.org/node/2373297
