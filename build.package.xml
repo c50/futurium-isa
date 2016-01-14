@@ -231,30 +231,25 @@
         <!-- Copy the source folders for easy development. -->
         <!-- Copy our custom modules. -->
         <mkdir dir="${platform.build.subsite.modules.custom.dir}" />
-        <exec command='cp -R "${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}"'
+        <exec command='cp -R ${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}'
                 passthru="true"
                 checkreturn="true" />
         <!-- Copy our custom features. -->
         <mkdir dir="${platform.build.subsite.modules.features.dir}" />
-        <exec command='cp -R "${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}"'
+        <exec command='cp -R ${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}'
               passthru="true"
               checkreturn="true" />
         <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
         <mkdir dir="${platform.build.subsite.themes.dir}" />
         <delete dir="${platform.build.subsite.themes.dir}" includeemptydirs="true" failonerror="false" />
-        <exec command='cp -R "${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir} "'
-              passthru="true"
-              checkreturn="true" />
-        <!-- Copy our custom PSR-4 code. -->
-        <mkdir dir="${platform.build.subsite.source.dir}" />
-        <exec command='cp -R "${subsite.resources.source.dir}/* ${platform.build.subsite.source.dir}"'
+        <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
               passthru="true"
               checkreturn="true" />
         <!-- Copy composer configuration. -->
-        <exec command='cp -R "${subsite.resources.composer.json} ${platform.build.subsite.composer.json}"'
+        <exec command='cp -R ${subsite.resources.composer.json} ${platform.build.subsite.composer.json}'
               passthru="true"
               checkreturn="true" />
-        <exec command='cp -R "${subsite.resources.composer.loc} ${platform.build.subsite.composer.lock}"'
+        <exec command='cp -R ${subsite.resources.composer.lock} ${platform.build.subsite.composer.lock}'
               passthru="true"
               checkreturn="true" />
     </target>
