@@ -19,6 +19,8 @@ projects[panels_bootstrap_layouts][version] = "3.x-dev"
 projects[wysiwyg][version] = "2.x-dev"
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = "1.x-dev"
+projects[message_subscribe][subdir] = "contrib"
+projects[message_subscribe_email_frequency][subdir] = "contrib"
 
 ; =========
 ; Libraries
