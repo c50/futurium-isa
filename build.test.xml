@@ -23,6 +23,8 @@
             <option name="account-pass" value="${drupal.admin.password}" />
             <option name="account-mail" value="${drupal.admin.email}" />
             <param>${platform.profile.name}</param>
+            <!-- Prevent e-mails from being sent during the installation. -->
+            <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
         <!--
             Subsites are not allowed to use their own installation profile for
@@ -42,7 +44,7 @@
     <!-- Enable development modules. -->
     <target name="enable-development-modules">
         <phingcall target="enable-modules">
-            <property name="drupal.modules" value="${drupal.development.modules}" />
+            <property name="drupal.modules" value="${development.modules.enable}" />
         </phingcall>
     </target>
 
@@ -62,8 +64,8 @@
     <target name="postinstall" description="Post install settings.">
         <!-- Devel Generate -->
         <phingcall target="devel-generate" />
-        <!-- Set drupal_http_request variables. -->
-        <phingcall target="drupal-proxy-variable" />
+        <!-- Futurium Post-Install config-->
+        <phingcall target="futurium-config" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -91,7 +93,8 @@
             report="${phpcs.report}"
             showProgress="${phpcs.progress}"
             showSniffCodes="${phpcs.sniffcodes}"
-            standard="${phpcs.standard}" />
+            standard="${phpcs.standard}"
+        />
     </target>
 
     <!-- Set up Behat. -->
@@ -123,7 +126,8 @@
             executable="${behat.bin}"
             config="${behat.yml.path}"
             strict="${behat.options.strict}"
-            verbose="${behat.options.verbosity}" />
+            verbose="${behat.options.verbosity}"
+        />
     </target>
 
     <!-- Devel Generate. -->
@@ -146,14 +150,50 @@
                 verbose="${drush.verbose}">
                 <param>tags 32</param>
         </drush>
-        <!-- Generate Content. -->
+        <!-- Generate Content futurium_group. -->
         <drush
                 command="genc"
                 assume="yes"
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
-            <param>25 --types='events, ideas, poll, videos'</param>
+            <param>15 10 --types='futurium_group'</param>
+        </drush>
+        <!-- Generate Content evidence. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='evidence'</param>
+        </drush>
+        <!-- Generate Content events. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='event_d4eu'</param>
+        </drush>
+        <!-- Generate Content ideas. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='ideas'</param>
+        </drush>
+        <!-- Generate Content futures. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='future'</param>
         </drush>
     </target>
 
@@ -204,10 +244,50 @@
         </drush>
     </target>
 
+    <!-- Run Futurium post install config. -->
+    <target name="futurium-config">
+        <!--  Futurium Post install cleanup multisite -->
+        <drush
+                command="pifu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!--  Revert Futurium features -->
+        <drush
+                command="frfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!-- Revert Futurium configuration -->
+        <drush
+                command="rcfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+        <!-- Clear Cache -->
+        <drush
+                command="cc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>all</param>
+        </drush>
+    </target>
+
     <!-- Install a development version of the subsite. -->
     <target
         name="install-dev"
         description="Install a local development version of the subsite."
-        depends="install, enable-development-modules, postinstall" />
+        depends="install, enable-development-modules, postinstall"
+    />
 
 </project>

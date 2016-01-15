@@ -11,7 +11,7 @@
         <if>
             <available file="${platform.build.settings.dir}" type="dir" />
             <then>
-                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
+                <chmod mode="0777" failonerror="true" verbose="false" quiet="true">
                     <fileset dir="${platform.build.settings.dir}" />
                 </chmod>
             </then>
@@ -26,7 +26,9 @@
                 <exec
                     command='rm -rf "${platform.build.dir}"'
                     dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
             </then>
             <else>
                 <delete dir="${platform.build.dir}" includeemptydirs="true" failonerror="false" />
@@ -37,6 +39,39 @@
     <!-- Make the subsite. -->
     <target name="make-subsite" depends="unpack-platform">
         <echo msg="Make the subsite." />
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.make}" />
+        </phingcall>
+    </target>
+
+    <!-- Generate the makefile used to download development modules. -->
+    <target name="generate-development-makefile">
+        <echo msg="Generate the makefile for development modules." />
+        <if>
+            <available file="${subsite.temporary.development.make}" type="file" property="development.makefile.available" />
+            <then>
+                <echo message="Deleting existing makefile." />
+                <delete file="${subsite.temporary.development.make}" failonerror="false" />
+            </then>
+        </if>
+        <drushmakefile
+            makeFile="${subsite.temporary.development.make}"
+            coreVersion="${drupal.core.version}"
+            projects="${development.modules.download}"
+            defaultProjectDir="${development.modules.location}"
+        />
+    </target>
+
+    <!-- Download development modules. -->
+    <target name="download-development-modules" depends="generate-development-makefile">
+        <echo msg="Download development modules." />
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.temporary.development.make}" />
+        </phingcall>
+    </target>
+
+    <!-- Subtarget: execute a makefile with the no-core option. -->
+    <target name="drush-make-no-core">
         <drush
             command="make"
             assume="yes"
@@ -44,7 +79,7 @@
             pipe="yes"
             verbose="${drush.verbose}"
             root="${platform.build.dir}">
-            <param>${subsite.make}</param>
+            <param>${drush.make.target.file}</param>
             <param>${platform.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
@@ -114,7 +149,7 @@
             <then>
                 <!-- Create the destination directory if it doesn't exist. -->
                 <mkdir dir="${platform.package.destination}" />
-                <echo msg="Starting to download the platform. Depending on your connection this can take between 5-30 minutes. Go get some coffee." />
+                <echo msg="Starting to download the platform. Depending on your connection this can take between 5-15 minutes. Go get some coffee." />
                 <echo msg="This file will only be downloaded once and will be cached in ${platform.package.tarball}." />
                 <echo msg="You can delete this cached file whenever you want to download a new version of the platform." />
                 <continuousphp-config token="${platform.package.token}" />
@@ -139,66 +174,24 @@
         <if>
             <os family="unix" />
             <then>
-                <!--
-                    The tarball contains the entire build folder including all
-                    resources that were used to create the build. Extract it in a
-                    temporary location and then move the correct subfolder that
-                    contains the actual build.
-
-                    A feature request is pending at ContinuousPHP to have only the build
-                    folder available for download.
-
-                    Todo: Remove this workaround when ContinuousPHP adds support for
-                    downloading only the actual build folder.
-                 -->
-                <echo msg='rm -rf "${platform.package.destination}/extract"' />
+                <echo msg='mkdir "${platform.build.dir}"' />
                 <exec
-                    command='rm -rf "${platform.package.destination}/extract"'
+                    command='mkdir "${platform.build.dir}"'
                     dir="${project.basedir}"
-                    passthru="true" />
-                <echo msg='mkdir "${platform.package.destination}/extract"' />
+                    passthru="true"
+                />
+                <echo msg='tar xzf "${platform.package.tarball}" -C "${platform.build.dir}"' />
                 <exec
-                    command='mkdir "${platform.package.destination}/extract"'
+                    command='tar xzf "${platform.package.tarball}" -C "${platform.build.dir}"'
                     dir="${project.basedir}"
-                    passthru="true" />
-                <echo msg='tar xzf "${platform.package.tarball}" -C "${platform.package.destination}/extract"' />
-                <exec
-                    command='tar xzf "${platform.package.tarball}" -C "${platform.package.destination}/extract"'
-                    dir="${project.basedir}"
-                    passthru="true" />
-                <echo msg='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"' />
-                <exec
-                    command='mv "${platform.package.destination}/extract/build" "${platform.build.dir}"'
-                    dir="${project.basedir}"
-                    passthru="true" />
-                <echo msg='rm -rf "${platform.package.destination}/extract"' />
-                <exec
-                    command='rm -rf "${platform.package.destination}/extract"'
-                    dir="${project.basedir}"
-                    passthru="true" />
+                    passthru="true"
+                    checkreturn="true"
+                />
             </then>
             <else>
-                <!--
-                    The tarball contains the entire build folder including all
-                    resources that were used to create the build. Extract it in a
-                    temporary location and then move the correct subfolder that
-                    contains the actual build.
-
-                    A feature request is pending at ContinuousPHP to have only the build
-                    folder available for download.
-
-                    Todo: Remove this workaround when ContinuousPHP adds support for
-                    downloading only the actual build folder.
-                 -->
-                <delete dir="${platform.package.destination}/extract" includeemptydirs="true" failonerror="false" quiet="true" />
-                <untar file="${platform.package.tarball}" todir="${platform.package.destination}/extract" />
-                <move includeemptydirs="true" todir="${platform.build.dir}">
-                  <fileset dir="${platform.package.destination}/extract/build"/>
-                </move>
-                <delete dir="${platform.package.destination}/extract" includeemptydirs="true" failonerror="false" />
+                <untar file="${platform.package.tarball}" todir="${platform.build.dir}" />
             </else>
         </if>
-
     </target>
 
     <!-- Download the Futurium feature package. -->
@@ -211,11 +204,18 @@
                 <!-- Set revision to HEAD if not already defined -->
                 <property name="repo.revision" value="HEAD" override="false"/>
 
-                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${futurium.features.destination}</echo>
+                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${subsite.resources.lib.dir}</echo>
                 <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
                      does not seem to work. Use exec instead. -->
-                <exec command="git clone ${futurium.features.repository} ${subsite.resources.lib.dir}" />
-                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+
+                <gitclone
+                        repository="${futurium.features.repository}"
+                        targetPath="${subsite.resources.lib.dir}" />
+                <gitpull
+                        repository="${subsite.resources.lib.dir}"
+                        source="origin" refspec="${futurium.features.branch}"
+                        strategy="recursive" keep="true"
+                        force="true" quiet="true" norebase="true" />
             </then>
             <else>
                 <echo msg="Pulling changes from the Futurium features repository" />
@@ -227,17 +227,41 @@
 
     <!-- Copy subsite resources into the build folder. -->
     <target name="copy-subsite-resources">
-        <echo msg="TODO: COPY SUBSITE RESOURCES." />
+        <echo msg="Copy subsite resources into the build folder." />
+        <!-- Copy the source folders for easy development. -->
+        <!-- Copy our custom modules. -->
+        <mkdir dir="${platform.build.subsite.modules.custom.dir}" />
+        <exec command='cp -R ${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}'
+                passthru="true"
+                checkreturn="true" />
+        <!-- Copy our custom features. -->
+        <mkdir dir="${platform.build.subsite.modules.features.dir}" />
+        <exec command='cp -R ${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
+        <mkdir dir="${platform.build.subsite.themes.dir}" />
+        <delete dir="${platform.build.subsite.themes.dir}" includeemptydirs="true" failonerror="false" />
+        <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy composer configuration. -->
+        <exec command='cp -R ${subsite.resources.composer.json} ${platform.build.subsite.composer.json}'
+              passthru="true"
+              checkreturn="true" />
+        <exec command='cp -R ${subsite.resources.composer.lock} ${platform.build.subsite.composer.lock}'
+              passthru="true"
+              checkreturn="true" />
     </target>
 
     <target
         name="build-dev"
         description="Build a local development version of the subsite."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer, download-development-modules" />
 
     <target
         name="build-dist"
         description="Build a version of the subsite intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, copy-subsite-resources" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, download-futurium-features, copy-subsite-resources" />
 
 </project>

@@ -30,6 +30,9 @@ drupal.htaccess.append.text =
 # The site name to use. Use 'all' unless you want to build a multisite setup.
 drupal.site.name = all
 
+# The Drupal core version.
+drupal.core.version = 7.x
+
 
 # Platform configuration
 # ----------------------
@@ -42,15 +45,19 @@ platform.build.dir = ${project.basedir}/platform
 # multisite_drupal_communities.
 platform.profile.name = multisite_drupal_standard
 
-# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-# It is possible to use MySQL style wildcards here.
-platform.package.reference = develop
+# The branch, tag or commit to use, eg. 'master', 'develop', '2.1.56',
+# '7df0d254b'. It is possible to use MySQL style wildcards here, so you can use
+# '2.%' to get the latest tagged 2.x.x release which was built.
+# For most projects you would want to follow 'master' so that you always have
+# the latest version that is deployed on production. Use 'develop' to check if
+# your project is compatible with the upcoming release.
+platform.package.reference = master
 
 # The provider that hosts the platform repository.
-platform.package.provider = bitbucket
+platform.package.provider = git-hub
 
 # The name of the platform repository.
-platform.package.repository = digit-fpfis-platform/nexteuropa
+platform.package.repository = ec-europa/platform-dev
 
 # The name of the folder where the platform will be downloaded.
 platform.package.destination = ${phing.project.tmp.dir}
@@ -61,24 +68,6 @@ platform.package.tarball = ${phing.project.tmp.dir}/deploy-package.tar.gz
 # The ContinuousPHP token. Leave this empty for open source projects. Note that
 # the NextEuropa platform is open source.
 platform.package.token =
-
-# Git file from the futurium features repo
-# Used to check if repo already downloaded
-futurium.features.gitfile = ${project.basedir}/lib/.git
-
-# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-futurium.features.branch = master
-
-# The URL of the futurium features repository.
-futurium.features.repository = https://webgate.ec.europa.eu/CITnet/stash/projects/MULTISITE/repos/futurium-reference
-
-# Set http_proxy variables to handle drupal_http_request.
-futurium.http_proxy.server = psbru.cec.eu.int
-futurium.http_proxy.port = 8012
-
-# User specific http_proxy variables to handle drupal_http_request.
-futurium.http_proxy.user =
-futurium.http_proxy.pass =
 
 # Paths
 # -----
@@ -97,7 +86,7 @@ subsite.build.dir = ${project.basedir}/${phing.project.build.dir}
 # Temporary folder.
 phing.project.tmp.dir = ${project.basedir}/tmp
 
-# Local resources
+# Local resources.
 subsite.resources.dir = ${project.basedir}/resources
 subsite.resources.lib.dir = ${project.basedir}/lib
 subsite.resources.features.dir = ${subsite.resources.lib.dir}/features
@@ -106,6 +95,9 @@ subsite.resources.source.dir = ${subsite.resources.lib.dir}/src
 subsite.resources.themes.dir = ${subsite.resources.lib.dir}/themes
 subsite.resources.composer.json = ${subsite.resources.dir}/composer.json
 subsite.resources.composer.lock = ${subsite.resources.dir}/composer.lock
+
+# Temporary resources. These are generated on the fly when building.
+subsite.temporary.development.make = ${phing.project.tmp.dir}/development.make
 
 # Files and directories inside the Drupal installation.
 platform.build.settings.dir = ${platform.build.sites.dir}/default
@@ -210,5 +202,11 @@ drush.verbose = FALSE
 # report, 2 for debugging info.
 phpcs.verbose = 0
 
+# Development / testing modules to download.
+development.modules.download = devel maillog
+
 # Development / testing modules to enable.
-drupal.development.modules = devel devel_generate field_ui maillog simpletest views_ui
+development.modules.enable = devel devel_generate field_ui maillog simpletest views_ui
+
+# The location where development modules will be installed.
+development.modules.location = development

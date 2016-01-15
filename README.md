@@ -21,6 +21,117 @@ from the European Commission.
 - Build your website in an automated way to get your entire team up and running
   fast!
 
+## Recent notable changes
+
+- 2015-12-22: The structure of the platform package that is being downloaded
+  from ContinuousPHP has changed. The codebase now resides in the root folder
+  instead of the `build/` folder. The platform downloads should be much faster
+  now.
+
+
+## Getting started
+
+### 1. Download the project
+
+Our project is called `ec-europa/futurium-isa` and is hosted on our
+Github:
+
+```
+$ git clone https://github.com/ec-europa/futurium-isa.git
+$ cd futurium-isa
+```
+
+### 2. Install dependencies
+
+The software packages that are needed to build the project are installed with
+[Composer](https://getcomposer.org/). See the documentation for Composer for
+more information on how to install and use it.
+
+```
+$ composer install
+```
+
+### 3. Create a build.properties.local file
+
+This file contains the configuration which is unique to your local environment,
+i.e. your development machine. In here you specify your database credentials,
+your base URL, the administrator password etc.
+
+Some other things that can be useful is to provide a list of your favourite
+development modules to enable, and whether you want to see verbose output of
+drush commands and tests. Another good trick is that you can try out your
+project against different versions of the Multisite / NextEuropa platform, for
+example you might want to check out if your code still runs fine on the latest
+development version by setting `platform.package.reference` to `develop`.
+
+> Because these settings are personal they should not be shared with the rest of
+> the team. *Make sure you never commit this file!*
+
+Example `build.properties.local` file:
+
+        # Database settings.
+        drupal.db.name = ec_futurium
+        drupal.db.user = 
+        drupal.db.password =
+        
+        # Admin user.
+        drupal.admin.username = admin
+        drupal.admin.password = pass
+        
+        # The base URL to use in Behat tests.
+        behat.base_url = http://futurium.local/
+        
+        # The location of the Composer executable.
+        composer.bin = /usr/local/bin/composer
+        
+        # User specific http_proxy variables to handle drupal_http_request.
+        futurium.http_proxy.user = 
+        futurium.http_proxy.pass = 
+        
+
+### 4. Build your local development environment
+
+Now that our configuration is ready, we can start downloading everything we need
+to build our Drupal site.
+
+```
+$ ./bin/phing build-dev
+```
+
+This will:
+
+* Download the latest validated version of Drupal 7.x.
+* Build the project into the `platform/` subfolder.
+* Download the Futurium features and theme files into the `lib/` folder
+* Symlink your custom modules and themes into the platform. This allows you to
+  work inside the Drupal site, and still commit your files easily.
+
+
+### 5. Install the site
+
+```
+$ ./bin/phing install-dev
+```
+
+This will:
+
+* Install the website with `drush site-install`.
+* Enable the modules you specified in the `drupal.development.modules` property.
+
+After a few minutes this process should complete and the website should be up
+and running!
+
+
+### 6. Set up your webserver
+
+The Drupal site will now be present in the `platform/` folder. Set up a
+virtualhost in your favourite web server (Apache, Nginx, Lighttpd, ...) and
+point its webroot to this folder.
+
+If you intend to run Behat tests then you should put the base URL you assign to
+your website in the `build.properies.local` file for the `behat.base_url`
+property. See the example above.
+
 
 ## Repository structure
 
@@ -84,147 +195,9 @@ All Behat related files are located in the `tests/` folder.
 * `vendor/`: Composer dependencies and autoloader.
 
 
-## Getting started
+## Tests and coding standards
 
-This README is divided in different parts, please read the relevant section:
-
-1. [Developer guide](#developer-guide): Explains day-to-day
-   development practices when working on a NextEuropa subsite.
-2. [Starting a new project](#starting-a-new-project): This
-   section explains how to set up a brand new project on the NextEuropa
-   platform. These instructions need only to be followed once by the lead
-   developer at the start of the project.
-3. [Converting an existing project](#converting-an-existing-project):
-   If you already have a project that runs on NextEuropa and you want to start
-   using Continuous Integration, check out this section.
-4. [Merging upstream changes](#merging-upstream-changes): How to
-   merge the latest changes that have been made to the Subsite Starterkit in
-   your own project.
-5. [Contributing](#contributing): How to contribute bugfixes and
-   new features to the Subsite Starterkit.
-
-
-## Developer guide
-
-### 1. Download the project
-
-Our project is called `ec-europa/futurium` and is hosted on our
-Github:
-
-```
-$ git clone git@github.com:ec-europa/futurium.git
-$ cd futurium
-```
-
-### 2. Install dependencies
-
-The software packages that are needed to build the project are installed with
-[Composer](https://getcomposer.org/). See the documentation for Composer for
-more information on how to install and use it.
-
-```
-$ composer install
-```
-
-### 3. Create a build.properties.local file
-
-This file contains the configuration which is unique to your local environment,
-i.e. your development machine. In here you specify your database credentials,
-your base URL, the administrator password etc.
-
-Some other things that can be useful is to provide a list of your favourite
-development modules to enable, and whether you want to see verbose output of
-drush commands and tests. Another good trick is that you can try out your
-project against different versions of the Multisite / NextEuropa platform, for
-example you might want to check out if your code still runs fine on the latest
-development version by setting `platform.package.reference` to `develop`.
-
-> Because these settings are personal they should not be shared with the rest of
-> the team. *Make sure you never commit this file!*
-
-Example `build.properties.local` file:
-
-        # Database settings.
-        drupal.db.name = my_project
-        drupal.db.user = root
-        drupal.db.password = hunter2
-
-        # Admin user.
-        drupal.admin.username = admin
-        drupal.admin.password = admin
-
-        # Development / testing modules to enable.
-        drupal.development.modules = devel field_ui maillog simpletest views_ui
-
-        # The base URL to use in Behat tests.
-        behat.base_url = http://myproject.local/
-
-        # The location of the Composer executable.
-        composer.bin = /etc/bin/composer
-
-        # Verbosity of drush commands. Set to TRUE to be verbose.
-        drush.verbose = FALSE
-
-        # Verbosity of PHP Codesniffer. Set to 0 for standard output
-        # 1 for progress report
-        # 2 for debugging info
-        phpcs.verbose = 2
-
-        # Set verbosity for Behat tests. 0 is completely silent
-        # 1 is normal output
-        # 2 shows exception backtraces
-        # 3 shows debugging information
-        behat.options.verbosity = 3
-
-        # User specific http_proxy variables to handle drupal_http_request.
-        futurium.http_proxy.user =
-        futurium.http_proxy.pass =
-
-### 4. Build your local development environment
-
-Now that our configuration is ready, we can start downloading everything we need
-to build our Drupal site.
-
-```
-$ ./bin/phing build-dev
-```
-
-This will:
-
-* Download the latest validated version of Drupal 7.x.
-* Build the project into the `platform/` subfolder.
-* Symlink your custom modules and themes into the platform. This allows you to
-  work inside the Drupal site, and still commit your files easily.
-
-> Go get some coffee. The first time you build the site this can take a very
-> long time. Future builds will be quicker since the platform will be cached and
-> does not have to be downloaded every time.
-
-### 5. Set up your webserver
-
-The Drupal site will now be present in the `platform/` folder. Set up a
-virtualhost in your favourite web server (Apache, Nginx, Lighttpd, ...) and
-point its webroot to this folder.
-
-If you intend to run Behat tests then you should put the base URL you assign to
-your website in the `build.properies.local` file for the `behat.base_url`
-property. See the example above.
-
-### 6. Install the site
-
-```
-$ ./bin/phing install-dev
-```
-
-This will:
-
-* Install the website with `drush site-install`.
-* Enable the modules you specified in the `drupal.development.modules` property.
-
-After a few minutes this process should complete and the website should be up
-and running!
-
-### 7. Run tests
+### 1. Run tests
 
 Behat has been preconfigured in the `tests/` folder and an example test and
 some example Contexts are supplied. Feel free to change them to your needs.
@@ -236,7 +209,7 @@ $ cd tests/
 $ ./behat
 ```
 
-### 8. Check coding standards
+### 2. Check coding standards
 
 PHP CodeSniffer is preconfigured with the latest Drupal coding standards
 courtesy of the Coder module. A "git pre-push hook" is installed that will
@@ -265,13 +238,33 @@ standards) then you can put your additional rules in the `phpcs-ruleset.xml`
 file. Please refer to the documentation of PHP CodeSniffer on how to configure
 the rules.
 
-### 9. Remarks
+
+## Remarks
 > <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
-build.properties.dist file for server and build.properties.local for user
-credentials
+build.properties.dist file for server and in build.properties.local for user
+credentials. Those variables will then be set and will be used by
+drupal_http_request() needed for the geocoder project for example.
+
+    futurium.http_proxy.server =
+    futurium.http_proxy.port =
+    futurium.http_proxy.user =
+    futurium.http_proxy.pass =
 
 > <b>PHP memory</b> If drush does not reflect your <b>php.ini</b> config and
 complains about php allowed memory issues while building the project, consider
 adding a environment variable in your shell profile:
 
     export PHP_OPTIONS='-d memory_limit="1024M"'
+
+> <b>sendmail</b> If you get an error from drupal while building the project,
+ because your system is not yet configured to send emails, or you install a
+ mailserver like postfix etc ... or you edit your <b>php.ini</b> file and edit the
+ sendmail value to true.
+
+    sendmail_path = /bin/true
+
+> <b>Behat testing</b> When behind a proxy, your behat scenarios will fail.
+You should call behat from the <b>behat_no_proxy.sh</b> script. It will unset
+temporary the environment proxy variables.
+
+    ./behat_no_proxy.sh behat <param>
