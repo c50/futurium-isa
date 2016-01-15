@@ -150,6 +150,15 @@
                 verbose="${drush.verbose}">
                 <param>tags 32</param>
         </drush>
+        <!-- Generate Content futurium_group. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='futurium_group'</param>
+        </drush>
         <!-- Generate Content evidence. -->
         <drush
                 command="genc"
@@ -166,7 +175,7 @@
                 root="${platform.build.dir}"
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
-            <param>15 10 --types='events'</param>
+            <param>15 10 --types='event_d4eu'</param>
         </drush>
         <!-- Generate Content ideas. -->
         <drush
@@ -176,6 +185,15 @@
                 bin="${drush.bin}"
                 verbose="${drush.verbose}">
             <param>15 10 --types='ideas'</param>
+        </drush>
+        <!-- Generate Content futures. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='future'</param>
         </drush>
     </target>
 

@@ -15,3 +15,4 @@ build/
 platform/
 tmp/
 vendor/
+lib/
