@@ -241,7 +241,6 @@
               checkreturn="true" />
         <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
         <mkdir dir="${platform.build.subsite.themes.dir}" />
-        <delete dir="${platform.build.subsite.themes.dir}" includeemptydirs="true" failonerror="false" />
         <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
               passthru="true"
               checkreturn="true" />
