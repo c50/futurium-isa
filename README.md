@@ -79,7 +79,32 @@ Example `build.properties.local` file:
         # User specific http_proxy variables to handle drupal_http_request.
         futurium.http_proxy.user = 
         futurium.http_proxy.pass = 
-        
+
+
+Those followings extra settings are not needed, but can help you debugging
+by putting drush, phpcs or behat in verbose mode.
+
+You can also specify development modules that only will be enabled locally
+by listing them as below in the <b>drupal.development.modules</b> param.
+
+
+        # Development / testing modules to enable.
+        drupal.development.modules = devel devel_generate context_ui field_ui maillog simpletest views_ui
+
+        # Verbosity of drush commands. Set to TRUE to be verbose.
+        drush.verbose = TRUE
+
+        # Verbosity of PHP Codesniffer. Set to 0 for standard output
+        # 1 for progress report
+        # 2 for debugging info
+        phpcs.verbose = 2
+
+        # Set verbosity for Behat tests. 0 is completely silent
+        # 1 is normal output
+        # 2 shows exception backtraces
+        # 3 shows debugging information
+        behat.options.verbosity = 3
+
 
 ### 4. Build your local development environment
 
@@ -269,6 +294,21 @@ a Views plugin which has class names that do not strictly respect the coding
 standards) then you can put your additional rules in the `phpcs-ruleset.xml`
 file. Please refer to the documentation of PHP CodeSniffer on how to configure
 the rules.
+
+
+## Translating the website in a different language
+
+### 1. Translating Drupal Interface:
+
+    - Administer languages: http://example.com/admin/config/regional/language
+    - Manage strings for localization: http://example.com/admin/config/regional/translate
+    - Specify how the desired languages are detected: http://example.com/admin/config/regional/language/configure
+    or Configuration → Regional and language → Detection and selection
+    - Translate strings: http://example.com/admin/config/regional/translate/translate
+    - Import strings: http://example.com/admin/config/regional/translate/import
+    - Export strings: http://example.com/admin/config/regional/translate/export
+
+source: https://www.drupal.org/documentation/modules/locale
 
 
 ## Remarks
