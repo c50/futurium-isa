@@ -283,6 +283,19 @@
         </drush>
     </target>
 
+    <!-- Disable some drupal modules for running the tests. -->
+    <target name="behat-post-config">
+        <!--  Disable r4032login module -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>r4032login</param>
+        </drush>
+    </target>
+
     <!-- Install a development version of the subsite. -->
     <target
         name="install-dev"
