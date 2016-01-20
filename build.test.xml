@@ -283,8 +283,9 @@
         </drush>
     </target>
 
-    <!-- Disable some drupal modules for running the tests. -->
-    <target name="behat-post-config">
+    <!-- Disable Drupal modules for running Behat.
+         Triggered by CPHP -->
+    <target name="behat-drupal-prepare" description="Disable Drupal modules for running Behat.">
         <!--  Disable r4032login module -->
         <drush
                 command="dis"
