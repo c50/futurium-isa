@@ -347,4 +347,5 @@ the right branch:
 
     cd lib/
     git status
-    git checkout -b features/aName origin/features/aName
+    git checkout -b develop origin/develop
+    git branch --set-upstream-to=origin/develop develop
