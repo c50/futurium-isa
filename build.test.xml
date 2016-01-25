@@ -301,7 +301,12 @@
     <target
         name="install-dev"
         description="Install a local development version of the subsite."
-        depends="install, enable-development-modules, postinstall"
-    />
+        depends="install, enable-development-modules, postinstall" />
+
+    <!-- Install a distribution version of the subsite. -->
+    <target
+            name="install-dist"
+            description="Install a local development version of the subsite."
+            depends="install, postinstall" />
 
 </project>
