@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fa45d646128d5f3e6d9741849749aba3",
-    "content-hash": "60b4a5370dc4f15b0e89697731e84397",
+    "hash": "28dedf453eb14ae8ac308a8ea988368a",
+    "content-hash": "cc854f2a6e376323563b6443e4dd4d08",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.13.0",
+            "version": "3.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "dff1c76551777fcc5890d2d5324f9f9e5cdd4e3d"
+                "reference": "a50b9a66486ad2f27b90521c2250c4c06ae8abea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dff1c76551777fcc5890d2d5324f9f9e5cdd4e3d",
-                "reference": "dff1c76551777fcc5890d2d5324f9f9e5cdd4e3d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a50b9a66486ad2f27b90521c2250c4c06ae8abea",
+                "reference": "a50b9a66486ad2f27b90521c2250c4c06ae8abea",
                 "shasum": ""
             },
             "require": {
@@ -84,20 +84,20 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2016-01-15 02:01:24"
+            "time": "2016-01-22 22:32:38"
         },
         {
             "name": "behat/behat",
-            "version": "dev-master",
+            "version": "v3.1.0rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "718159921b1d844b8805b5ab2e7d1be34ca323cb"
+                "reference": "a67479a9c6e6d36438b1dfb3f73c2e170dbf0183"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/718159921b1d844b8805b5ab2e7d1be34ca323cb",
-                "reference": "718159921b1d844b8805b5ab2e7d1be34ca323cb",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/a67479a9c6e6d36438b1dfb3f73c2e170dbf0183",
+                "reference": "a67479a9c6e6d36438b1dfb3f73c2e170dbf0183",
                 "shasum": ""
             },
             "require": {
@@ -128,7 +128,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -164,7 +164,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2016-01-18 18:20:53"
+            "time": "2015-12-30 14:59:17"
         },
         {
             "name": "behat/gherkin",
@@ -284,27 +284,27 @@
         },
         {
             "name": "behat/mink-browserkit-driver",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/MinkBrowserKitDriver.git",
-                "reference": "da47df1593dac132f04d24e7277ef40d33d9f201"
+                "reference": "2650f5420e713e3807c7f09a07370a4f48367bf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/da47df1593dac132f04d24e7277ef40d33d9f201",
-                "reference": "da47df1593dac132f04d24e7277ef40d33d9f201",
+                "url": "https://api.github.com/repos/minkphp/MinkBrowserKitDriver/zipball/2650f5420e713e3807c7f09a07370a4f48367bf9",
+                "reference": "2650f5420e713e3807c7f09a07370a4f48367bf9",
                 "shasum": ""
             },
             "require": {
                 "behat/mink": "~1.7@dev",
                 "php": ">=5.3.6",
-                "symfony/browser-kit": "~2.3",
-                "symfony/dom-crawler": "~2.3"
+                "symfony/browser-kit": "~2.3|~3.0",
+                "symfony/dom-crawler": "~2.3|~3.0"
             },
             "require-dev": {
                 "silex/silex": "~1.2",
-                "symfony/phpunit-bridge": "~2.7"
+                "symfony/phpunit-bridge": "~2.7|~3.0"
             },
             "type": "mink-driver",
             "extra": {
@@ -336,7 +336,7 @@
                 "browser",
                 "testing"
             ],
-            "time": "2015-09-21 20:56:13"
+            "time": "2016-01-19 16:59:07"
         },
         {
             "name": "behat/mink-extension",
@@ -828,11 +828,11 @@
             "source": {
                 "type": "git",
                 "url": "http://git.drupal.org/project/coder.git",
-                "reference": "a0365b2afd2ce5ab9df842618de2a29c6b2836f1"
+                "reference": "4d1de9006f9f62a3c2f523ea7748b4d2a02362de"
             },
             "require": {
                 "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": "dev-master#8e126925fd3e5d896ec574567af49150fc7e46b1",
+                "squizlabs/php_codesniffer": ">=2.5.1",
                 "symfony/yaml": ">=2.0.0"
             },
             "require-dev": {
@@ -853,7 +853,7 @@
                 "issues": "https://www.drupal.org/project/issues/coder",
                 "source": "https://www.drupal.org/project/coder"
             },
-            "time": "2016-01-17 21:40:22"
+            "time": "2016-01-22 00:28:31"
         },
         {
             "name": "drupal/drupal-driver",
@@ -918,16 +918,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/drupalextension.git",
-                "reference": "3c54e25fd46bd3d8c32f0d4159c263941cbdb668"
+                "reference": "f153fc102a042adc9b04271db80f9f60af1894d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/3c54e25fd46bd3d8c32f0d4159c263941cbdb668",
-                "reference": "3c54e25fd46bd3d8c32f0d4159c263941cbdb668",
+                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/f153fc102a042adc9b04271db80f9f60af1894d7",
+                "reference": "f153fc102a042adc9b04271db80f9f60af1894d7",
                 "shasum": ""
             },
             "require": {
-                "behat/behat": "dev-master#2059cbe",
+                "behat/behat": "~3.1.0-rc1",
                 "behat/mink": "~1.5",
                 "behat/mink-extension": "~2.0",
                 "behat/mink-goutte-driver": "~1.0",
@@ -969,7 +969,7 @@
                 "test",
                 "web"
             ],
-            "time": "2015-12-21 19:00:10"
+            "time": "2016-01-23 17:41:44"
         },
         {
             "name": "drupal/phing-drush-task",
@@ -1089,16 +1089,16 @@
         },
         {
             "name": "ec-europa/futurium-features",
-            "version": "dev-feature/features-composer",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/futurium-features.git",
-                "reference": "52a638b1baceeb4cdf4d89071b293695bdc724c2"
+                "reference": "07166d9f55a0916625299a8dcb216cd4137f316b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/futurium-features/zipball/52a638b1baceeb4cdf4d89071b293695bdc724c2",
-                "reference": "52a638b1baceeb4cdf4d89071b293695bdc724c2",
+                "url": "https://api.github.com/repos/ec-europa/futurium-features/zipball/07166d9f55a0916625299a8dcb216cd4137f316b",
+                "reference": "07166d9f55a0916625299a8dcb216cd4137f316b",
                 "shasum": ""
             },
             "require": {
@@ -1129,10 +1129,10 @@
             "description": "Futurium features, modules and themes",
             "homepage": "https://github.com/ec-europa/futurium-features",
             "support": {
-                "source": "https://github.com/ec-europa/futurium-features/tree/feature/features-composer",
+                "source": "https://github.com/ec-europa/futurium-features/tree/develop",
                 "issues": "https://github.com/ec-europa/futurium-features/issues"
             },
-            "time": "2016-01-19 08:22:05"
+            "time": "2016-01-22 15:33:54"
         },
         {
             "name": "fabpot/goutte",
@@ -1386,16 +1386,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982"
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/4d0bdbe1206df7440219ce14c972aa57cc5e4982",
-                "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5d04bdd2881ac89abde1fb78cc234bce24327bb",
+                "reference": "f5d04bdd2881ac89abde1fb78cc234bce24327bb",
                 "shasum": ""
             },
             "require": {
@@ -1440,7 +1440,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2015-11-03 01:34:55"
+            "time": "2016-01-23 01:23:02"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -1912,12 +1912,12 @@
             "version": "1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobLoach/Console_Table.git",
-                "reference": "10d89fbbe533351dcfe5dc1e84de25d9a8395950"
+                "url": "https://github.com/pear/Console_Table.git",
+                "reference": "a129a91d8bf19317d81e68d1d3a2e18932f684e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobLoach/Console_Table/zipball/10d89fbbe533351dcfe5dc1e84de25d9a8395950",
+                "url": "https://api.github.com/repos/pear/Console_Table/zipball/a129a91d8bf19317d81e68d1d3a2e18932f684e4",
                 "reference": "10d89fbbe533351dcfe5dc1e84de25d9a8395950",
                 "shasum": ""
             },
@@ -2410,16 +2410,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "dev-master",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4afa2df68ae7ea7f34bcc3adb7b4378ebb028ce0"
+                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4afa2df68ae7ea7f34bcc3adb7b4378ebb028ce0",
-                "reference": "4afa2df68ae7ea7f34bcc3adb7b4378ebb028ce0",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
+                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
                 "shasum": ""
             },
             "require": {
@@ -2483,7 +2483,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-01-19 08:16:46"
+            "time": "2016-01-19 23:39:10"
         },
         {
             "name": "symfony/browser-kit",
