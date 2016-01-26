@@ -283,11 +283,30 @@
         </drush>
     </target>
 
+    <!-- Disable Drupal modules for running Behat.
+         Triggered by CPHP -->
+    <target name="behat-drupal-prepare" description="Disable Drupal modules for running Behat.">
+        <!--  Disable r4032login module -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>r4032login</param>
+        </drush>
+    </target>
+
     <!-- Install a development version of the subsite. -->
     <target
         name="install-dev"
         description="Install a local development version of the subsite."
-        depends="install, enable-development-modules, postinstall"
-    />
+        depends="install, enable-development-modules, postinstall" />
+
+    <!-- Install a distribution version of the subsite. -->
+    <target
+            name="install-dist"
+            description="Install a local development version of the subsite."
+            depends="install" />
 
 </project>

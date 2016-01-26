@@ -21,14 +21,6 @@ from the European Commission.
 - Build your website in an automated way to get your entire team up and running
   fast!
 
-## Recent notable changes
-
-- 2015-12-22: The structure of the platform package that is being downloaded
-  from ContinuousPHP has changed. The codebase now resides in the root folder
-  instead of the `build/` folder. The platform downloads should be much faster
-  now.
-
-
 ## Getting started
 
 ### 1. Download the project
@@ -87,7 +79,32 @@ Example `build.properties.local` file:
         # User specific http_proxy variables to handle drupal_http_request.
         futurium.http_proxy.user = 
         futurium.http_proxy.pass = 
-        
+
+
+Those followings extra settings are not needed, but can help you debugging
+by putting drush, phpcs or behat in verbose mode.
+
+You can also specify development modules that only will be enabled locally
+by listing them as below in the <b>drupal.development.modules</b> param.
+
+
+        # Development / testing modules to enable.
+        drupal.development.modules = devel devel_generate context_ui field_ui maillog simpletest views_ui
+
+        # Verbosity of drush commands. Set to TRUE to be verbose.
+        drush.verbose = TRUE
+
+        # Verbosity of PHP Codesniffer. Set to 0 for standard output
+        # 1 for progress report
+        # 2 for debugging info
+        phpcs.verbose = 2
+
+        # Set verbosity for Behat tests. 0 is completely silent
+        # 1 is normal output
+        # 2 shows exception backtraces
+        # 3 shows debugging information
+        behat.options.verbosity = 3
+
 
 ### 4. Build your local development environment
 
@@ -131,6 +148,46 @@ point its webroot to this folder.
 If you intend to run Behat tests then you should put the base URL you assign to
 your website in the `build.properies.local` file for the `behat.base_url`
 property. See the example above.
+
+
+### 7. Set up your own repository
+
+List all remotes:
+```
+$ git remote -v
+```
+Delete the origin remote from futurium-isa before adding it as upstream:
+```
+$ git remote rm origin
+$ git remote add upstream https://github.com/ec-europa/futurium-isa.git
+$ git remote add origin https://yourownrepo
+```
+Finally add your own origin repository:
+```
+$ git remote add origin https://yourownrepo
+```
+From there you are able to commit code into your own repository:
+```
+$ git add .
+$ git commit
+$ git push
+```
+
+### 8. Upgrading the project
+
+List all remotes:
+```
+$ git remote -v
+```
+Be sure you configured the upstream remote from previous step, so it is displayed when listing all remotes.
+
+Then update from upstream:
+```
+$ git checkout -b feature/update_from_upstream
+$ git pull upstream master
+```
+
+Fix conflicts if some, then push the changes, you are done.
 
 
 ## Repository structure
@@ -239,6 +296,21 @@ file. Please refer to the documentation of PHP CodeSniffer on how to configure
 the rules.
 
 
+## Translating the website in a different language
+
+### 1. Translating Drupal Interface:
+
+    - Administer languages: http://example.com/admin/config/regional/language
+    - Manage strings for localization: http://example.com/admin/config/regional/translate
+    - Specify how the desired languages are detected: http://example.com/admin/config/regional/language/configure
+    or Configuration → Regional and language → Detection and selection
+    - Translate strings: http://example.com/admin/config/regional/translate/translate
+    - Import strings: http://example.com/admin/config/regional/translate/import
+    - Export strings: http://example.com/admin/config/regional/translate/export
+
+source: https://www.drupal.org/documentation/modules/locale
+
+
 ## Remarks
 > <b>http_proxy</b> If you are behind a proxy, set the http_proxy variables in
 build.properties.dist file for server and in build.properties.local for user
@@ -268,3 +340,12 @@ You should call behat from the <b>behat_no_proxy.sh</b> script. It will unset
 temporary the environment proxy variables.
 
     ./behat_no_proxy.sh behat <param>
+
+> <b>Nesting git repositories</b> Using the <b>build-dev</b> task the lib/ folder
+is a git repo, inside another git repo. When inside the lib/ folder, be sure to checkout
+the right branch:
+
+    cd lib/
+    git status
+    git checkout -b develop origin/develop
+    git branch --set-upstream-to=origin/develop develop
