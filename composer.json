@@ -3,20 +3,6 @@
   "description": "Futurium ISA",
   "license": "GPL v2",
   "homepage": "https://github.com/ec-europa/futurium-isa",
-  "authors": [
-    {
-      "name": "Horacio Lopes",
-      "email": "Horacio.LOPES@ext.ec.europa.eu"
-    },
-    {
-      "name": "Peter Neyens",
-      "email": "Peter.NEYENS@ext.ec.europa.eu"
-    },
-    {
-      "name": "David Polido-Pilo",
-      "email": "David.POLIDO-PILO@ext.ec.europa.eu"
-    }
-  ],
   "require": {
     "continuousphp/aws-sdk-phing": "~0.1",
     "continuousphp/phing-tasks": "^0.1.3",
