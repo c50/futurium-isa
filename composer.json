@@ -1,7 +1,7 @@
 {
   "name": "ec-europa/futurium-isa",
   "description": "Futurium ISA",
-  "license": "GPL v2",
+  "license": "GPL-2.0",
   "homepage": "https://github.com/ec-europa/futurium-isa",
   "require": {
     "continuousphp/aws-sdk-phing": "~0.1",
