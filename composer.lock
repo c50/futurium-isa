@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "28dedf453eb14ae8ac308a8ea988368a",
-    "content-hash": "cc854f2a6e376323563b6443e4dd4d08",
+    "hash": "6035e1565c2da5a23bd08abeaf5faa7e",
+    "content-hash": "77f3cc4bdc8b9231cfec3b8253401b12",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -653,16 +653,16 @@
         },
         {
             "name": "continuousphp/aws-sdk-phing",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/continuousphp/aws-sdk-phing.git",
-                "reference": "b58e3547d51d8de1ff001d1b0c323d6f6cd3b581"
+                "reference": "7fe6220e2ee6a074c3dbccd5ec9c27fa8da07f1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/continuousphp/aws-sdk-phing/zipball/b58e3547d51d8de1ff001d1b0c323d6f6cd3b581",
-                "reference": "b58e3547d51d8de1ff001d1b0c323d6f6cd3b581",
+                "url": "https://api.github.com/repos/continuousphp/aws-sdk-phing/zipball/7fe6220e2ee6a074c3dbccd5ec9c27fa8da07f1e",
+                "reference": "7fe6220e2ee6a074c3dbccd5ec9c27fa8da07f1e",
                 "shasum": ""
             },
             "require": {
@@ -688,7 +688,7 @@
             ],
             "description": "phing tasks for Amazon AWS",
             "homepage": "https://github.com/continuousphp/aws-sdk-phing",
-            "time": "2015-12-22 13:28:01"
+            "time": "2016-01-26 11:55:06"
         },
         {
             "name": "continuousphp/phing-tasks",
@@ -2983,16 +2983,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25"
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/49ff736bd5d41f45240cec77b44967d76e0c3d25",
-                "reference": "49ff736bd5d41f45240cec77b44967d76e0c3d25",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
                 "shasum": ""
             },
             "require": {
@@ -3004,7 +3004,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -3038,7 +3038,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-20 09:19:13"
+            "time": "2016-01-20 09:13:37"
         },
         {
             "name": "symfony/process",
