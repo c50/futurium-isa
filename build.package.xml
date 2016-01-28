@@ -261,6 +261,6 @@
     <target
         name="build-dist"
         description="Build a version of the subsite intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, copy-subsite-resources" />
+        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, copy-subsite-resources, download-development-modules" />
 
 </project>
