@@ -22,6 +22,7 @@ projects[token_filter][version] = "1.x-dev"
 projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe_email_frequency][subdir] = "contrib"
 projects[r4032login][subdir] = "contrib"
+projects[countries][subdir] = "contrib"
 
 ; =========
 ; Libraries
