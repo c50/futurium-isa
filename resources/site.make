@@ -63,11 +63,15 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-content-
 
 ;Patches to allow relation dummy field on panels
 ;;More info: https://www.drupal.org/node/2451173
-https://www.drupal.org/files/issues/dummy_field_panels-2636106-2.patch
+;;projects[fivestar][patch][] = "https://www.drupal.org/files/issues/dummy_field_panels-2636106-2.patch"
 
 ;Patch to hide empty computed fields
 ;;More info: https://www.drupal.org/node/1928178
-;;projects[computed_field][patch][] = "https://www.drupal.org/files/issues/computed_field-hide_empty_fields_not_in_db-1928178-13.patch"
+;projects[computed_field][patch][] = "https://www.drupal.org/files/issues/computed_field-hide_empty_fields_not_in_db-1928178-13.patch"
+
+;Patch to fix ctools not handling empty fields with default values properly.
+;;More info: https://www.drupal.org/node/2411353
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-show_empty_field-2411353-1.patch"
 
 ; ======
 ; Themes
