@@ -23,6 +23,7 @@ projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe_email_frequency][subdir] = "contrib"
 projects[r4032login][subdir] = "contrib"
 projects[countries][subdir] = "contrib"
+projects[message][subdir] = "contrib"
 
 ; =========
 ; Libraries
