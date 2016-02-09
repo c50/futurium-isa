@@ -6,28 +6,38 @@ core = 7.x
 ; ===================
 
 projects[boxes][subdir] = "contrib"
-projects[invite][subdir] = "contrib"
-projects[fivestar][subdir] = "contrib"
-projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.5"
-projects[rate][subdir] = "contrib"
-projects[field_collection][subdir] = "contrib"
 projects[block_class][subdir] = "contrib"
+projects[countries][subdir] = "contrib"
+projects[date][subdir] = "contrib"
+projects[date][version] = "2.9"
 projects[devel][subdir] = "contrib"
-projects[panels_bootstrap_layouts][subdir] = "contrib"
-projects[panels_bootstrap_layouts][version] = "3.x-dev"
-projects[wysiwyg][version] = "2.x-dev"
-projects[token_filter][subdir] = "contrib"
-projects[token_filter][version] = "1.x-dev"
+projects[field_collection][subdir] = "contrib"
+projects[fivestar][subdir] = "contrib"
+projects[invite][subdir] = "contrib"
+projects[message][subdir] = "contrib"
 projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe_email_frequency][subdir] = "contrib"
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.5"
+projects[panels_bootstrap_layouts][subdir] = "contrib"
+projects[panels_bootstrap_layouts][version] = "3.x-dev"
+projects[quant][subdir] = "contrib"
+projects[quant][version] = "1.x-dev"
 projects[r4032login][subdir] = "contrib"
-projects[countries][subdir] = "contrib"
-projects[message][subdir] = "contrib"
+projects[rate][subdir] = "contrib"
+projects[token_filter][subdir] = "contrib"
+projects[token_filter][version] = "1.x-dev"
+projects[wysiwyg][subdir] = "contrib"
+projects[wysiwyg][version] = "2.x-dev"
 
 ; =========
 ; Libraries
 ; =========
+
+libraries[springy][download][type] = get
+libraries[springy][download][url] = "https://github.com/dhotson/springy/zipball/master"
+libraries[springy][destination] = libraries
+libraries[springy][directory_name] = springy
 
 ; =========
 ; Patches
@@ -73,6 +83,10 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-content-
 ;Patch to fix ctools not handling empty fields with default values properly.
 ;;More info: https://www.drupal.org/node/2411353
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-show_empty_field-2411353-1.patch"
+
+;Patch to fix issue with date grouped filters.
+;;More info: https://www.drupal.org/node/1876168
+projects[date][patch][] = "https://www.drupal.org/files/issues/exposed_grouped_filter-1876168-71.patch"
 
 ; ======
 ; Themes
