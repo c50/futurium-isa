@@ -11,4 +11,3 @@ Feature: Manage evidence
       | summary       | The new plan for reducing pollution will be presented by the ABC board.                   |
       | body          | The board of directors of ABC will present the official plan for reducing pollution       |
     Then I should see the heading "Reducing pollution in 2016 Meeting"
-    And I should see the text "actions"
