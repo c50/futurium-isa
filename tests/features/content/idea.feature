@@ -13,4 +13,3 @@ Feature: Manage ideas
       | body          | The board of directors of ABC will present the official plan for reducing pollution       |
       | tags          | actions                                                                                   |
     Then I should see the heading "Reducing pollution in 2016 Meeting"
-    And I should see the text "actions"

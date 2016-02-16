@@ -198,15 +198,20 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param Behat\Gherkin\Node\TableNode $table
    *   A table with poll data, in the following format:
-   *     | title         | Reducing pollution in 2016 Meeting                                                  |
-   *     | summary       | The new plan for reducing pollution will be presented by the ABC board.             |
-   *     | body          | The board of directors of ABC will present the official plan for reducing pollution |
-   *     | tags          | actions                                                                             |
+   *    | question         | How to reduce pollution in 2016  |
+   *    | choice           | 1, 2                             |
    *
    * @Given the following poll:
    */
   public function theFollowingPoll(TableNode $table) {
     $node = (object) $table->getRowsHash();
+    $node->choice = explode(',', $node->choice);
+    $node->runtime = 0;
+    foreach ($node->choice as $i => $choice) {
+      $node->choice[$i] = array();
+      $node->choice[$i]['chvotes'] = 0;
+      $node->choice[$i]['chtext'] = '';
+    }
     $node->type = 'poll';
     $saved = $this->nodeCreate($node);
     // Set internal page to the new node.
