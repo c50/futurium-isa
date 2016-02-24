@@ -1,8 +1,15 @@
 # Subsite configuration
 # ---------------------
 
+# The site name.
+subsite.name = My Project
+
 # The make file containing the dependencies of the subsite.
 subsite.make = ${subsite.resources.dir}/site.make
+
+# Modules to enable after installation. Separate multiple modules with spaces.
+subsite.install.modules = myproject_core
+
 
 # Drupal configuration
 # --------------------
@@ -10,8 +17,8 @@ subsite.make = ${subsite.resources.dir}/site.make
 # Database settings.
 drupal.db.type = mysql
 drupal.db.name = db_name
-drupal.db.user = root
-drupal.db.password =
+drupal.db.user = db_user
+drupal.db.password = db_pass
 drupal.db.host = 127.0.0.1
 drupal.db.port = 3306
 drupal.db.url = ${drupal.db.type}://${drupal.db.user}:${drupal.db.password}@${drupal.db.host}:${drupal.db.port}/${drupal.db.name}
@@ -68,6 +75,7 @@ platform.package.tarball = ${phing.project.tmp.dir}/deploy-package.tar.gz
 # The ContinuousPHP token. Leave this empty for open source projects. Note that
 # the NextEuropa platform is open source.
 platform.package.token =
+
 
 # Paths
 # -----
