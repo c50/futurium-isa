@@ -21,6 +21,11 @@
     <!-- Delete the previous distribution build. -->
     <target name="delete-dist">
         <echo msg="Delete previous build." />
+
+        <phingcall target="unprotect-folder">
+            <property name="folder.to.unprotect" value="${dist.build.dir}" />
+        </phingcall>
+
         <phingcall target="delete-folder">
             <property name="folder.to.delete" value="${dist.build.dir}" />
         </phingcall>
