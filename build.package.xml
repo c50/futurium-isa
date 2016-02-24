@@ -2,46 +2,68 @@
 
 <project name="My subsite" default="help">
 
-    <!-- Delete the previous build. -->
-    <target name="delete-platform">
+    <!-- Delete the previous development build. -->
+    <target name="delete-dev">
         <!--
             During the Drupal installation process the settings folder is write
             protected. Ensure it is writeable so it can be removed.
          -->
-        <if>
-            <available file="${platform.build.settings.dir}" type="dir" />
-            <then>
-                <chmod mode="0777" failonerror="true" verbose="false" quiet="true">
-                    <fileset dir="${platform.build.settings.dir}" />
-                </chmod>
-            </then>
-        </if>
+        <phingcall target="unprotect-folder">
+            <property name="folder.to.unprotect" value="${platform.build.settings.dir}" />
+        </phingcall>
 
         <echo msg="Delete previous build." />
+        <phingcall target="delete-folder">
+            <property name="folder.to.delete" value="${platform.build.dir}" />
+        </phingcall>
+    </target>
+
+    <!-- Delete the previous distribution build. -->
+    <target name="delete-dist">
+        <echo msg="Delete previous build." />
+        <phingcall target="delete-folder">
+            <property name="folder.to.delete" value="${dist.build.dir}" />
+        </phingcall>
+    </target>
+
+    <!-- Delete a given folder. -->
+    <target name="delete-folder">
         <!-- Use the faster native command on UNIX systems. -->
         <if>
             <os family="unix" />
             <then>
-                <echo msg='rm -rf "${platform.build.dir}"' />
+                <echo msg='rm -rf "${folder.to.delete}"' />
                 <exec
-                    command='rm -rf "${platform.build.dir}"'
+                    command='rm -rf "${folder.to.delete}"'
                     dir="${project.basedir}"
                     passthru="true"
                     checkreturn="true"
                 />
             </then>
             <else>
-                <delete dir="${platform.build.dir}" includeemptydirs="true" failonerror="false" />
+                <delete dir="${folder.to.delete}" includeemptydirs="true" failonerror="false" />
             </else>
         </if>
     </target>
 
-    <!-- Make the subsite. -->
-    <target name="make-subsite" depends="unpack-platform">
-        <echo msg="Make the subsite." />
-        <phingcall target="drush-make-no-core">
-            <property name="drush.make.target.file" value="${subsite.make}" />
-        </phingcall>
+    <!-- Make the given folder writeable. -->
+    <target name="unprotect-folder">
+        <!-- This should only be used on folders that need to be removed. -->
+        <if>
+            <available file="${folder.to.unprotect}" type="dir" />
+            <then>
+                <chmod mode="0777" failonerror="true" verbose="false" quiet="true">
+                    <fileset dir="${folder.to.unprotect}" />
+                </chmod>
+            </then>
+        </if>
+    </target>
+
+    <!-- Copies a given folder to a new location. -->
+    <target name="copy-folder">
+        <copy todir="${copy.destination.path}">
+            <fileset dir="${copy.source.path}" defaultexcludes="false" />
+        </copy>
     </target>
 
     <!-- Generate the makefile used to download development modules. -->
@@ -67,30 +89,79 @@
         <echo msg="Download development modules." />
         <phingcall target="drush-make-no-core">
             <property name="drush.make.target.file" value="${subsite.temporary.development.make}" />
+            <property name="drush.make.root" value="${platform.build.dir}" />
+        </phingcall>
+    </target>
+
+    <!-- Make the development version of the subsite. -->
+    <target name="make-dev" depends="unpack-platform">
+        <echo msg="Make the subsite." />
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.make}" />
+            <property name="drush.make.root" value="${platform.build.dir}" />
+        </phingcall>
+    </target>
+
+    <!-- Make the distribution version of the subsite. -->
+    <target name="make-dist">
+        <echo msg="Delete temporary build folder." />
+        <phingcall target="delete-folder">
+            <property name="folder.to.delete" value="${phing.project.tmp.dir}/build" />
+        </phingcall>
+
+        <echo msg="Make the subsite." />
+        <!--
+            Drush make builds the site as if it is part of a complete Drupal
+            installation. The actual build is in the /sites/all subfolder. Build
+            in a temporary folder and move the subsite into place when done.
+         -->
+        <phingcall target="drush-make-no-core">
+            <property name="drush.make.target.file" value="${subsite.make}" />
+            <property name="drush.make.root" value="${phing.project.tmp.dir}/build" />
+        </phingcall>
+
+        <!-- Move the subsite to its destination. -->
+        <echo msg='mv "${phing.project.tmp.dir}/build/sites/all/" "${dist.build.dir}"' />
+        <exec
+            command='mv "${phing.project.tmp.dir}/build/sites/all/" "${dist.build.dir}"'
+            dir="${project.basedir}"
+            passthru="true"
+            checkreturn="true"
+        />
+
+        <echo msg="Clean up temporary build folder." />
+        <phingcall target="delete-folder">
+            <property name="folder.to.delete" value="${phing.project.tmp.dir}/build" />
         </phingcall>
     </target>
 
     <!-- Subtarget: execute a makefile with the no-core option. -->
     <target name="drush-make-no-core">
+        <echo message="Running make file ${drush.make.target.file} into folder ${drush.make.root}." />
         <drush
             command="make"
             assume="yes"
             bin="${drush.bin}"
             pipe="yes"
             verbose="${drush.verbose}"
-            root="${platform.build.dir}">
+            root="${drush.make.root}">
             <param>${drush.make.target.file}</param>
-            <param>${platform.build.dir}</param>
-            <!-- Increasing the concurrency improves the build time by a factor of 3. -->
+            <param>${drush.make.root}</param>
+            <!--
+                Increasing the concurrency improves the build time by a factor
+                of 3.
+             -->
             <option name="concurrency">10</option>
             <option name="no-patch-txt"></option>
-            <!-- This option will allow us to build inside an existing folder. -->
+            <!--
+                This option will allow us to build inside an existing folder.
+             -->
             <option name="no-core"></option>
         </drush>
     </target>
 
     <!-- Symlink the source folders for easy development. -->
-    <target name="link-subsite-resources">
+    <target name="link-dev-resources">
         <!-- Symlink our custom modules. -->
         <symlink link="${platform.build.subsite.modules.custom.dir}" target="${subsite.resources.modules.dir}" />
         <!-- Symlink our custom features. -->
@@ -105,6 +176,34 @@
         <symlink link="${platform.build.subsite.composer.lock}" target="${subsite.resources.composer.lock}" />
     </target>
 
+    <!-- Copy subsite resources into the build folder. -->
+    <target name="copy-dist-resources">
+        <echo msg="Copy custom resources." />
+        <!-- Copy our custom modules. -->
+        <phingcall target="copy-folder">
+            <property name="copy.source.path" value="${subsite.resources.modules.dir}" />
+            <property name="copy.destination.path" value="${dist.build.modules.custom.dir}" />
+        </phingcall>
+        <!-- Copy our custom features. -->
+        <phingcall target="copy-folder">
+            <property name="copy.source.path" value="${subsite.resources.features.dir}" />
+            <property name="copy.destination.path" value="${dist.build.modules.features.dir}" />
+        </phingcall>
+        <!-- Copy our custom themes. -->
+        <phingcall target="copy-folder">
+            <property name="copy.source.path" value="${subsite.resources.themes.dir}" />
+            <property name="copy.destination.path" value="${dist.build.themes.dir}" />
+        </phingcall>
+        <!-- Copy our custom PSR-4 code. -->
+        <phingcall target="copy-folder">
+            <property name="copy.source.path" value="${subsite.resources.source.dir}" />
+            <property name="copy.destination.path" value="${dist.build.source.dir}" />
+        </phingcall>
+        <!-- Copy composer configuration. -->
+        <copy todir="${dist.build.dir}" file="${subsite.resources.composer.json}" />
+        <copy todir="${dist.build.dir}" file="${subsite.resources.composer.lock}" />
+    </target>
+
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
@@ -113,7 +212,7 @@
     </target>
 
     <!-- Install Composer dependencies for the subsite. -->
-    <target name="install-subsite-dependencies">
+    <target name="install-dev-dependencies">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${platform.build.subsite.dir}" />
         </composer>
@@ -169,7 +268,7 @@
     </target>
 
     <!-- Unpack the platform. -->
-    <target name="unpack-platform" depends="download-platform, delete-platform">
+    <target name="unpack-platform" depends="download-platform">
         <!-- Use the faster native commands on UNIX systems. -->
         <if>
             <os family="unix" />
@@ -256,11 +355,13 @@
     <target
         name="build-dev"
         description="Build a local development version of the subsite."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, link-subsite-resources, install-subsite-dependencies, setup-behat, update-htaccess, setup-php-codesniffer, download-development-modules" />
+        depends="install-build-dependencies, delete-dev, make-dev, link-dev-resources, install-dev-dependencies, setup-behat, update-htaccess, setup-php-codesniffer, download-development-modules"
+    />
 
     <target
         name="build-dist"
         description="Build a version of the subsite intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, download-platform, unpack-platform, make-subsite, copy-subsite-resources, download-development-modules" />
+        depends="install-build-dependencies, delete-dist, make-dist, copy-dist-resources"
+    />
 
 </project>
