@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="Futurium" default="help">
+
+    <!-- Download the Futurium feature package. -->
+    <target name="download-futurium-features" description="Download the Futurium Features code">
+        <echo msg="Downloading the Futurium features code" />
+        <!-- Only clone if repository does not exist already -->
+        <if>
+            <not><available file="${futurium.features.gitfile}" /></not>
+            <then>
+                <!-- Set revision to HEAD if not already defined -->
+                <property name="repo.revision" value="HEAD" override="false"/>
+
+                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${subsite.resources.lib.dir}</echo>
+                <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
+                     does not seem to work. Use exec instead. -->
+
+                <gitclone
+                        repository="${futurium.features.repository}"
+                        targetPath="${subsite.resources.lib.dir}" />
+                <gitpull
+                        repository="${subsite.resources.lib.dir}"
+                        source="origin" refspec="${futurium.features.branch}"
+                        strategy="recursive" keep="true"
+                        force="true" quiet="true" norebase="true" />
+            </then>
+            <else>
+                <echo msg="Pulling changes from the Futurium features repository" />
+                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+                <exec command="git pull" dir="${subsite.resources.lib.dir}"/>
+            </else>
+        </if>
+    </target>
+
+    <!-- Copy subsite resources into the build folder. -->
+    <target name="copy-futurium-platform-folder">
+        <echo msg="Copy subsite resources into the build folder." />
+        <!-- Copy the source folders for easy development. -->
+        <!-- Copy our custom modules. -->
+        <mkdir dir="${platform.build.subsite.modules.custom.dir}" />
+        <exec command='cp -R ${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}'
+                passthru="true"
+                checkreturn="true" />
+        <!-- Copy our custom features. -->
+        <mkdir dir="${platform.build.subsite.modules.features.dir}" />
+        <exec command='cp -R ${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
+        <mkdir dir="${platform.build.subsite.themes.dir}" />
+        <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy composer configuration. -->
+        <exec command='cp -R ${subsite.resources.composer.json} ${platform.build.subsite.composer.json}'
+              passthru="true"
+              checkreturn="true" />
+        <exec command='cp -R ${subsite.resources.composer.lock} ${platform.build.subsite.composer.lock}'
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <!-- Post install. -->
+    <target name="postinstall" description="Post install settings.">
+        <!-- Devel Generate -->
+        <phingcall target="devel-generate" />
+        <!-- Futurium Post-Install config-->
+        <phingcall target="futurium-config" />
+    </target>
+
+    <!-- Devel Generate. -->
+    <target name="devel-generate">
+        <!-- Generate Users. -->
+        <drush
+                command="genu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>12</param>
+        </drush>
+        <!-- Generate Taxonomies. -->
+        <drush
+                command="gent"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>tags 32</param>
+        </drush>
+        <!-- Generate Content futurium_group. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='futurium_group'</param>
+        </drush>
+        <!-- Generate Content evidence. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='evidence'</param>
+        </drush>
+        <!-- Generate Content events. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='event_d4eu'</param>
+        </drush>
+        <!-- Generate Content ideas. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='ideas'</param>
+        </drush>
+        <!-- Generate Content futures. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='future'</param>
+        </drush>
+    </target>
+
+    <!-- Set drupal_http_request variables. -->
+    <target name="drupal-proxy-variable">
+        <!-- Server variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.server}</param>
+        </drush>
+
+        <!-- Port variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_port</param>
+            <param>${futurium.http_proxy.port}</param>
+        </drush>
+
+        <!-- User variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_user</param>
+            <param>${futurium.http_proxy.user}</param>
+        </drush>
+
+        <!-- Password variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.pass}</param>
+        </drush>
+    </target>
+
+    <!-- Run Futurium post install config. -->
+    <target name="futurium-config">
+        <!--  Futurium Post install cleanup multisite -->
+        <drush
+                command="pifu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!--  Revert Futurium features -->
+        <drush
+                command="frfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!-- Revert Futurium configuration -->
+        <drush
+                command="rcfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+        <!-- Clear Cache -->
+        <drush
+                command="cc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>all</param>
+        </drush>
+    </target>
+
+    <!-- Disable Drupal modules for running Behat.
+         Triggered by CPHP -->
+    <target name="behat-drupal-prepare" description="Disable Drupal modules for running Behat.">
+        <!--  Disable r4032login module -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>r4032login</param>
+        </drush>
+    </target>
+
+    <target
+        name="build-pack"
+        description="Build a version of the subsite intended to distribute as a release package."
+        depends="install-build-dependencies, delete-dev, make-dev, copy-futurium-platform-folder, download-development-modules" />
+
+    <!-- Install a distribution version of the subsite. -->
+    <target
+        name="install-pack"
+        description="Install a local development version of the subsite."
+        depends="install, futurium-config" />
+</project>
