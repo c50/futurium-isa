@@ -85,6 +85,10 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-content-
 ;;More info: https://www.drupal.org/node/2411353
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-show_empty_field-2411353-1.patch"
 
+;Patch to fix issue with dates when generating content.
+;;More info: https://www.drupal.org/node/1909566
+projects[date][patch][] = https://www.drupal.org/files/issues/devel_generate_fails-1909566-5.patch
+
 ;Patch to fix issue with date grouped filters.
 ;;More info: https://www.drupal.org/node/1876168
 projects[date][patch][] = "https://www.drupal.org/files/issues/exposed_grouped_filter-1876168-71.patch"
