@@ -132,6 +132,6 @@
     <target
         name="install-dist"
         description="Install a local development version of the subsite."
-        depends="install, futurium-config" />
+        depends="install" />
 
 </project>
