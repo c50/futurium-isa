@@ -302,65 +302,6 @@
         </if>
     </target>
 
-    <!-- Download the Futurium feature package. -->
-    <target name="download-futurium-features" description="Download the Futurium Features code">
-        <echo msg="Downloading the Futurium features code" />
-        <!-- Only clone if repository does not exist already -->
-        <if>
-            <not><available file="${futurium.features.gitfile}" /></not>
-            <then>
-                <!-- Set revision to HEAD if not already defined -->
-                <property name="repo.revision" value="HEAD" override="false"/>
-
-                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${subsite.resources.lib.dir}</echo>
-                <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
-                     does not seem to work. Use exec instead. -->
-
-                <gitclone
-                        repository="${futurium.features.repository}"
-                        targetPath="${subsite.resources.lib.dir}" />
-                <gitpull
-                        repository="${subsite.resources.lib.dir}"
-                        source="origin" refspec="${futurium.features.branch}"
-                        strategy="recursive" keep="true"
-                        force="true" quiet="true" norebase="true" />
-            </then>
-            <else>
-                <echo msg="Pulling changes from the Futurium features repository" />
-                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
-                <exec command="git pull" dir="${subsite.resources.lib.dir}"/>
-            </else>
-        </if>
-    </target>
-
-    <!-- Copy subsite resources into the build folder. -->
-    <target name="copy-subsite-resources">
-        <echo msg="Copy subsite resources into the build folder." />
-        <!-- Copy the source folders for easy development. -->
-        <!-- Copy our custom modules. -->
-        <mkdir dir="${platform.build.subsite.modules.custom.dir}" />
-        <exec command='cp -R ${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}'
-                passthru="true"
-                checkreturn="true" />
-        <!-- Copy our custom features. -->
-        <mkdir dir="${platform.build.subsite.modules.features.dir}" />
-        <exec command='cp -R ${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}'
-              passthru="true"
-              checkreturn="true" />
-        <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
-        <mkdir dir="${platform.build.subsite.themes.dir}" />
-        <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
-              passthru="true"
-              checkreturn="true" />
-        <!-- Copy composer configuration. -->
-        <exec command='cp -R ${subsite.resources.composer.json} ${platform.build.subsite.composer.json}'
-              passthru="true"
-              checkreturn="true" />
-        <exec command='cp -R ${subsite.resources.composer.lock} ${platform.build.subsite.composer.lock}'
-              passthru="true"
-              checkreturn="true" />
-    </target>
-
     <target
         name="build-dev"
         description="Build a local development version of the subsite."
