@@ -97,7 +97,7 @@ projects[date][patch][] = "https://www.drupal.org/files/issues/exposed_grouped_f
 
 ;Removing initial URL option
 ;;https://www.drupal.org/node/2272645
-projects[opengraph_filter][patch][] = "https://www.drupal.org/files/issues/code_sniff_and_strip_link_option_1.patch"
+projects[opengraph_filter][patch][] = "https://www.drupal.org/files/issues/code_sniff_and_strip_link_option_0.patch"
 
 ; ======
 ; Themes
