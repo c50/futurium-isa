@@ -30,10 +30,16 @@ projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = "1.x-dev"
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.x-dev"
+projects[opengraph_filter][subdir] = "contrib"
 
 ; =========
 ; Libraries
 ; =========
+
+libraries[maskedinput][download][type] = get
+libraries[maskedinput][download][url] = "http://cloud.github.com/downloads/digitalBush/jquery.maskedinput/jquery.maskedinput-1.3.js"
+libraries[maskedinput][destination] = libraries
+libraries[maskedinput][directory_name] = maskedinput
 
 libraries[springy][download][type] = get
 libraries[springy][download][url] = "https://github.com/dhotson/springy/zipball/master"
@@ -88,6 +94,10 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-show_emp
 ;Patch to fix issue with date grouped filters.
 ;;More info: https://www.drupal.org/node/1876168
 projects[date][patch][] = "https://www.drupal.org/files/issues/exposed_grouped_filter-1876168-71.patch"
+
+;Removing initial URL option
+;;https://www.drupal.org/node/2272645
+projects[opengraph_filter][patch][] = "https://www.drupal.org/files/issues/code_sniff_and_strip_link_option_1.patch"
 
 ; ======
 ; Themes

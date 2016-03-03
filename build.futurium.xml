@@ -134,6 +134,15 @@
                 verbose="${drush.verbose}">
             <param>15 10 --types='future'</param>
         </drush>
+        <!-- Generate Content slideshow_item. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>5 10 --types='slideshow_item'</param>
+        </drush>
     </target>
 
     <!-- Set drupal_http_request variables. -->
