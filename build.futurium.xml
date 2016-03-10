@@ -33,6 +33,13 @@
         </if>
     </target>
 
+    <!-- Remove git files inside lib forlder for external parties -->
+    <target name="remove-lib-git" description="Removes all git files from lib folder to push code as one repository">
+        <echo msg="Removing git files from the lib folder." />
+        <exec command="rm -rf .git*" dir="${subsite.resources.lib.dir}"
+              checkreturn="true" />
+    </target>
+
     <!-- Copy subsite resources into the build folder. -->
     <target name="copy-futurium-platform-folder">
         <echo msg="Copy subsite resources into the build folder." />
@@ -254,6 +261,7 @@
         </drush>
     </target>
 
+    <!-- Build a distribution package of the subsite. -->
     <target
         name="build-pack"
         description="Build a version of the subsite intended to distribute as a release package."
@@ -264,4 +272,16 @@
         name="install-pack"
         description="Install a local development version of the subsite."
         depends="install, futurium-config" />
+
+    <!-- Build a development version of the subsite for external parties. -->
+    <target
+            name="build-futurium"
+            description="Build a local development version of the subsite."
+            depends="build-dev" />
+
+    <!-- Install a development version of the subsite for external parties. -->
+    <target
+            name="install-futurium"
+            description="Install a local development version of the subsite."
+            depends="install-dev, remove-lib-git" />
 </project>
