@@ -71,6 +71,15 @@
 
     <!-- Devel Generate. -->
     <target name="devel-generate">
+        <!-- Disable apachesolr to avoid errors when generating content with files. -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>apachesolr</param>
+        </drush>
         <!-- Generate Users. -->
         <drush
                 command="genu"
