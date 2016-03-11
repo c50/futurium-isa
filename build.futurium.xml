@@ -40,6 +40,19 @@
               checkreturn="true" />
     </target>
 
+    <!-- Update project dependencies including futurium-features in lib folder -->
+    <target name="composer-update" description="Update project dependencies including futurium-features in lib folder" >
+       <echo msg="Updating project dependencies." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${subsite.resources.lib.dir}"
+              checkreturn="true" />
+        <!-- Now run composer update will install the lastest futurium-features -->
+        <exec command="composer update" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
+    </target>
+
     <!-- Copy subsite resources into the build folder. -->
     <target name="copy-futurium-platform-folder">
         <echo msg="Copy subsite resources into the build folder." />
