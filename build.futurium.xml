@@ -40,6 +40,8 @@
               checkreturn="true" />
         <exec command="rm -rf composer.json" dir="${subsite.resources.lib.dir}"
               checkreturn="true" />
+        <exec command="grep -v 'lib/' .gitignore > tmp/.gitignore; mv tmp/.gitignore .gitignore" dir="${project.basedir}"
+              checkreturn="true" />
     </target>
 
     <!-- Update futurium-features lib folder -->
