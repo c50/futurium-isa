@@ -38,6 +38,8 @@
         <echo msg="Delete origin remote and add it as upstream to allow external parties to add their own origin." />
         <exec command="git remote rm origin" dir="${project.basedir}"
               checkreturn="true" />
+        <exec command="git remote add upstream 'https://github.com/ec-europa/futurium-isa.git'" dir="${project.basedir}"
+              checkreturn="true" />
     </target>
 
     <!-- Remove git files inside lib forlder for external parties -->
