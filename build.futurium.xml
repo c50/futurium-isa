@@ -87,8 +87,14 @@
     <!-- Run composer-update to update Futurium-isa dependencies -->
     <target name="update-composer" description="Run composer-update to update Futurium-isa dependencies." >
         <echo msg="Run composer-update to update Futurium-isa dependencies." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Now run composer update will update Futurium-isa dependencies from composer.lock file -->
         <exec command="composer update" dir="${project.basedir}"
               checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
     </target>
 
     <!-- Main update target to trigger all update phingcalls -->
