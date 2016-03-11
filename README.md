@@ -74,14 +74,7 @@ Example `build.properties.local` file:
         
         # The location of the Composer executable.
         composer.bin = /usr/local/bin/composer
-        
-        # User specific http_proxy variables to handle drupal_http_request.
-        futurium.http_proxy.user = 
-        futurium.http_proxy.pass = 
 
-
-Those followings extra settings are not needed, but can help you debugging
-by putting drush, phpcs or behat in verbose mode.
 
 You can also specify development modules that only will be enabled locally
 by listing them as below in the <b>drupal.development.modules</b> param.
@@ -90,26 +83,17 @@ by listing them as below in the <b>drupal.development.modules</b> param.
         # Development / testing modules to enable.
         drupal.development.modules = devel devel_generate context_ui field_ui maillog simpletest views_ui
 
-        # Verbosity of drush commands. Set to TRUE to be verbose.
-        drush.verbose = TRUE
-
-        # Verbosity of PHP Codesniffer. Set to 0 for standard output
-        # 1 for progress report
-        # 2 for debugging info
-        phpcs.verbose = 2
-
-        # Set verbosity for Behat tests. 0 is completely silent
-        # 1 is normal output
-        # 2 shows exception backtraces
-        # 3 shows debugging information
-        behat.options.verbosity = 3
-
 
 ### 4. Build your local development environment
 
-Now that our configuration is ready, we can start downloading everything we need
-to build our Drupal site.
+Now that our configuration is ready, we can build our project.
 
+* As an <b>external party</b> willing to use Futurium and store it on your your own repository, use:
+```
+$ ./bin/phing build-futurium
+```
+
+* As a developer <b>inside European Commission</b> use:
 ```
 $ ./bin/phing build-dev
 ```
@@ -125,6 +109,12 @@ This will:
 
 ### 5. Install the site
 
+* As an <b>external party</b> willing to use Futurium and store it on your your own repository, use:
+```
+$ ./bin/phing install-futurium
+```
+
+* As a developer <b>inside European Commission</b> use:
 ```
 $ ./bin/phing install-dev
 ```
@@ -134,7 +124,7 @@ This will:
 * Install the website with `drush site-install`.
 * Enable the modules you specified in the `drupal.development.modules` property.
 
-After a few minutes this process should complete and the website should be up
+After a few minutes (from 7 to 20 min depending on the machine) this process should complete and the website should be up
 and running!
 
 
@@ -350,3 +340,21 @@ the right branch:
     git status
     git checkout -b develop origin/develop
     git branch --set-upstream-to=origin/develop develop
+
+
+> Those followings <b>extra settings</b> are not needed, but can help you debugging
+by putting drush, phpcs or behat in verbose mode. Define those in your build.properties.local file.
+
+    # Verbosity of drush commands. Set to TRUE to be verbose.
+    drush.verbose = TRUE
+
+    # Verbosity of PHP Codesniffer. Set to 0 for standard output
+    # 1 for progress report
+    # 2 for debugging info
+    phpcs.verbose = 2
+
+    # Set verbosity for Behat tests. 0 is completely silent
+    # 1 is normal output
+    # 2 shows exception backtraces
+    # 3 shows debugging information
+    behat.options.verbosity = 3
