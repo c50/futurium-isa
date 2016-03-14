@@ -3,8 +3,8 @@
 <project name="Futurium" default="help">
 
     <!-- Download the Futurium feature package. -->
-    <target name="download-futurium-features" description="Download the Futurium Features code">
-        <echo msg="Downloading the Futurium features code" />
+    <target name="download-futurium-features" description="Download the Futurium Features code.">
+        <echo msg="Downloading the Futurium features code." />
         <!-- Only clone if repository does not exist already -->
         <if>
             <not><available file="${futurium.features.gitfile}" /></not>
@@ -26,18 +26,86 @@
                         force="true" quiet="true" norebase="true" />
             </then>
             <else>
-                <echo msg="Pulling changes from the Futurium features repository" />
+                <echo msg="Pulling changes from the Futurium features repository." />
                 <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
                 <exec command="git pull" dir="${subsite.resources.lib.dir}"/>
             </else>
         </if>
     </target>
 
+    <!-- Delete origin remote and add it as upstream to allow external parties to add their own origin -->
+    <target name="upstream-add" description="Delete origin remote and add it as upstream to allow external parties to add their own origin." >
+        <echo msg="Delete origin remote and add it as upstream to allow external parties to add their own origin." />
+
+        <!-- Prevent deleting external parties origin remote -->
+        <exec command="git remote get-url origin" outputProperty="remote.origin.url" />
+        <if>
+            <or>
+                <equals arg1="${remote.origin.url}" arg2="https://github.com/ec-europa/futurium-isa.git" />
+                <equals arg1="${remote.origin.url}" arg2="" />
+            </or>
+            <then>
+                <exec command="git remote rm origin" dir="${project.basedir}" />
+            </then>
+        </if>
+
+        <!-- Add upstream -->
+        <exec command="git remote add upstream 'https://github.com/ec-europa/futurium-isa.git'" dir="${project.basedir}" />
+    </target>
+
     <!-- Remove git files inside lib forlder for external parties -->
-    <target name="remove-lib-git" description="Removes all git files from lib folder to push code as one repository">
+    <target name="remove-lib-git" description="Removes all git files from lib folder to push code as one repository.">
         <echo msg="Removing git files from the lib folder." />
         <exec command="rm -rf .git*" dir="${subsite.resources.lib.dir}"
               checkreturn="true" />
+        <exec command="rm -rf composer.json" dir="${subsite.resources.lib.dir}"
+              checkreturn="true" />
+        <exec command="grep -v 'lib/' .gitignore > tmp/.gitignore; mv tmp/.gitignore .gitignore" dir="${project.basedir}"
+              checkreturn="true" />
+    </target>
+
+    <!-- Update futurium-features lib folder -->
+    <target name="update-lib" description="Update project dependencies including futurium-features in lib folder." >
+       <echo msg="Updating futurium-features." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Now run composer install will reinstall the lastest futurium-features tag from composer.lock file -->
+        <exec command="composer install" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
+    </target>
+
+    <!-- Update Futurium-isa build from its upstream -->
+    <target name="update-upstream" description="Update Futurium-isa build from its upstream." >
+        <echo msg="Update Futurium-isa build from its upstream." />
+        <exec command="git pull upstream master" dir="${project.basedir}"
+              checkreturn="true" />
+    </target>
+
+    <!-- Run composer-update to update Futurium-isa dependencies -->
+    <target name="update-composer" description="Run composer-update to update Futurium-isa dependencies." >
+        <echo msg="Run composer-update to update Futurium-isa dependencies." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Now run composer update will update Futurium-isa dependencies from composer.lock file -->
+        <exec command="composer update" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
+    </target>
+
+    <!-- Main update target to trigger all update phingcalls -->
+    <target name="update-isa" description="Update Futurium-isa." >
+        <echo msg="Updating Futurium-isa." />
+        <!-- Update futurium-features lib folder -->
+        <phingcall target="update-lib" />
+        <!-- Update Futurium-isa build from its upstream -->
+        <phingcall target="update-upstream" />
+        <!-- Run composer-update to update Futurium-isa dependencies -->
+        <phingcall target="update-composer" />
     </target>
 
     <!-- Copy subsite resources into the build folder. -->
@@ -275,13 +343,13 @@
 
     <!-- Build a development version of the subsite for external parties. -->
     <target
-            name="build-futurium"
-            description="Build a local development version of the subsite."
-            depends="build-dev" />
+        name="build-futurium"
+        description="Build a local development version of the subsite."
+        depends="build-dev, upstream-add, remove-lib-git" />
 
     <!-- Install a development version of the subsite for external parties. -->
     <target
-            name="install-futurium"
-            description="Install a local development version of the subsite."
-            depends="install-dev, remove-lib-git" />
+        name="install-futurium"
+        description="Install a local development version of the subsite."
+        depends="install-dev" />
 </project>
