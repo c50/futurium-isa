@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="Futurium" default="help">
+
+    <!-- Download the Futurium feature package. -->
+    <target name="download-futurium-features" description="Download the Futurium Features code.">
+        <echo msg="Downloading the Futurium features code." />
+        <!-- Only clone if repository does not exist already -->
+        <if>
+            <not><available file="${futurium.features.gitfile}" /></not>
+            <then>
+                <!-- Set revision to HEAD if not already defined -->
+                <property name="repo.revision" value="HEAD" override="false"/>
+
+                <echo>Cloning ${futurium.features.repository} ${futurium.features.branch} into ${subsite.resources.lib.dir}</echo>
+                <!-- The [`gitclone` task](http://www.phing.info/docs/guide/stable/chapters/appendixes/AppendixC-OptionalTasks.html#GitCloneTask)
+                     does not seem to work. Use exec instead. -->
+
+                <gitclone
+                        repository="${futurium.features.repository}"
+                        targetPath="${subsite.resources.lib.dir}" />
+                <gitpull
+                        repository="${subsite.resources.lib.dir}"
+                        source="origin" refspec="${futurium.features.branch}"
+                        strategy="recursive" keep="true"
+                        force="true" quiet="true" norebase="true" />
+            </then>
+            <else>
+                <echo msg="Pulling changes from the Futurium features repository." />
+                <exec command="git checkout ${futurium.features.branch}" dir="${subsite.resources.lib.dir}"/>
+                <exec command="git pull" dir="${subsite.resources.lib.dir}"/>
+            </else>
+        </if>
+    </target>
+
+    <!-- Delete origin remote and add it as upstream to allow external parties to add their own origin -->
+    <target name="upstream-add" description="Delete origin remote and add it as upstream to allow external parties to add their own origin." >
+        <echo msg="Delete origin remote and add it as upstream to allow external parties to add their own origin." />
+
+        <!-- Prevent deleting external parties origin remote -->
+        <exec command="git remote get-url origin" outputProperty="remote.origin.url" />
+        <if>
+            <or>
+                <equals arg1="${remote.origin.url}" arg2="https://github.com/ec-europa/futurium-isa.git" />
+                <equals arg1="${remote.origin.url}" arg2="" />
+            </or>
+            <then>
+                <exec command="git remote rm origin" dir="${project.basedir}" />
+            </then>
+        </if>
+
+        <!-- Add upstream -->
+        <exec command="git remote add upstream 'https://github.com/ec-europa/futurium-isa.git'" dir="${project.basedir}" />
+    </target>
+
+    <!-- Remove git files inside lib forlder for external parties -->
+    <target name="remove-lib-git" description="Removes all git files from lib folder to push code as one repository.">
+        <echo msg="Removing git files from the lib folder." />
+        <exec command="rm -rf .git*" dir="${subsite.resources.lib.dir}"
+              checkreturn="true" />
+        <exec command="rm -rf composer.json" dir="${subsite.resources.lib.dir}"
+              checkreturn="true" />
+        <exec command="grep -v 'lib/' .gitignore > tmp/.gitignore; mv tmp/.gitignore .gitignore" dir="${project.basedir}"
+              checkreturn="true" />
+    </target>
+
+    <!-- Update futurium-features lib folder -->
+    <target name="update-lib" description="Update project dependencies including futurium-features in lib folder." >
+       <echo msg="Updating futurium-features." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Now run composer install will reinstall the lastest futurium-features tag from composer.lock file -->
+        <exec command="composer install" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
+    </target>
+
+    <!-- Update Futurium-isa build from its upstream -->
+    <target name="update-upstream" description="Update Futurium-isa build from its upstream." >
+        <echo msg="Update Futurium-isa build from its upstream." />
+        <exec command="git pull upstream master" dir="${project.basedir}"
+              checkreturn="true" />
+    </target>
+
+    <!-- Run composer-update to update Futurium-isa dependencies -->
+    <target name="update-composer" description="Run composer-update to update Futurium-isa dependencies." >
+        <echo msg="Run composer-update to update Futurium-isa dependencies." />
+        <!-- First delete lib folder, as we can not update it without .git folder -->
+        <exec command="rm -rf lib/" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Now run composer update will update Futurium-isa dependencies from composer.lock file -->
+        <exec command="composer update" dir="${project.basedir}"
+              checkreturn="true" />
+        <!-- Again remove .git folder from lib/ to not commit submodules -->
+        <phingcall target="remove-lib-git" />
+    </target>
+
+    <!-- Main update target to trigger all update phingcalls -->
+    <target name="update-isa" description="Update Futurium-isa." >
+        <echo msg="Updating Futurium-isa." />
+        <!-- Update futurium-features lib folder -->
+        <phingcall target="update-lib" />
+        <!-- Update Futurium-isa build from its upstream -->
+        <phingcall target="update-upstream" />
+        <!-- Run composer-update to update Futurium-isa dependencies -->
+        <phingcall target="update-composer" />
+    </target>
+
+    <!-- Copy subsite resources into the build folder. -->
+    <target name="copy-futurium-platform-folder">
+        <echo msg="Copy subsite resources into the build folder." />
+        <!-- Copy the source folders for easy development. -->
+        <!-- Copy our custom modules. -->
+        <mkdir dir="${platform.build.subsite.modules.custom.dir}" />
+        <exec command='cp -R ${subsite.resources.modules.dir}/* ${platform.build.subsite.modules.custom.dir}'
+                passthru="true"
+                checkreturn="true" />
+        <!-- Copy our custom features. -->
+        <mkdir dir="${platform.build.subsite.modules.features.dir}" />
+        <exec command='cp -R ${subsite.resources.features.dir}/* ${platform.build.subsite.modules.features.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy our custom themes. Delete the empty folder which is created during Drush make. -->
+        <mkdir dir="${platform.build.subsite.themes.dir}" />
+        <exec command='cp -R ${subsite.resources.themes.dir}/* ${platform.build.subsite.themes.dir}'
+              passthru="true"
+              checkreturn="true" />
+        <!-- Copy composer configuration. -->
+        <exec command='cp -R ${subsite.resources.composer.json} ${platform.build.subsite.composer.json}'
+              passthru="true"
+              checkreturn="true" />
+        <exec command='cp -R ${subsite.resources.composer.lock} ${platform.build.subsite.composer.lock}'
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <!-- Post install. -->
+    <target name="postinstall" description="Post install settings.">
+        <!-- Devel Generate -->
+        <phingcall target="devel-generate" />
+        <!-- Futurium Post-Install config-->
+        <phingcall target="futurium-config" />
+    </target>
+
+    <!-- Devel Generate. -->
+    <target name="devel-generate">
+        <!-- Disable apachesolr to avoid errors when generating content with files. -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>apachesolr</param>
+        </drush>
+        <!-- Generate Users. -->
+        <drush
+                command="genu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>12</param>
+        </drush>
+        <!-- Generate Taxonomies. -->
+        <drush
+                command="gent"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>tags 32</param>
+        </drush>
+        <!-- Generate Content futurium_group. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='futurium_group'</param>
+        </drush>
+        <!-- Generate Content evidence. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='evidence'</param>
+        </drush>
+        <!-- Generate Content events. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='event_d4eu'</param>
+        </drush>
+        <!-- Generate Content ideas. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='ideas'</param>
+        </drush>
+        <!-- Generate Content futures. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>15 10 --types='future'</param>
+        </drush>
+        <!-- Generate Content slideshow_item. -->
+        <drush
+                command="genc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>5 10 --types='slideshow_item'</param>
+        </drush>
+    </target>
+
+    <!-- Set drupal_http_request variables. -->
+    <target name="drupal-proxy-variable">
+        <!-- Server variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.server}</param>
+        </drush>
+
+        <!-- Port variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_port</param>
+            <param>${futurium.http_proxy.port}</param>
+        </drush>
+
+        <!-- User variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_user</param>
+            <param>${futurium.http_proxy.user}</param>
+        </drush>
+
+        <!-- Password variable -->
+        <drush
+                command="vset"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>proxy_server</param>
+            <param>${futurium.http_proxy.pass}</param>
+        </drush>
+    </target>
+
+    <!-- Run Futurium post install config. -->
+    <target name="futurium-config">
+        <!--  Futurium Post install cleanup multisite -->
+        <drush
+                command="pifu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!--  Revert Futurium features -->
+        <drush
+                command="frfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+
+        <!-- Revert Futurium configuration -->
+        <drush
+                command="rcfu"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+        </drush>
+        <!-- Clear Cache -->
+        <drush
+                command="cc"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>all</param>
+        </drush>
+    </target>
+
+    <!-- Disable Drupal modules for running Behat.
+         Triggered by CPHP -->
+    <target name="behat-drupal-prepare" description="Disable Drupal modules for running Behat.">
+        <!--  Disable r4032login module -->
+        <drush
+                command="dis"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param>r4032login</param>
+        </drush>
+    </target>
+
+    <!-- Build a distribution package of the subsite. -->
+    <target
+        name="build-pack"
+        description="Build a version of the subsite intended to distribute as a release package."
+        depends="install-build-dependencies, delete-dev, make-dev, copy-futurium-platform-folder, download-development-modules" />
+
+    <!-- Install a distribution version of the subsite. -->
+    <target
+        name="install-pack"
+        description="Install a local development version of the subsite."
+        depends="install, futurium-config" />
+
+    <!-- Build a development version of the subsite for external parties. -->
+    <target
+        name="build-futurium"
+        description="Build a local development version of the subsite."
+        depends="build-dev, upstream-add, remove-lib-git" />
+
+    <!-- Install a development version of the subsite for external parties. -->
+    <target
+        name="install-futurium"
+        description="Install a local development version of the subsite."
+        depends="install-dev" />
+</project>

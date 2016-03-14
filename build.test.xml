@@ -60,14 +60,6 @@
         </drush>
     </target>
 
-    <!-- Post install. -->
-    <target name="postinstall" description="Post install settings.">
-        <!-- Devel Generate -->
-        <phingcall target="devel-generate" />
-        <!-- Futurium Post-Install config-->
-        <phingcall target="futurium-config" />
-    </target>
-
     <!-- Set up PHP CodeSniffer. -->
     <target name="setup-php-codesniffer" description="Generate the configuration file for PHP CodeSniffer.">
         <if>
@@ -130,173 +122,6 @@
         />
     </target>
 
-    <!-- Devel Generate. -->
-    <target name="devel-generate">
-        <!-- Generate Users. -->
-        <drush
-                command="genu"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-                <param>12</param>
-        </drush>
-        <!-- Generate Taxonomies. -->
-        <drush
-                command="gent"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-                <param>tags 32</param>
-        </drush>
-        <!-- Generate Content futurium_group. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='futurium_group'</param>
-        </drush>
-        <!-- Generate Content evidence. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='evidence'</param>
-        </drush>
-        <!-- Generate Content events. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='event_d4eu'</param>
-        </drush>
-        <!-- Generate Content ideas. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='ideas'</param>
-        </drush>
-        <!-- Generate Content futures. -->
-        <drush
-                command="genc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>15 10 --types='future'</param>
-        </drush>
-    </target>
-
-    <!-- Set drupal_http_request variables. -->
-    <target name="drupal-proxy-variable">
-        <!-- Server variable -->
-        <drush
-                command="vset"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>proxy_server</param>
-            <param>${futurium.http_proxy.server}</param>
-        </drush>
-
-        <!-- Port variable -->
-        <drush
-                command="vset"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>proxy_port</param>
-            <param>${futurium.http_proxy.port}</param>
-        </drush>
-
-        <!-- User variable -->
-        <drush
-                command="vset"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>proxy_user</param>
-            <param>${futurium.http_proxy.user}</param>
-        </drush>
-
-        <!-- Password variable -->
-        <drush
-                command="vset"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>proxy_server</param>
-            <param>${futurium.http_proxy.pass}</param>
-        </drush>
-    </target>
-
-    <!-- Run Futurium post install config. -->
-    <target name="futurium-config">
-        <!--  Futurium Post install cleanup multisite -->
-        <drush
-                command="pifu"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-        </drush>
-
-        <!--  Revert Futurium features -->
-        <drush
-                command="frfu"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-        </drush>
-
-        <!-- Revert Futurium configuration -->
-        <drush
-                command="rcfu"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-        </drush>
-        <!-- Clear Cache -->
-        <drush
-                command="cc"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>all</param>
-        </drush>
-    </target>
-
-    <!-- Disable Drupal modules for running Behat.
-         Triggered by CPHP -->
-    <target name="behat-drupal-prepare" description="Disable Drupal modules for running Behat.">
-        <!--  Disable r4032login module -->
-        <drush
-                command="dis"
-                assume="yes"
-                root="${platform.build.dir}"
-                bin="${drush.bin}"
-                verbose="${drush.verbose}">
-            <param>r4032login</param>
-        </drush>
-    </target>
-
     <!-- Install a development version of the subsite. -->
     <target
         name="install-dev"
@@ -305,8 +130,8 @@
 
     <!-- Install a distribution version of the subsite. -->
     <target
-            name="install-dist"
-            description="Install a local development version of the subsite."
-            depends="install, futurium-config" />
+        name="install-dist"
+        description="Install a local development version of the subsite."
+        depends="install" />
 
 </project>
