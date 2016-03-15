@@ -40,17 +40,22 @@
         <!-- Prevent deleting external parties origin remote -->
         <exec command="git remote get-url origin" outputProperty="remote.origin.url" />
         <if>
-            <or>
-                <equals arg1="${remote.origin.url}" arg2="https://github.com/ec-europa/futurium-isa.git" />
-                <equals arg1="${remote.origin.url}" arg2="" />
-            </or>
+            <equals arg1="${remote.origin.url}" arg2="https://github.com/ec-europa/futurium-isa.git" />
             <then>
+                <echo>Origin remote removed.</echo>
                 <exec command="git remote rm origin" dir="${project.basedir}" />
             </then>
         </if>
 
-        <!-- Add upstream -->
-        <exec command="git remote add upstream 'https://github.com/ec-europa/futurium-isa.git'" dir="${project.basedir}" />
+        <!-- Add futurium-isa upstream, if another upstream is already set it won't be replaced -->
+        <exec command="git remote get-url upstream" outputProperty="remote.upstream.url" />
+        <if>
+            <equals arg1="${remote.upstream.url}" arg2="fatal: No such remote 'upstream'" />
+            <then>
+                <echo>Upstream remote added.</echo>
+                <exec command="git remote add upstream 'https://github.com/ec-europa/futurium-isa.git'" dir="${project.basedir}" />
+            </then>
+        </if>
     </target>
 
     <!-- Remove git files inside lib forlder for external parties -->
