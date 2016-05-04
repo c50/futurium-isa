@@ -10,6 +10,8 @@ subsite.make = ${subsite.resources.dir}/site.make
 # Modules to enable after installation. Separate multiple modules with spaces.
 subsite.install.modules = myproject_core
 
+# The site type ( Infrastructure stack )
+project.siteType = subsite
 
 # Drupal configuration
 # --------------------
@@ -46,7 +48,8 @@ drupal.core.version = 7.x
 
 # The root directory of the platform. This will become the Drupal root folder,
 # so point your web server here.
-platform.build.dir = ${project.basedir}/platform
+documentroot.path = platform
+platform.build.dir = ${project.basedir}/${documentroot.path}
 
 # The install profile to use. Either multisite_drupal_standard or
 # multisite_drupal_communities.
@@ -209,7 +212,6 @@ phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSn
 # The location of the webserver docroot. Used for testing on CI infrastructure.
 server.docroot = /var/www
 
-
 # Debugging and development configuration
 # ---------------------------------------
 
@@ -232,6 +234,8 @@ development.modules.location = development
 
 # AWS SDK
 # -------
+# Your aws profile to use ( stored in ~/.aws/credentials )
+aws.profile = default
 aws.region = eu-west-1
 
 
@@ -245,8 +249,25 @@ cf.template = single-server
 deploy.serviceRole = arn:aws:iam::918396081007:role/CodeDeploy
 
 
+# Subsite starterkit
+# ------------------
+
+# The location of the subsite starterkit repository.
+starterkit.repository = https://github.com/ec-europa/subsite-starterkit.git
+
+# The branch of the subsite starterkit that will be tracked.
+starterkit.branch = master
+
+# The name of the git remote for the starterkit.
+starterkit.remote = starterkit
+
+
 # Build defaults
 # --------------
 
 # Whether or not to stop executing the build if a directory cannot be copied.
 copy.path.haltonerror = true
+
+# Packer configuration
+# --------------------
+packer.path = /usr/bin/env packer
