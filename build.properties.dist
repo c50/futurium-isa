@@ -2,8 +2,8 @@
 # ---------------------
 
 # The site name.
-subsite.name = My Project
-application.name = my-project
+subsite.name = Futurium ISA 
+application.name = futurium-isa
 
 # The make file containing the dependencies of the subsite.
 subsite.make = ${subsite.resources.dir}/site.make
