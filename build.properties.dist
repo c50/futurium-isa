@@ -3,6 +3,7 @@
 
 # The site name.
 subsite.name = My Project
+application.name = my-project
 
 # The make file containing the dependencies of the subsite.
 subsite.make = ${subsite.resources.dir}/site.make
@@ -11,7 +12,7 @@ subsite.make = ${subsite.resources.dir}/site.make
 subsite.install.modules = myproject_core
 
 # The site type ( Infrastructure stack )
-project.siteType = subsite
+infra.type = subsite
 
 # Drupal configuration
 # --------------------
