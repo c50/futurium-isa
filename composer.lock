@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "027b551726a7f0d1aad88d3723cb4c1c",
-    "content-hash": "857daa355b3dbcc05918dd38b8412f17",
+    "hash": "a80f4b73f39e327cec354aa69e072408",
+    "content-hash": "72609eb24dbf013714c278bf2af7a179",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -791,6 +791,61 @@
             "time": "2015-11-20 11:05:11"
         },
         {
+            "name": "cpliakas/git-wrapper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cpliakas/git-wrapper.git",
+                "reference": "fa8032fee28aa4fbf46d06140f80876c8bacdc48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cpliakas/git-wrapper/zipball/fa8032fee28aa4fbf46d06140f80876c8bacdc48",
+                "reference": "fa8032fee28aa4fbf46d06140f80876c8bacdc48",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "symfony/event-dispatcher": "~2.3|~3.0",
+                "symfony/process": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "pdepend/pdepend": "~1.0",
+                "phploc/phploc": "~2.0",
+                "phpmd/phpmd": "~1.0",
+                "phpunit/phpunit": "~4.0|~5.0",
+                "psr/log": "~1.0",
+                "scrutinizer/ocular": "~1.0",
+                "sebastian/phpcpd": "~2.0",
+                "symfony/filesystem": "~2.0"
+            },
+            "suggest": {
+                "monolog/monolog": "Enables logging of executed git commands"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GitWrapper": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Pliakas",
+                    "email": "opensource@chrispliakas.com"
+                }
+            ],
+            "description": "A PHP wrapper around the Git command line utility.",
+            "homepage": "https://github.com/cpliakas/git-wrapper",
+            "keywords": [
+                "git"
+            ],
+            "time": "2016-04-20 01:26:10"
+        },
+        {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
             "source": {
@@ -1123,6 +1178,33 @@
                 "issues": "https://github.com/ec-europa/futurium-features/issues"
             },
             "time": "2016-03-10 16:41:32"
+        },
+        {
+            "name": "ec-europa/infra",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ec-europa/infra.git",
+                "reference": "fb5563ba8140939cabbac4673e90ecc9bf33a3a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ec-europa/infra/zipball/fb5563ba8140939cabbac4673e90ecc9bf33a3a1",
+                "reference": "fb5563ba8140939cabbac4673e90ecc9bf33a3a1",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Gregory Boddin",
+                    "email": "gregory@siwhine.net"
+                }
+            ],
+            "time": "2016-05-04 21:02:03"
         },
         {
             "name": "fabpot/goutte",
@@ -3283,9 +3365,17 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.7.1",
+            "alias_normalized": "1.7.1.0",
+            "version": "9999999-dev",
+            "package": "cpliakas/git-wrapper"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "cpliakas/git-wrapper": 20,
         "drupal/coder": 20,
         "pear/archive_tar": 20,
         "pear/versioncontrol_git": 20,
