@@ -8,6 +8,8 @@ core = 7.x
 projects[boxes][subdir] = "contrib"
 projects[block_class][subdir] = "contrib"
 projects[countries][subdir] = "contrib"
+projects[ctools][version] = "1.10"
+projects[ctools][subdir] = "contrib"
 projects[devel][subdir] = "contrib"
 projects[field_collection][subdir] = "contrib"
 projects[fivestar][subdir] = "contrib"
@@ -84,10 +86,6 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-content-
 ;Patch to hide empty computed fields
 ;;More info: https://www.drupal.org/node/1928178
 ;projects[computed_field][patch][] = "https://www.drupal.org/files/issues/computed_field-hide_empty_fields_not_in_db-1928178-13.patch"
-
-;Patch to fix ctools not handling empty fields with default values properly.
-;;More info: https://www.drupal.org/node/2411353
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-show_empty_field-2411353-1.patch"
 
 ;Patch to fix issue with date grouped filters.
 ;;More info: https://www.drupal.org/node/1876168
