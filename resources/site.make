@@ -29,7 +29,7 @@ projects[rate][subdir] = "contrib"
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = "1.x-dev"
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.x-dev"
+projects[wysiwyg][version] = "2.2"
 projects[opengraph_filter][subdir] = "contrib"
 
 ; =========
@@ -67,7 +67,7 @@ projects[views_field_view][patch][] = "https://www.drupal.org/files/issues/views
 
 ;Patch wysiwyg feature revert
 ;;More info: https://www.drupal.org/node/2414575
-projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/features_export_doesn_t-2414575-5.patch"
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch"
 
 ;Patches to allow fivestar in panels
 ;;More info: https://www.drupal.org/node/2599576
